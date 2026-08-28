@@ -23,8 +23,10 @@ Farmers with limited digital literacy often travel long distances to CSCs, banks
 3. **Multilingual Regional Support**: Supports **9 Indian languages** (Hindi हिंदी, Punjabi ਪੰਜਾਬੀ, Marathi मराठी, Bengali বাংলা, Telugu తెలుగు, Tamil தமிழ், Kannada ಕನ್ನಡ, Gujarati ગુજરાતી, and English).
 4. **🎙️ Voice Speech-to-Text & 🔊 Audio Readout ("बोलकर सुनाएं")**: Farmers can tap the microphone to speak questions and listen to audio explanations in their regional language.
 5. **📄 Printable CSC "Seva Parchi" (Action Slip)**: Generates a clear receipt listing the exact issue, action required by the CSC/Patwari operator, required documents, and anti-corruption notice (free service).
-6. **Interactive Sahayak AI**: Conversational assistant powered by modern LLMs to answer citizen queries in natural Hinglish or regional languages.
-7. **Mobile-First & Low-Bandwidth Friendly**: Clean, lightweight UI optimized for budget smartphones and slow rural connections.
+6. **🌾 Farmer Corner Beneficial Services Hub**: Direct access to all 8 core services (e-KYC, Status check, New Registration, Village Beneficiary List, Aadhaar Name Correction, Bank Seeding, Voluntary Surrender, and Face Auth).
+7. **🗺️ Interactive State & District Disbursement Map**: Transparent macro analytics allowing citizens and officials to explore state-wise and district-wise disbursement totals, beneficiary counts, and eKYC completion rates across Indian states.
+8. **Interactive Sahayak AI**: Conversational assistant powered by modern LLMs to answer citizen queries in natural Hinglish or regional languages.
+9. **Mobile-First & Low-Bandwidth Friendly**: Clean, lightweight UI optimized for budget smartphones and slow rural connections.
 
 ---
 

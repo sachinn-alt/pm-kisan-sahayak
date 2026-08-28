@@ -45,10 +45,58 @@
 .slip-warning-footer{background:#fff8e1;padding:8px 10px;border-radius:6px;font-size:10px;color:#856404;line-height:1.35}
 .parchi-actions{display:flex;flex-direction:column;gap:8px}
 
+/* Hub Highlights */
+.hub-action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 14px}
+.hub-btn{background:#fff;border:1.5px solid #23783a;border-radius:15px;padding:12px;display:flex;align-items:center;gap:8px;text-align:left;box-shadow:0 4px 12px #15541e15;transition:.25s}
+.hub-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.hub-icon{font-size:24px}
+.hub-btn strong{display:block;font-size:12px;color:var(--deep);line-height:1.2}
+.hub-btn small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.hub-btn i{margin-left:auto;font-size:18px;color:var(--green);font-style:normal}
+.primary-hub{border-color:#287b36;background:linear-gradient(145deg,#ffffff,#f0f8f1)}
+.map-hub{border-color:#d48b11;background:linear-gradient(145deg,#ffffff,#fdf8ed)}
+
+/* Map Analytics */
+.state-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin-bottom:14px}
+.state-pill{background:#fff;border:1.5px solid #c2dec5;color:var(--deep);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:700;white-space:nowrap;transition:.2s}
+.state-pill.active{background:var(--deep);color:#fff;border-color:var(--deep)}
+.map-stats-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--shadow);margin-bottom:18px}
+.map-stats-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid #eef5ee;padding-bottom:10px}
+.map-stats-header h3{margin:0;font-size:17px;color:var(--deep)}
+.ekyc-badge{background:#e8f5e9;color:#1b5e20;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:800}
+.map-metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.map-metric{background:#f6fbf6;padding:12px;border-radius:12px}
+.map-metric .label{font-size:11px;color:var(--muted);display:block}
+.map-metric .val{font-size:18px;font-weight:800;color:var(--deep);display:block;margin-top:3px}
+.map-metric .amount{color:#287b36}
+.progress-bar-wrap{margin-top:6px}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.progress-track{height:8px;background:#e1eee2;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#52b047,#1a692e);border-radius:99px}
+.district-table-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.district-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.district-table th{background:#eef7ef;padding:10px 12px;font-weight:800;color:var(--deep)}
+.district-table td{padding:10px 12px;border-bottom:1px solid #f0f4f0}
+.district-table td.amount{color:#237838;font-weight:700}
+.district-ekyc-tag{background:#e8f5e9;color:#1b5e20;padding:2px 6px;border-radius:4px;font-weight:700;font-size:10px}
+
+/* Farmer Corner */
+.services-list{display:grid;gap:10px}
+.service-card{background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 12px #15541e12;border:1px solid #e2efe3;cursor:pointer;transition:.25s}
+.service-card:hover{transform:translateY(-2px);border-color:#287b36;box-shadow:var(--shadow)}
+.service-icon-wrap{font-size:28px;width:44px;height:44px;display:grid;place-items:center;background:#edf8ed;border-radius:12px;flex-shrink:0}
+.service-content{flex:1}
+.service-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.service-top h3{font-size:14px;margin:0 0 3px;color:var(--ink)}
+.service-badge{background:#e8f5e9;color:#1e6a32;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.service-content p{margin:0;font-size:11px;color:var(--muted);line-height:1.4}
+.arrow-icon{font-size:22px;color:#9cb59f;font-weight:700}
+
 @media print{
   body *{visibility:hidden}
   #parchi-print-area, #parchi-print-area *{visibility:visible}
   #parchi-print-area{position:absolute;left:0;top:0;width:100%;border:2px solid #000}
 }
 @media(min-width:481px){body{padding:18px}.screen{min-height:calc(100vh - 36px)}.chat-screen{height:calc(100vh - 36px)}}
+
 

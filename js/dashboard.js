@@ -52,6 +52,26 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           <div class="success-banner">✅ All your installments are up to date.</div>
         `}
 
+        <!-- Hub Highlights (Farmer Corner & Map) -->
+        <div class="hub-action-row">
+          <button class="hub-btn primary-hub" data-route="farmer-corner">
+            <span class="hub-icon">🌾</span>
+            <div>
+              <strong>किसान कॉर्नर (Farmer Corner)</strong>
+              <small>All 8 Beneficial Government Services</small>
+            </div>
+            <i>›</i>
+          </button>
+          <button class="hub-btn map-hub" data-route="map">
+            <span class="hub-icon">🗺️</span>
+            <div>
+              <strong>वितरण नक्शा (Disbursement Map)</strong>
+              <small>State & District City Analytics</small>
+            </div>
+            <i>›</i>
+          </button>
+        </div>
+
         <div class="action-grid">
           <button class="action-card" data-route="diagnosis">
             <i>🔍</i>

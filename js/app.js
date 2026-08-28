@@ -6,19 +6,22 @@ import { toast, initials } from './utils.js';
 import { LANGUAGES, t } from './i18n.js';
 import { speakText, stopSpeaking, isAudioSpeaking, startSpeechRecognition, stopSpeechRecognition } from './voice.js';
 import { renderSevaParchiModal } from './parchi.js';
+import { mapView } from './map-view.js';
+import { farmerCornerView } from './farmer-corner-view.js';
 
 const app = document.querySelector('#app');
 const state = {
   farmer: null,
   historyAll: false,
-  language: 'hi', // Default to Hindi for high Indian farmer affinity
+  language: 'hi',
   messages: [],
   pendingLogin: '9876543210',
   isListening: false,
-  showParchi: false
+  showParchi: false,
+  selectedMapState: 'UP'
 };
 
-const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline'];
+const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map'];
 
 function route() { return location.hash.slice(1) || 'splash'; }
 function navigate(to) { location.hash = `#${to}`; }
@@ -35,11 +38,7 @@ function logo() {
         <stop offset="1" stop-color="#eb6922"/>
       </linearGradient>
     </defs>
-    <path d="M47 77C46 53 38 40 20 31c2 23 15 37 27 46Z" fill="url(#leaf)"/>
-    <path d="M49 74c4-24 14-39 29-49 0 24-12 41-29 49Z" fill="url(#leaf)"/>
-    <path d="M48 76c-2-23-7-34-20-46 20 1 31 15 20 46Z" fill="#397f31"/>
-    <path d="M48 48c-10-10-8-22-2-31 12 10 12 21 2 31Z" fill="url(#seed)"/>
-    <path d="M48 77V52" stroke="#f7f3df" stroke-width="4" stroke-linecap="round"/>
+    <path d="M47 77C46 53 38 40 20 31c2 23 15 37 27 46Z" fill="url(#leaf)"/><path d="M49 74c4-24 14-39 29-49 0 24-12 41-29 49Z" fill="url(#leaf)"/><path d="M48 76c-2-23-7-34-20-46 20 1 31 15 20 46Z" fill="#397f31"/><path d="M48 48c-10-10-8-22-2-31 12 10 12 21 2 31Z" fill="url(#seed)"/><path d="M48 77V52" stroke="#f7f3df" stroke-width="4" stroke-linecap="round"/>
   </svg>`;
 }
 
@@ -120,25 +119,10 @@ function helplineView() {
       <p>Speak to official support assistance representatives.</p>
     </div>
     <div class="support-list">
-      <a href="tel:155261">
-        <b>155261</b>
-        <span>Toll-free · Mon–Sat, 9am–6pm</span>
-        <i>›</i>
-      </a>
-      <a href="tel:01124300606">
-        <b>011-24300606</b>
-        <span>Direct helpline</span>
-        <i>›</i>
-      </a>
-      <a href="tel:1800115526">
-        <b>1800-115-526</b>
-        <span>Toll-free alternate</span>
-        <i>›</i>
-      </a>
-      <div>
-        <b>🏛️ District Agriculture Office</b>
-        <span>Visit with Aadhaar and land records</span>
-      </div>
+      <a href="tel:155261"><b>155261</b><span>Toll-free · Mon–Sat, 9am–6pm</span><i>›</i></a>
+      <a href="tel:01124300606"><b>011-24300606</b><span>Direct helpline</span><i>›</i></a>
+      <a href="tel:1800115526"><b>1800-115-526</b><span>Toll-free alternate</span><i>›</i></a>
+      <div><b>🏛️ District Agriculture Office</b><span>Visit with Aadhaar and land records</span></div>
     </div>
     <article class="scam-box">
       <h2>⚠️ Stay safe from scams</h2>
@@ -150,7 +134,7 @@ function helplineView() {
 function render() {
   let current = route();
   if (!routes.includes(current)) current = 'splash';
-  if (['dashboard', 'diagnosis', 'chat', 'helpline'].includes(current) && !state.farmer) {
+  if (['dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map'].includes(current) && !state.farmer) {
     return navigate('login');
   }
 
@@ -166,6 +150,10 @@ function render() {
     ? diagnosisView(state.farmer, state.language)
     : current === 'chat'
     ? chatView(state.farmer, state.messages, state.language, false, state.isListening)
+    : current === 'farmer-corner'
+    ? farmerCornerView(state.language)
+    : current === 'map'
+    ? mapView(state.selectedMapState, state.language)
     : helplineView();
 
   if (state.showParchi && state.farmer) {
@@ -214,9 +202,7 @@ function bind(current) {
   if (dismissParchiBtn) dismissParchiBtn.addEventListener('click', () => { state.showParchi = false; render(); });
   const printParchiBtn = document.querySelector('#print-parchi-btn');
   if (printParchiBtn) {
-    printParchiBtn.addEventListener('click', () => {
-      window.print();
-    });
+    printParchiBtn.addEventListener('click', () => { window.print(); });
   }
 
   // Audio Speech Read-Aloud on Diagnosis screen
@@ -229,6 +215,26 @@ function bind(current) {
         const textToRead = `${state.farmer.name} जी, आपकी समस्या: ${state.farmer.issueDetails.title}। ${state.farmer.issueDetails.explain}`;
         speakText(textToRead, state.language, () => render(), () => render());
       }
+    });
+  }
+
+  // Map state selector pills
+  if (current === 'map') {
+    document.querySelectorAll('[data-state-code]').forEach(pill => {
+      pill.addEventListener('click', () => {
+        state.selectedMapState = pill.dataset.stateCode;
+        render();
+      });
+    });
+  }
+
+  // Farmer Corner service click items
+  if (current === 'farmer-corner') {
+    document.querySelectorAll('[data-service-route]').forEach(card => {
+      card.addEventListener('click', () => {
+        const targetRoute = card.dataset.serviceRoute;
+        navigate(targetRoute);
+      });
     });
   }
 
@@ -311,7 +317,6 @@ function bind(current) {
     const log = document.querySelector('#chat-log');
     if (log) log.scrollTop = log.scrollHeight;
 
-    // Bot message speech triggers
     document.querySelectorAll('.bot-speak-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -320,7 +325,6 @@ function bind(current) {
       });
     });
 
-    // Voice Speech-To-Text mic button
     const micBtn = document.querySelector('#voice-input-btn');
     if (micBtn) {
       micBtn.addEventListener('click', () => {

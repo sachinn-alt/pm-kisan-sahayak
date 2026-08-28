@@ -1,4 +1,5 @@
 import { escape } from './utils.js';
+import { LANGUAGES, t } from './i18n.js';
 
 const GEMINI_API_KEY = 'AIzaSyBN6J3eir0hoC3VHNTzb3NRkeDJ-uaRphIkMctmCnUX0ldNw';
 const GEMINI_MODEL = 'gemini-2.0-flash';
@@ -7,7 +8,7 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GE
 const SYSTEM_PROMPT = `You are "Sahayak AI" (सहायक AI), a friendly and helpful assistant for Indian farmers who use the PM-KISAN Yojana (Pradhan Mantri Kisan Samman Nidhi). You help farmers understand their payment status, diagnose why payments failed, and guide them step-by-step to fix issues.
 
 RULES:
-1. Always respond in simple Hinglish (Hindi written in English + some Hindi words). If the user writes in English, reply in simple English. Match their language.
+1. Always respond in the user's preferred Indian language (Hinglish/Hindi/Punjabi/Marathi/Bengali/Telugu/Tamil/Kannada/Gujarati or English).
 2. Be warm, respectful. Address farmers as "ji" (e.g., "Ramesh ji").
 3. Give short, clear answers. Use numbered steps when explaining processes. Keep responses under 150 words.
 4. Never ask for real Aadhaar numbers, bank details, passwords, or OTPs.
@@ -22,7 +23,6 @@ KNOWLEDGE — PM-KISAN SCHEME:
 - 11+ crore farmers are enrolled
 
 COMMON PAYMENT FAILURE REASONS & FIXES:
-
 1. eKYC Expired:
    - Annual Aadhaar-based eKYC is mandatory
    - Fix Online: Go to pmkisan.gov.in → Farmer Corner → eKYC → Enter Aadhaar → Enter OTP → Done (5 min)
@@ -42,55 +42,73 @@ COMMON PAYMENT FAILURE REASONS & FIXES:
    - Bank account must be linked to Aadhaar for DBT
    - Fix: Visit bank → Tell them "Aadhaar seeding for DBT/NPCI mapping karwana hai" → Carry Aadhaar + Passbook
 
-5. Ineligible Category:
-   - Income tax payers, government employees, pensioners (>₹10,000/month) are NOT eligible
-   - If wrongly flagged, file grievance at pmkisan.gov.in/grievance.aspx
-
 HELPLINES:
 - Toll-Free: 155261 (Mon-Sat, 9am-6pm)
 - Direct: 011-24300606
 - Toll-Free Alt: 1800-115-526
 - Grievance Portal: pmkisan.gov.in/grievance.aspx
+`;
 
-SCAM WARNING:
-- PM-KISAN has NO WhatsApp helpline
-- Government will NEVER ask for money to release payments
-- Never share OTP, Aadhaar, or bank details with anyone
-
-If you don't know the answer, say so honestly and suggest calling the helpline 155261.`;
-
-// Conversation history for Gemini context
 let conversationHistory = [];
 
-export function initialMessages(farmer, language = 'en') {
-  // Reset conversation history for new session
+export function initialMessages(farmer, language = 'hi') {
   conversationHistory = [];
-  
   const content = language === 'hi'
-    ? `Namaste ${farmer.name} ji! 🙏 Main aapka PM-KISAN Sahayak hoon. ${farmer.issue ? `Mujhe dikha raha hai ki aapki ${farmer.issueDetails.title} ki wajah se payment ruki hai. Main aapko solve karne mein help karunga.` : 'Aapke payments theek hain. Aap mujhse PM-KISAN ke baare mein kuch bhi pooch sakte hain.'}`
+    ? `नमस्ते ${farmer.name} जी! 🙏 मैं आपका पीएम-किसान सहायक हूँ। ${farmer.issue ? `मुझे दिख रहा है कि आपकी "${farmer.issueDetails.title}" के कारण 23वीं किस्त रुकी है। मैं इसे हल करने में आपकी मदद करूँगा।` : 'आपके सभी भुगतान सही हैं। आप मुझसे योजना संबंधी कोई भी प्रश्न पूछ सकते हैं।'}`
+    : language === 'pa'
+    ? `ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ${farmer.name} ਜੀ! 🙏 ਮੈਂ ਤੁਹਾਡਾ ਪੀਐਮ-ਕਿਸਾਨ ਸਹਾਇਕ ਹਾਂ। ${farmer.issue ? `ਤੁਹਾਡੀ ਕਿਸ਼ਤ "${farmer.issueDetails.title}" ਕਾਰਨ ਰੁਕੀ ਹੈ।` : 'ਸਾਰੇ ਭੁਗਤਾਨ ਠੀਕ ਹਨ।'}`
     : `Namaste ${farmer.name}! 🙏 I'm your PM-KISAN Sahayak. ${farmer.issue ? `I can see your payment needs attention because of ${farmer.issueDetails.title}. I'll help you resolve it step by step.` : 'Your payments look good. Ask me anything about PM-KISAN.'}`;
-  
-  // Add the initial bot message to conversation history
+
   conversationHistory.push({ role: 'model', parts: [{ text: content }] });
-  
   return [{ from: 'bot', text: content }];
 }
 
-export function chatView(farmer, messages, language = 'en', typing = false) {
-  return `<section class="screen chat-screen">
-    <header class="chat-header"><button class="icon-btn light" data-route="dashboard" aria-label="Back">←</button><div class="bot-avatar">🤖</div><div><h1>Sahayak AI</h1><p>🟢 Online · Powered by Gemini AI</p></div><button class="language-toggle" data-action="language">${language === 'en' ? 'हिंदी' : 'English'}</button></header>
-    <div class="chat-log" id="chat-log">${messages.map(message => `<div class="message ${message.from}">${escape(message.text)}</div>`).join('')}${typing ? '<div class="message bot typing"><i></i><i></i><i></i></div>' : ''}</div>
-    <div class="chips"><button data-question="Mera paisa kyun nahi aaya?">💸 Paisa kyun nahi aaya?</button><button data-question="eKYC kaise karu?">🪪 eKYC kaise karu?</button><button data-question="Bank account kaise link karu?">🏦 Bank link kaise karu?</button><button data-question="Nearest CSC kahan hai?">📍 Nearest CSC?</button></div>
-    <form id="chat-form" class="chat-input"><input id="chat-message" autocomplete="off" placeholder="Type your question / अपना सवाल लिखें..." aria-label="Your question" /><button aria-label="Send message">➤</button></form>
-  </section>`;
+export function chatView(farmer, messages, language = 'hi', typing = false, isListening = false) {
+  return `
+    <section class="screen chat-screen">
+      <header class="chat-header">
+        <button class="icon-btn light" data-route="dashboard" aria-label="Back">←</button>
+        <div class="bot-avatar">🤖</div>
+        <div>
+          <h1>Sahayak AI</h1>
+          <p>🟢 Online · Powered by AI</p>
+        </div>
+        <select id="chat-lang-select" class="lang-select-dropdown" aria-label="Language">
+          ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === language ? 'selected' : ''}>${l.name}</option>`).join('')}
+        </select>
+      </header>
+
+      <div class="chat-log" id="chat-log">
+        ${messages.map(message => `
+          <div class="message ${message.from}">
+            ${escape(message.text)}
+            ${message.from === 'bot' ? `<button class="bot-speak-btn" data-speak="${escape(message.text)}" title="Listen audio" style="background:none;border:none;margin-left:6px;font-size:13px;cursor:pointer;">🔊</button>` : ''}
+          </div>
+        `).join('')}
+        ${typing ? '<div class="message bot typing"><i></i><i></i><i></i></div>' : ''}
+      </div>
+
+      <div class="chips">
+        <button data-question="Mera paisa kyun nahi aaya?">💸 Paisa kyun nahi aaya?</button>
+        <button data-question="eKYC kaise karu?">🪪 eKYC kaise karu?</button>
+        <button data-question="Bank account kaise link karu?">🏦 Bank link kaise karu?</button>
+        <button data-question="Nearest CSC kahan hai?">📍 Nearest CSC?</button>
+      </div>
+
+      <form id="chat-form" class="chat-input">
+        <button type="button" id="voice-input-btn" class="icon-btn voice-mic-btn ${isListening ? 'listening' : ''}" title="Speak using mic">
+          ${isListening ? '🛑' : '🎙️'}
+        </button>
+        <input id="chat-message" autocomplete="off" placeholder="${isListening ? t('listening', language) : t('chatPlaceholder', language)}" aria-label="Your question" />
+        <button type="submit" aria-label="Send message">➤</button>
+      </form>
+    </section>
+  `;
 }
 
-// Call Gemini API
-async function callGemini(userMessage, farmer) {
-  // Add farmer context to the first user message
-  const farmerContext = `[Context: Farmer name is ${farmer.name}, from ${farmer.district}, ${farmer.state}. Registration: ${farmer.regNumber}. ${farmer.issue ? `Current issue: ${farmer.issueDetails.title} - ${farmer.issueDetails.explain}` : 'No current issues.'}]`;
-  
-  // Build the request with conversation history
+async function callGemini(userMessage, farmer, lang = 'hi') {
+  const farmerContext = `[Context: Farmer name is ${farmer.name}, from ${farmer.village}, ${farmer.district}, ${farmer.state}. Registration: ${farmer.regNumber}. ${farmer.issue ? `Current issue: ${farmer.issueDetails.title} - ${farmer.issueDetails.explain}` : 'No current issues.'} Preferred language: ${LANGUAGES[lang]?.name || 'Hindi'}]`;
+
   const contents = [
     ...conversationHistory,
     { role: 'user', parts: [{ text: conversationHistory.length <= 1 ? `${farmerContext}\n\nFarmer asks: ${userMessage}` : userMessage }] }
@@ -111,51 +129,53 @@ async function callGemini(userMessage, farmer) {
       })
     });
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
 
     const data = await response.json();
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
     if (!reply) throw new Error('Empty response');
 
-    // Update conversation history
     conversationHistory.push({ role: 'user', parts: [{ text: userMessage }] });
     conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
 
-    // Keep conversation history manageable (last 10 exchanges)
     if (conversationHistory.length > 20) {
       conversationHistory = conversationHistory.slice(-20);
     }
 
     return reply;
   } catch (error) {
-    console.error('Gemini API error:', error);
-    // Fallback to pre-scripted responses
-    return replyFallback(userMessage, farmer, 'hi');
+    console.error('Gemini API error, falling back to local reasoning:', error);
+    return replyFallback(userMessage, farmer, lang);
   }
 }
 
-// Main reply function — tries Gemini first, falls back to pre-scripted
 export async function replyFor(question, farmer, language) {
   try {
-    const reply = await callGemini(question, farmer);
+    const reply = await callGemini(question, farmer, language);
     return reply;
   } catch (e) {
     return replyFallback(question, farmer, language);
   }
 }
 
-// Pre-scripted fallback responses
 function replyFallback(question, farmer, language) {
-  const q = question.toLowerCase(); const hi = language === 'hi';
-  if (q.includes('kyun') || q.includes('why') || q.includes('payment') || q.includes('paisa')) return farmer.issue ? (hi ? `${farmer.name} ji, aapka payment ${farmer.issueDetails.title} ke kaaran roka gaya hai. Pehle verification complete karein; uske baad agle payment cycle mein release ho sakta hai.` : `${farmer.name}, your payment is held because of ${farmer.issueDetails.title}. Complete the required update and it can be released in a following payment cycle.`) : (hi ? 'Aapke profile mein koi payment issue nahi dikhta.' : 'There is no payment issue visible on your profile.');
-  if (q.includes('ekyc') || q.includes('e-kyc')) return hi ? 'pmkisan.gov.in par Farmer Corner mein eKYC kholen, Aadhaar number daalein aur Aadhaar-linked mobile par aaya OTP submit karein. CSC par biometric eKYC bhi kara sakte hain.' : 'Open eKYC under Farmer Corner at pmkisan.gov.in, enter Aadhaar details and submit the OTP sent to your Aadhaar-linked mobile. A CSC can also complete biometric eKYC.';
-  if (q.includes('bank')) return hi ? 'Bank linking ke liye Aadhaar, passbook aur PM-KISAN registration details lekar branch jaayein. Unse Aadhaar seeding aur naam match hone ki pushti karein.' : 'Visit your bank with Aadhaar, passbook and registration details. Ask them to confirm Aadhaar seeding and that the account name matches your records.';
-  if (q.includes('csc') || q.includes('nearest')) return hi ? `Aapke liye demo CSC: ${farmer.district} Digital Seva Kendra, ${farmer.village} Block Office ke paas. 10am–5pm. Aadhaar original lekar jaayein.` : `Demo CSC: ${farmer.district} Digital Seva Kendra, near ${farmer.village} Block Office, 10am–5pm. Carry your original Aadhaar card.`;
-  if (q.includes('when') || q.includes('kab')) return hi ? 'Issue solve hone ke baad record update mein aam taur par kuch working days lagte hain. Installment schedule ke hisaab se payment process hoga.' : 'After the issue is resolved, records may take a few working days to update. Payment will then be processed in the next eligible cycle.';
-  if (q.includes('helpline') || q.includes('phone') || q.includes('call')) return 'You can call 155261 (toll-free), 011-24300606, or 1800-115-526. Never share an OTP or bank PIN with anyone.';
-  if (q.includes('land') || q.includes('seeding') || q.includes('zameen')) return hi ? 'Land seeding ka matlab hai aapke zameen ke record ko PM-KISAN registration se digitally jodna. Patwari ya Tehsildar office mein jaake ye kaam hoga.' : 'Land seeding means digitally linking your farm ownership record to your PM-KISAN registration. Visit your Patwari or Tehsildar office to get this done.';
-  return hi ? `${farmer.name} ji, main aapki madad ke liye yahan hoon. Aap payment, eKYC, bank link, CSC ya helpline ke baare mein pooch sakte hain.` : `I'm here to help, ${farmer.name}. Ask me about payments, eKYC, bank linking, CSC visits, or helplines.`;
+  const q = question.toLowerCase();
+  if (q.includes('kyun') || q.includes('why') || q.includes('payment') || q.includes('paisa') || q.includes('paise')) {
+    return farmer.issue
+      ? `${farmer.name} जी, आपकी 23वीं किस्त "${farmer.issueDetails.title}" के कारण रुकी है। पोर्टल पर यह विवरण अपडेट होते ही आपका भुगतान आगामी चक्र में जारी कर दिया जाएगा।`
+      : 'आपके खाते में कोई भुगतान समस्या नहीं है, सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं।';
+  }
+  if (q.includes('ekyc') || q.includes('e-kyc')) {
+    return 'ई-केवाईसी पूरा करने के 2 तरीके हैं:\n1. ऑनलाइन: pmkisan.gov.in पर Farmer Corner में जाएं और आधार ओटीपी से सत्यापित करें (5 मिनट)।\n2. ऑफलाइन: पास के सीएससी (CSC) पर मूल आधार कार्ड लेकर बायोमेट्रिक अंगूठा लगाएं।';
+  }
+  if (q.includes('bank')) {
+    return 'बैंक लिंकिंग के लिए आधार कार्ड और बैंक पासबुक लेकर अपनी शाखा जाएं और कहें कि "डीबीटी (DBT/NPCI) मैपिंग हेतु आधार सीडिंग" करवानी है।';
+  }
+  if (q.includes('csc') || q.includes('nearest') || q.includes('kahan')) {
+    return `आपके निकटतम सीएससी केंद्र: ${farmer.district} डिजिटल सेवा केंद्र, ${farmer.village} ब्लॉक कार्यालय के पास। समय: सुबह 10 से शाम 5 बजे तक।`;
+  }
+  if (q.includes('helpline') || q.includes('number') || q.includes('phone')) {
+    return 'आधिकारिक पीएम-किसान हेल्पलाइन:\n• टोल-फ्री: 155261 (सोम-शनि, 9am-6pm)\n• सीधा नंबर: 011-24300606\n• किसी भी व्यक्ति को ओटीपी या पिन न बताएं।';
+  }
+  return `${farmer.name} जी, मैं आपकी सहायता के लिए यहाँ हूँ। आप किस्त की स्थिति, ई-केवाईसी, बैंक सीडिंग या सीएससी प्रक्रिया के बारे में पूछ सकते हैं।`;
 }

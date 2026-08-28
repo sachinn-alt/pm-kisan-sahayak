@@ -1,0 +1,84 @@
+import { t } from './i18n.js';
+
+export function renderSevaParchiModal(farmer, lang = 'hi') {
+  if (!farmer) return '';
+  const issue = farmer.issueDetails || {
+    title: 'सभी विवरण सही हैं (All Records Updated)',
+    explain: 'कोई लंबित समस्या नहीं पाई गई।',
+    failedInstallment: null,
+    documents: ['आधार कार्ड']
+  };
+
+  const today = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  return `
+    <div id="parchi-modal-overlay" class="modal-overlay">
+      <div class="parchi-modal-card">
+        <div class="parchi-modal-header">
+          <div>
+            <span class="parchi-badge">CSC & SEVA KENDRA SLIP</span>
+            <h2>नागरिक सहायता पर्ची (Action Slip)</h2>
+          </div>
+          <button class="icon-btn" id="close-parchi-btn" aria-label="Close">✕</button>
+        </div>
+
+        <div class="parchi-slip-content" id="parchi-print-area">
+          <div class="slip-header-banner">
+            <h3>🌾 पीएम-किसान सम्मान निधि सेवा पर्ची</h3>
+            <p>PM-KISAN CITIZEN FACILITATION RECEIPT • ${today}</p>
+          </div>
+
+          <div class="slip-grid">
+            <div class="slip-row">
+              <span class="label">किसान का नाम (Farmer):</span>
+              <strong class="val">${farmer.name}</strong>
+            </div>
+            <div class="slip-row">
+              <span class="label">पंजीकरण संख्या (Reg No):</span>
+              <strong class="val">${farmer.regNumber}</strong>
+            </div>
+            <div class="slip-row">
+              <span class="label">मोबाइल नंबर (Mobile):</span>
+              <span class="val">+91 ${farmer.pendingLogin || '9876543210'}</span>
+            </div>
+            <div class="slip-row">
+              <span class="label">स्थान (Location):</span>
+              <span class="val">${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+            </div>
+          </div>
+
+          <div class="slip-issue-box">
+            <div class="issue-tag">समस्या (Detected Issue)</div>
+            <h4>${issue.title}</h4>
+            <p>${issue.explain}</p>
+          </div>
+
+          <div class="slip-operator-box">
+            <h4>📌 सीएससी / बैंक ऑपरेटर हेतु निर्देश (Action for Operator):</h4>
+            <p>कृपया इस किसान के <strong>${issue.title}</strong> का समाधान करें। बायोमेट्रिक प्रमाणीकरण / आधार सीडिंग विवरण पोर्टल पर अपडेट करें।</p>
+          </div>
+
+          <div class="slip-docs-box">
+            <h4>📄 साथ लाए जाने वाले जरूरी दस्तावेज:</h4>
+            <ul>
+              ${issue.documents.map(doc => `<li>✓ ${doc}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="slip-warning-footer">
+            <p><strong>⚠️ सरकारी निर्देश:</strong> आधार ई-केवाईसी और पोर्टल स्थिति जांच सीएससी पर पूर्णतः निःशुल्क या निर्धारित सरकारी शुल्क पर उपलब्ध है। अवैध राशि न दें। हेल्पलाइन: 155261</p>
+          </div>
+        </div>
+
+        <div class="parchi-actions">
+          <button class="primary-btn" id="print-parchi-btn">🖨️ पर्ची प्रिंट / PDF सेव करें</button>
+          <button class="text-btn centered" id="dismiss-parchi-btn">वापस जाएं (Back)</button>
+        </div>
+      </div>
+    </div>
+  `;
+}

@@ -5,73 +5,122 @@ const GEMINI_API_KEY = 'AIzaSyBN6J3eir0hoC3VHNTzb3NRkeDJ-uaRphIkMctmCnUX0ldNw';
 const GEMINI_MODEL = 'gemini-2.0-flash';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
-const SYSTEM_PROMPT = `You are "Sahayak AI" (सहायक AI), a friendly and helpful assistant for Indian farmers who use the PM-KISAN Yojana (Pradhan Mantri Kisan Samman Nidhi). You help farmers understand their payment status, diagnose why payments failed, and guide them step-by-step to fix issues.
+const BASE_SYSTEM_PROMPT = `You are "Sahayak AI" (सहायक AI), an intelligent citizen assistant for Indian farmers regarding the PM-KISAN (Pradhan Mantri Kisan Samman Nidhi) Yojana.
 
-RULES:
-1. Always respond in the user's preferred Indian language (Hinglish/Hindi/Punjabi/Marathi/Bengali/Telugu/Tamil/Kannada/Gujarati or English).
-2. Be warm, respectful. Address farmers as "ji" (e.g., "Ramesh ji").
-3. Give short, clear answers. Use numbered steps when explaining processes. Keep responses under 150 words.
-4. Never ask for real Aadhaar numbers, bank details, passwords, or OTPs.
-5. You are a PROTOTYPE assistant — remind users this is a demo if they ask about real transactions.
-6. You are NOT a government official and NOT affiliated with any government body.
+CRITICAL INSTRUCTIONS:
+1. You MUST ALWAYS write your entire answer in the EXACT TARGET LANGUAGE specified in the prompt instructions (Hindi, Punjabi, Marathi, Bengali, Telugu, Tamil, Kannada, Gujarati, or English).
+2. Use respectful, warm, and simple rural phrasing (address farmers with respectful honorifics like 'जी' / 'గారు' / 'அவர்கள்' / 'ਜੀ').
+3. Keep responses concise, helpful, and under 150 words.
+4. Provide structured, step-by-step guidance for eKYC, Bank DBT seeding, and Land records issues.
+5. Remind users that official assistance and eKYC at CSCs are free of cost.
+6. Never ask for private passwords, real bank PINs, or Aadhaar OTPs.
 
-KNOWLEDGE — PM-KISAN SCHEME:
-- ₹6,000/year paid in 3 installments of ₹2,000 each
-- Schedule: Apr-Jul (1st), Aug-Nov (2nd), Dec-Mar (3rd)
-- Installments go directly to Aadhaar-linked bank accounts via DBT
-- As of August 2026, 23 installments have been released since Feb 2019
-- 11+ crore farmers are enrolled
-
-COMMON PAYMENT FAILURE REASONS & FIXES:
-1. eKYC Expired:
-   - Annual Aadhaar-based eKYC is mandatory
-   - Fix Online: Go to pmkisan.gov.in → Farmer Corner → eKYC → Enter Aadhaar → Enter OTP → Done (5 min)
-   - Fix Offline: Visit nearest CSC with Aadhaar card → Biometric scan → Free of cost (30 min)
-
-2. Aadhaar-Bank Name Mismatch:
-   - Name on Aadhaar must exactly match bank account name
-   - Fix: Visit bank branch → Request name correction → Carry Aadhaar + Passbook
-   - OR: Update Aadhaar name at Aadhaar Seva Kendra (₹50 fee)
-
-3. Land Records Not Linked (Land Seeding Pending):
-   - Farm land records must be verified and linked
-   - Fix: Visit Patwari/Lekhpal/Tehsildar office → Carry Khatauni/Jamabandi + Aadhaar + PM-KISAN registration receipt
-   - Timeline: 7-15 days after submission
-
-4. Bank Account Not Aadhaar-Seeded (NPCI Mapping):
-   - Bank account must be linked to Aadhaar for DBT
-   - Fix: Visit bank → Tell them "Aadhaar seeding for DBT/NPCI mapping karwana hai" → Carry Aadhaar + Passbook
-
-HELPLINES:
-- Toll-Free: 155261 (Mon-Sat, 9am-6pm)
-- Direct: 011-24300606
-- Toll-Free Alt: 1800-115-526
-- Grievance Portal: pmkisan.gov.in/grievance.aspx
+PM-KISAN KNOWLEDGE BASE:
+- ₹6,000 annual direct benefit in 3 installments of ₹2,000 each (Apr-Jul, Aug-Nov, Dec-Mar).
+- 23 installments disbursed till date to 11+ crore beneficiary families.
+- eKYC online via pmkisan.gov.in (OTP based) or offline at CSC via Biometric fingerprint.
+- Direct helpline: 155261 (Toll-free), 011-24300606.
 `;
+
+// Regional fallback dictionaries for instant, guaranteed offline/network-failure responses
+const REGIONAL_KNOWLEDGE = {
+  hi: {
+    greeting: (name, issue) => `नमस्ते ${name} जी! 🙏 मैं आपका पीएम-किसान सहायक हूँ। ${issue ? `आपकी 23वीं किस्त "${issue}" के कारण रुकी है। मैं इसे ठीक कराने में आपकी मदद करूँगा।` : 'आपके सभी भुगतान सही हैं। कोई भी प्रश्न पूछें।'}`,
+    payment: (name, issue) => issue ? `${name} जी, आपकी 23वीं किस्त "${issue}" के कारण रुकी है। पोर्टल पर यह विवरण अपडेट होते ही आपका रुका हुआ पैसा अगले चक्र में खाते में आ जाएगा।` : 'आपके खाते में कोई भुगतान समस्या नहीं है, सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं।',
+    ekyc: 'ई-केवाईसी पूरा करने के 2 तरीके हैं:\n1. ऑनलाइन: pmkisan.gov.in पर Farmer Corner में आधार ओटीपी से सत्यापित करें (5 मिनट)।\n2. ऑफलाइन: पास के सीएससी (CSC) पर मूल आधार लेकर बायोमेट्रिक अंगूठा लगाएं।',
+    bank: 'बैंक लिंकिंग के लिए आधार कार्ड और बैंक पासबुक लेकर अपनी बैंक शाखा जाएं और कहें कि "डीबीटी (DBT/NPCI) मैपिंग हेतु आधार सीडिंग" करवानी है।',
+    csc: (dist, vill) => `आपके निकटतम सीएससी केंद्र: ${dist} डिजिटल सेवा केंद्र, ${vill} ब्लॉक कार्यालय के पास। समय: सुबह 10 से शाम 5 बजे तक। मूल आधार साथ ले जाएं।`,
+    helpline: 'आधिकारिक पीएम-किसान हेल्पलाइन:\n• टोल-फ्री: 155261 (सोम-शनि, 9am-6pm)\n• सीधा नंबर: 011-24300606\n• किसी भी व्यक्ति को ओटीपी या पिन न बताएं।'
+  },
+  pa: {
+    greeting: (name, issue) => `ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ${name} ਜੀ! 🙏 ਮੈਂ ਤੁਹਾਡਾ ਪੀਐਮ-ਕਿਸਾਨ ਸਹਾਇਕ ਹਾਂ। ${issue ? `ਤੁਹਾਡੀ 23ਵੀਂ ਕਿਸ਼ਤ "${issue}" ਕਾਰਨ ਰੁਕੀ ਹੈ।` : 'ਤੁਹਾਡੇ ਸਾਰੇ ਭੁਗਤਾਨ ਠੀਕ ਹਨ।'}`,
+    payment: (name, issue) => issue ? `${name} ਜੀ, ਤੁਹਾਡੀ ਕਿਸ਼ਤ "${issue}" ਕਾਰਨ ਰੁਕੀ ਹੋਈ ਹੈ। ਵੈਰੀਫਿਕੇਸ਼ਨ ਪੂਰੀ ਹੋਣ ਤੋਂ ਬਾਅਦ ਪੈਸੇ ਖਾਤੇ ਵਿੱਚ ਆ ਜਾਣਗੇ।` : 'ਤੁਹਾਡੇ ਖਾਤੇ ਵਿੱਚ ਕੋਈ ਸਮੱਸਿਆ ਨਹੀਂ ਹੈ।',
+    ekyc: 'e-KYC ਕਰਨ ਦੇ 2 ਤਰੀਕੇ ਹਨ:\n1. pmkisan.gov.in ਤੇ ਆਧਾਰ ਓਟੀਪੀ ਰਾਹੀਂ (5 ਮਿੰਟ)।\n2. ਨੇੜਲੇ ਸੀਐਸਸੀ (CSC) ਸੈਂਟਰ ਜਾ ਕੇ ਫਿੰਗਰਪ੍ਰਿੰਟ ਸਕੈਨ ਕਰਵਾਓ।',
+    bank: 'ਬੈਂਕ ਖਾਤੇ ਨਾਲ ਆਧਾਰ ਡੀਬੀਟੀ (DBT/NPCI) ਲਿੰਕ ਕਰਵਾਉਣ ਲਈ ਆਧਾਰ ਕਾਰਡ ਅਤੇ ਪਾਸਬੁੱਕ ਲੈ ਕੇ ਬੈਂਕ ਬ੍ਰਾਂਚ ਜਾਓ।',
+    csc: (dist, vill) => `ਨੇੜਲਾ CSC ਸੈਂਟਰ: ${dist} ਸੇਵਾ ਕੇਂਦਰ, ${vill} ਨੇੜੇ। ਸਮਾਂ: 10am-5pm।`,
+    helpline: 'ਪੀਐਮ-ਕਿਸਾਨ ਹੈਲਪਲਾਈਨ:\n• ਟੋਲ-ਫ੍ਰੀ: 155261\n• ਡਾਇਰੈਕਟ: 011-24300606'
+  },
+  mr: {
+    greeting: (name, issue) => `नमस्कार ${name} जी! 🙏 मी आपला पीएम-किसान सहाय्यक आहे. ${issue ? `आपला २३ वा हप्ता "${issue}" मुळे थांबला आहे.` : 'आपले सर्व हप्ते वेळेवर जमा झाले आहेत.'}`,
+    payment: (name, issue) => issue ? `${name} जी, आपला हप्ता "${issue}" मुळे थांबवला गेला आहे. दुरुस्तीनंतर पुढील फेरीत रक्कम जमा होईल.` : 'आपल्या खात्यात कोणतीही अडचण नाही.',
+    ekyc: 'e-KYC पूर्ण करण्याचे २ मार्ग:\n१. pmkisan.gov.in वर आधार OTP द्वारे.\n२. जवळच्या महा-ई-सेवा / CSC केंद्रावर बायोमेट्रिकद्वारे.',
+    bank: 'बँक खात्याला आधार DBT लिंक करण्यासाठी आधार कार्ड व पासबुक घेऊन बँकेत जा.',
+    csc: (dist, vill) => `आपले जवळचे केंद्र: ${dist} डिजिटल सेवा केंद्र, ${vill} जवळ. वेळ: १०am ते ५pm.`,
+    helpline: 'पीएम-किसान हेल्पलाईन:\n• टोल-फ्री: 155261\n• संपर्क: 011-24300606'
+  },
+  bn: {
+    greeting: (name, issue) => `নমস্কার ${name} জি! 🙏 আমি আপনার পিএম-কিসান সহায়ক। ${issue ? `আপনার ২৩তম কিশতি "${issue}" এর কারণে স্থগিত রয়েছে।` : 'আপনার সমস্ত পেমেন্ট সঠিক আছে।'}`,
+    payment: (name, issue) => issue ? `${name} জি, আপনার কিশতি "${issue}" এর জন্য আটকে আছে। সংশোধন হলে পরবর্তী ধাপে টাকা অ্যাকাউন্টে ঢুকবে।` : 'আপনার অ্যাকাউন্টে কোনো সমস্যা নেই।',
+    ekyc: 'e-KYC করার ২টি উপায়:\n১. অনলাইন: pmkisan.gov.in এ আধার ওটিপি দিয়ে।\n২. নিকটবর্তী সিএসসি (CSC) কেন্দ্রে আঙুলের ছাপ দিয়ে।',
+    bank: 'ব্যাংক অ্যাকাউন্টে আধার ডিবিটি (DBT/NPCI) লিঙ্কের জন্য আধার ও পাসবই নিয়ে ব্যাংকে যান।',
+    csc: (dist, vill) => `নিকটবর্তী CSC কেন্দ্র: ${dist} ডিজিটাল সেবা কেন্দ্র, ${vill} ব্লক অফিসের কাছে।`,
+    helpline: 'পিএম-কিসান হেল্পলাইন:\n• টোল-ফ্রি: 155261\n• সরাসরি: 011-24300606'
+  },
+  te: {
+    greeting: (name, issue) => `నమస్కారం ${name} గారు! 🙏 నేను మీ పీఎం-కిసాన్ సహాయకుడిని. ${issue ? `మీ 23వ విడత "${issue}" వల్ల ఆగిపోయింది.` : 'మీ చెల్లింపులన్నీ సక్రమంగా ఉన్నాయి.'}`,
+    payment: (name, issue) => issue ? `${name} గారు, మీ చెల్లింపు "${issue}" కారణంగా నిలిచిపోయింది. వివరాలు నవీకరించిన తర్వాత తదుపరి విడతలో మొత్తం అందుతుంది.` : 'మీ ఖాతాలో ఎలాంటి సమస్య లేదు.',
+    ekyc: 'e-KYC పూర్తి చేయడానికి 2 మార్గాలు:\n1. pmkisan.gov.in లో ఆధార్ ఓటీపీ ద్వారా.\n2. సమీపంలోని CSC కేంద్రంలో బయోమెట్రిక్ వేలిముద్ర ద్వారా.',
+    bank: 'బ్యాంక్ ఖాతాకు ఆధార్ DBT లింక్ చేయడానికి ఆధార్ కార్డు, పాస్‌బుక్‌తో బ్యాంక్ బ్రాంచ్‌కు వెళ్లండి.',
+    csc: (dist, vill) => `సమీప CSC కేంద్రం: ${dist} డిజిటల్ సేవా కేంద్రం, ${vill} వద్ద.`,
+    helpline: 'పీఎం-కిసాన్ హెల్ప్‌లైన్:\n• టోల్-ఫ్రీ: 155261\n• నంబర్: 011-24300606'
+  },
+  ta: {
+    greeting: (name, issue) => `வணக்கம் ${name} அவர்களே! 🙏 நான் உங்கள் பிஎம்-கிசான் உதவியாளர். ${issue ? `உங்கள் 23வது தவணை "${issue}" காரணமாக நிறுத்தி வைக்கப்பட்டுள்ளது.` : 'உங்கள் கணக்கு சரியாக உள்ளது.'}`,
+    payment: (name, issue) => issue ? `${name} அவர்களே, உங்கள் பணம் "${issue}" காரணமாக வரவில்லை. திருத்தம் செய்தபின் அடுத்த தவணையில் வந்துவிடும்.` : 'உங்கள் கணக்கில் எந்த பிரச்சனையும் இல்லை.',
+    ekyc: 'e-KYC செய்யும் 2 முறைகள்:\n1. pmkisan.gov.in இணையதளத்தில் ஆதார் OTP மூலம்.\n2. அருகில் உள்ள CSC மையத்தில் கைரேகை பதிவு மூலம்.',
+    bank: 'வங்கி கணக்கில் ஆதார் DBT இணைக்க ஆதார் அட்டை மற்றும் பாஸ்புக்குடன் வங்கிக்கு செல்லவும்.',
+    csc: (dist, vill) => `அருகிலுள்ள CSC மையம்: ${dist} சேவை மையம், ${vill} அருகில்.`,
+    helpline: 'பிஎம்-கிசான் உதவி எண்கள்:\n• கட்டணமில்லா எண்: 155261\n• நேரடி எண்: 011-24300606'
+  },
+  kn: {
+    greeting: (name, issue) => `ನಮಸ್ಕಾರ ${name} ಅವರೇ! 🙏 ನಾನು ನಿಮ್ಮ ಪಿಎಂ-ಕಿಸಾನ್ ಸಹಾಯಕ. ${issue ? `ನಿಮ್ಮ 23ನೇ ಕಂತು "${issue}" ಕಾರಣದಿಂದ ನಿಂತಿದೆ.` : 'ನಿಮ್ಮ ಎಲ್ಲಾ ಕಂತುಗಳು ಸರಿಯಾಗಿ ಜಮೆಯಾಗಿವೆ.'}`,
+    payment: (name, issue) => issue ? `${name} ಅವರೇ, ನಿಮ್ಮ ಹಣ "${issue}" ಕಾರಣದಿಂದ ಜಮೆಯಾಗಿಲ್ಲ. ಮಾಹಿತಿ ನವೀಕರಿಸಿದ ನಂತರ ಖಾತೆಗೆ ಬರುತ್ತದೆ.` : 'ಖಾತೆಯಲ್ಲಿ ಯಾವುದೇ ಸಮಸ್ಯೆ ಇಲ್ಲ.',
+    ekyc: 'e-KYC ಪೂರ್ಣಗೊಳಿಸಲು 2 ದಾರಿಗಳು:\n1. pmkisan.gov.in ನಲ್ಲಿ ಆಧಾರ್ OTP ಮೂಲಕ.\n2. ಹತ್ತಿರದ CSC ಕೇಂದ್ರದಲ್ಲಿ ಬೆರಳಚ್ಚು ಮೂಲಕ.',
+    bank: 'ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ಆಧಾರ್ DBT ಲಿಂಕ್ ಮಾಡಲು ಆಧಾರ್ ಮತ್ತು ಪಾಸ್‌ಬುಕ್‌ನೊಂದಿಗೆ ಬ್ಯಾಂಕಿಗೆ ಭೇಟಿ ನೀಡಿ.',
+    csc: (dist, vill) => `ಹತ್ತಿರದ CSC ಕೇಂದ್ರ: ${dist} ಡಿಜಿಟಲ್ ಸೇವಾ ಕೇಂದ್ರ, ${vill} ಹತ್ತಿರ.`,
+    helpline: 'ಪಿಎಂ-ಕಿಸಾನ್ ಸಹಾಯವಾಣಿ:\n• ಉಚಿತ ಸಂಖ್ಯೆ: 155261\n• ನೇರ ಸಂಖ್ಯೆ: 011-24300606'
+  },
+  gu: {
+    greeting: (name, issue) => `નમસ્તે ${name} જી! 🙏 હું તમારો પીએમ-કિસાન સહાયક છું. ${issue ? `તમારો ૨૩મો હપ્તો "${issue}" ને કારણે અટકેલ છે.` : 'તમારા બધા હપ્તા જમા થઈ ગયા છે.'}`,
+    payment: (name, issue) => issue ? `${name} જી, તમારો હપ્તો "${issue}" ને કારણે અટક્યો છે. વિગતો સુધાર્યા પછી આગામી ચક્રમાં પૈસા આવી જશે.` : 'તમારા ખાતામાં કોઈ સમસ્યા નથી.',
+    ekyc: 'e-KYC કરવાની ૨ રીતો:\n૧. pmkisan.gov.in પર આધાર OTP દ્વારા.\n૨. નજીકના CSC કેન્દ્ર પર બાયોમેટ્રિક ફિંગરપ્રિન્ટ દ્વારા.',
+    bank: 'બેંક ખાતા સાથે આધાર DBT લિંક કરવા આધાર કાર્ડ અને પાસબુક લઈને બેંક શાખામાં જાઓ.',
+    csc: (dist, vill) => `નજીકનું CSC કેન્દ્ર: ${dist} ડિજિટલ સેવા કેન્દ્ર, ${vill} પાસે.`,
+    helpline: 'પીએમ-કિસાન હેલ્પલાઇન:\n• ટોલ-ફ્રી: 155261\n• ડાયરેક્ટ: 011-24300606'
+  },
+  en: {
+    greeting: (name, issue) => `Namaste ${name}! 🙏 I'm your PM-KISAN Sahayak. ${issue ? `Your 23rd installment is held due to "${issue}". I will guide you to resolve it.` : 'All your installments are up to date. Ask me anything about the scheme.'}`,
+    payment: (name, issue) => issue ? `${name}, your payment is held because of "${issue}". Once updated, the funds will be released in the following DBT cycle.` : 'There are no payment issues with your profile. All installments are credited.',
+    ekyc: '2 Ways to complete eKYC:\n1. Online: via pmkisan.gov.in using Aadhaar OTP (5 min).\n2. Offline: at your nearest CSC center using biometric fingerprint verification (free).',
+    bank: 'For Aadhaar-Bank DBT linking, visit your bank branch with your Aadhaar card and passbook and request "Aadhaar Seeding for DBT/NPCI Mapping".',
+    csc: (dist, vill) => `Nearest CSC: ${dist} Digital Seva Kendra, near ${vill} Block Office. Open 10am-5pm. Carry original Aadhaar.`,
+    helpline: 'Official PM-KISAN Helplines:\n• Toll-Free: 155261 (Mon-Sat, 9am-6pm)\n• Direct: 011-24300606\n• Never share OTPs or passwords.'
+  }
+};
 
 let conversationHistory = [];
 
 export function initialMessages(farmer, language = 'hi') {
   conversationHistory = [];
-  const content = language === 'hi'
-    ? `नमस्ते ${farmer.name} जी! 🙏 मैं आपका पीएम-किसान सहायक हूँ। ${farmer.issue ? `मुझे दिख रहा है कि आपकी "${farmer.issueDetails.title}" के कारण 23वीं किस्त रुकी है। मैं इसे हल करने में आपकी मदद करूँगा।` : 'आपके सभी भुगतान सही हैं। आप मुझसे योजना संबंधी कोई भी प्रश्न पूछ सकते हैं।'}`
-    : language === 'pa'
-    ? `ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ${farmer.name} ਜੀ! 🙏 ਮੈਂ ਤੁਹਾਡਾ ਪੀਐਮ-ਕਿਸਾਨ ਸਹਾਇਕ ਹਾਂ। ${farmer.issue ? `ਤੁਹਾਡੀ ਕਿਸ਼ਤ "${farmer.issueDetails.title}" ਕਾਰਨ ਰੁਕੀ ਹੈ।` : 'ਸਾਰੇ ਭੁਗਤਾਨ ਠੀਕ ਹਨ।'}`
-    : `Namaste ${farmer.name}! 🙏 I'm your PM-KISAN Sahayak. ${farmer.issue ? `I can see your payment needs attention because of ${farmer.issueDetails.title}. I'll help you resolve it step by step.` : 'Your payments look good. Ask me anything about PM-KISAN.'}`;
+  const langKey = REGIONAL_KNOWLEDGE[language] ? language : 'hi';
+  const issueName = farmer.issue ? farmer.issueDetails.title : null;
+  const content = REGIONAL_KNOWLEDGE[langKey].greeting(farmer.name, issueName);
 
   conversationHistory.push({ role: 'model', parts: [{ text: content }] });
   return [{ from: 'bot', text: content }];
 }
 
 export function chatView(farmer, messages, language = 'hi', typing = false, isListening = false) {
+  const langName = LANGUAGES[language]?.name || 'हिंदी';
+
   return `
     <section class="screen chat-screen">
       <header class="chat-header">
         <button class="icon-btn light" data-route="dashboard" aria-label="Back">←</button>
         <div class="bot-avatar">🤖</div>
         <div>
-          <h1>Sahayak AI</h1>
-          <p>🟢 Online · Powered by AI</p>
+          <h1>Sahayak AI (${langName})</h1>
+          <p>🟢 Online · Responds in ${langName}</p>
         </div>
         <select id="chat-lang-select" class="lang-select-dropdown" aria-label="Language">
           ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === language ? 'selected' : ''}>${l.name}</option>`).join('')}
@@ -107,11 +156,23 @@ export function chatView(farmer, messages, language = 'hi', typing = false, isLi
 }
 
 async function callGemini(userMessage, farmer, lang = 'hi') {
-  const farmerContext = `[Context: Farmer name is ${farmer.name}, from ${farmer.village}, ${farmer.district}, ${farmer.state}. Registration: ${farmer.regNumber}. ${farmer.issue ? `Current issue: ${farmer.issueDetails.title} - ${farmer.issueDetails.explain}` : 'No current issues.'} Preferred language: ${LANGUAGES[lang]?.name || 'Hindi'}]`;
+  const targetLanguage = LANGUAGES[lang]?.name || 'Hindi';
+  const farmerContext = `[Farmer Context: Name=${farmer.name}, Village=${farmer.village}, District=${farmer.district}, State=${farmer.state}. Reg=${farmer.regNumber}. Issue=${farmer.issue ? farmer.issueDetails.title : 'None'}.]`;
+
+  const strictLanguageInstruction = `${BASE_SYSTEM_PROMPT}
+
+MANDATORY LANGUAGE RULE:
+The user selected language is: ${targetLanguage}.
+You MUST generate your response ENTIRELY in ${targetLanguage}. Do not reply in English or Hindi unless ${targetLanguage} was explicitly selected.`;
 
   const contents = [
     ...conversationHistory,
-    { role: 'user', parts: [{ text: conversationHistory.length <= 1 ? `${farmerContext}\n\nFarmer asks: ${userMessage}` : userMessage }] }
+    {
+      role: 'user',
+      parts: [{
+        text: `${farmerContext}\n[Target Language: ${targetLanguage}]\nFarmer asks: ${userMessage}`
+      }]
+    }
   ];
 
   try {
@@ -119,10 +180,10 @@ async function callGemini(userMessage, farmer, lang = 'hi') {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        system_instruction: { parts: [{ text: strictLanguageInstruction }] },
         contents: contents,
         generationConfig: {
-          temperature: 0.7,
+          temperature: 0.6,
           topP: 0.9,
           maxOutputTokens: 400
         }
@@ -144,12 +205,12 @@ async function callGemini(userMessage, farmer, lang = 'hi') {
 
     return reply;
   } catch (error) {
-    console.error('Gemini API error, falling back to local reasoning:', error);
+    console.error('Gemini API error, using native regional dictionary:', error);
     return replyFallback(userMessage, farmer, lang);
   }
 }
 
-export async function replyFor(question, farmer, language) {
+export async function replyFor(question, farmer, language = 'hi') {
   try {
     const reply = await callGemini(question, farmer, language);
     return reply;
@@ -158,24 +219,27 @@ export async function replyFor(question, farmer, language) {
   }
 }
 
-function replyFallback(question, farmer, language) {
+function replyFallback(question, farmer, language = 'hi') {
+  const langKey = REGIONAL_KNOWLEDGE[language] ? language : 'hi';
+  const dict = REGIONAL_KNOWLEDGE[langKey];
   const q = question.toLowerCase();
-  if (q.includes('kyun') || q.includes('why') || q.includes('payment') || q.includes('paisa') || q.includes('paise')) {
-    return farmer.issue
-      ? `${farmer.name} जी, आपकी 23वीं किस्त "${farmer.issueDetails.title}" के कारण रुकी है। पोर्टल पर यह विवरण अपडेट होते ही आपका भुगतान आगामी चक्र में जारी कर दिया जाएगा।`
-      : 'आपके खाते में कोई भुगतान समस्या नहीं है, सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं।';
+  const issueName = farmer.issue ? farmer.issueDetails.title : null;
+
+  if (q.includes('kyun') || q.includes('why') || q.includes('payment') || q.includes('paisa') || q.includes('paise') || q.includes('panam') || q.includes('dabbu') || q.includes('taka') || q.includes('rokada')) {
+    return dict.payment(farmer.name, issueName);
   }
-  if (q.includes('ekyc') || q.includes('e-kyc')) {
-    return 'ई-केवाईसी पूरा करने के 2 तरीके हैं:\n1. ऑनलाइन: pmkisan.gov.in पर Farmer Corner में जाएं और आधार ओटीपी से सत्यापित करें (5 मिनट)।\n2. ऑफलाइन: पास के सीएससी (CSC) पर मूल आधार कार्ड लेकर बायोमेट्रिक अंगूठा लगाएं।';
+  if (q.includes('ekyc') || q.includes('e-kyc') || q.includes('kyc') || q.includes('aadhaar')) {
+    return dict.ekyc;
   }
-  if (q.includes('bank')) {
-    return 'बैंक लिंकिंग के लिए आधार कार्ड और बैंक पासबुक लेकर अपनी शाखा जाएं और कहें कि "डीबीटी (DBT/NPCI) मैपिंग हेतु आधार सीडिंग" करवानी है।';
+  if (q.includes('bank') || q.includes('dbt') || q.includes('npci') || q.includes('khata')) {
+    return dict.bank;
   }
-  if (q.includes('csc') || q.includes('nearest') || q.includes('kahan')) {
-    return `आपके निकटतम सीएससी केंद्र: ${farmer.district} डिजिटल सेवा केंद्र, ${farmer.village} ब्लॉक कार्यालय के पास। समय: सुबह 10 से शाम 5 बजे तक।`;
+  if (q.includes('csc') || q.includes('nearest') || q.includes('kahan') || q.includes('kendra') || q.includes('center')) {
+    return dict.csc(farmer.district, farmer.village);
   }
-  if (q.includes('helpline') || q.includes('number') || q.includes('phone')) {
-    return 'आधिकारिक पीएम-किसान हेल्पलाइन:\n• टोल-फ्री: 155261 (सोम-शनि, 9am-6pm)\n• सीधा नंबर: 011-24300606\n• किसी भी व्यक्ति को ओटीपी या पिन न बताएं।';
+  if (q.includes('helpline') || q.includes('number') || q.includes('phone') || q.includes('call')) {
+    return dict.helpline;
   }
-  return `${farmer.name} जी, मैं आपकी सहायता के लिए यहाँ हूँ। आप किस्त की स्थिति, ई-केवाईसी, बैंक सीडिंग या सीएससी प्रक्रिया के बारे में पूछ सकते हैं।`;
+
+  return dict.greeting(farmer.name, issueName);
 }

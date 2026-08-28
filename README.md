@@ -19,10 +19,12 @@ Farmers with limited digital literacy often travel long distances to CSCs, banks
 
 ## 💡 What PM-KISAN Sahayak Changes
 1. **Simplified Citizen Journey**: Enter registered mobile or reg. number → instant transparent timeline of all 23 installment cycles.
-2. **Automated Root-Cause Diagnosis**: Clearly explains in plain Hindi & English *why* an installment stopped (e.g. eKYC expired, bank name mismatch, land seeding).
-3. **Step-by-Step Actionable Resolution**: Gives exact step sequences for online self-service or visiting the local CSC/Patwari, complete with required documents checklist.
-4. **Interactive Sahayak AI**: Conversational multilingual assistant powered by modern LLMs to answer citizen queries in natural Hinglish or English.
-5. **Mobile-First & Low-Bandwidth Friendly**: Clean, lightweight UI optimized for budget smartphones and slow rural connections.
+2. **Automated Root-Cause Diagnosis**: Clearly explains in plain language *why* an installment stopped (e.g. eKYC expired, bank name mismatch, land seeding).
+3. **Multilingual Regional Support**: Supports **9 Indian languages** (Hindi हिंदी, Punjabi ਪੰਜਾਬੀ, Marathi मराठी, Bengali বাংলা, Telugu తెలుగు, Tamil தமிழ், Kannada ಕನ್ನಡ, Gujarati ગુજરાતી, and English).
+4. **🎙️ Voice Speech-to-Text & 🔊 Audio Readout ("बोलकर सुनाएं")**: Farmers can tap the microphone to speak questions and listen to audio explanations in their regional language.
+5. **📄 Printable CSC "Seva Parchi" (Action Slip)**: Generates a clear receipt listing the exact issue, action required by the CSC/Patwari operator, required documents, and anti-corruption notice (free service).
+6. **Interactive Sahayak AI**: Conversational assistant powered by modern LLMs to answer citizen queries in natural Hinglish or regional languages.
+7. **Mobile-First & Low-Bandwidth Friendly**: Clean, lightweight UI optimized for budget smartphones and slow rural connections.
 
 ---
 

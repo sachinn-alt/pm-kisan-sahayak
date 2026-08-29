@@ -8,10 +8,18 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
   const pending = farmer.installments.filter(x => x.status === 'pending');
   const shown = all ? farmer.installments : farmer.installments.slice(0, 5);
 
+  const isEkycOk = farmer.ekycStatus === 'valid';
+  const isDbtOk = farmer.dbtStatus === 'linked';
+  const isLandOk = farmer.landStatus === 'verified';
+  const isAllEligible = isEkycOk && isDbtOk && isLandOk;
+
   return `
     <section class="screen dashboard-screen">
       <header class="dashboard-hero">
-        <div class="govt-badge dark">PM-KISAN · DBT CITIZEN PORTAL</div>
+        <div class="header-top-row">
+          <span class="govt-badge dark">PM-KISAN · DBT CITIZEN PORTAL</span>
+          <span class="offline-badge">${tablerIcon('shieldCheck', 12)} Offline Ready</span>
+        </div>
         <div class="header-actions">
           <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
             ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
@@ -93,6 +101,43 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
             <span>${t('helplineSupport', lang)}</span>
           </button>
         </div>
+
+        <!-- 24th Installment Eligibility & Release Tracker -->
+        <article class="eligibility-card ${isAllEligible ? 'eligible' : 'action-needed'}">
+          <div class="eligibility-header">
+            <div>
+              <span class="eligibility-tag">${isAllEligible ? '✅ 100% Eligible' : '⚠️ Action Required'}</span>
+              <h3>24वीं किस्त पात्रता जांच (24th Installment Tracker)</h3>
+            </div>
+            <span class="expected-date">Expected: Oct–Nov 2026</span>
+          </div>
+
+          <div class="eligibility-checklist">
+            <div class="check-item ${isEkycOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isEkycOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>e-KYC सत्यापन</strong>
+                <small>${isEkycOk ? 'सक्रिय (Active)' : 'नवीनीकरण लंबित (Expired)'}</small>
+              </div>
+            </div>
+
+            <div class="check-item ${isDbtOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isDbtOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>आधार-बैंक DBT सीडिंग</strong>
+                <small>${isDbtOk ? 'सक्रिय (NPCI Linked)' : 'नाम सुधार आवश्यक (Mismatch)'}</small>
+              </div>
+            </div>
+
+            <div class="check-item ${isLandOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isLandOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>भूलेख अंकन (Land Seeding)</strong>
+                <small>${isLandOk ? 'सत्यापित (Verified)' : 'लेखपाल सत्यापन बाकी (Pending)'}</small>
+              </div>
+            </div>
+          </div>
+        </article>
 
         <div class="section-heading">
           <h2>${t('paymentHistory', lang)}</h2>

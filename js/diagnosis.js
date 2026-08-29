@@ -47,6 +47,26 @@ export function diagnosisView(farmer, lang = 'hi') {
         <span class="issue-badge">${t('issueFound', lang)} • ${issue.failedInstallment}rd INSTALLMENT</span>
         <h2>${issue.title}</h2>
         <p>${issue.explain}</p>
+
+        ${farmer.nameDiff ? `
+          <div class="name-diff-box">
+            <div class="diff-title">
+              <span>${tablerIcon('alertTriangle', 14)} रिकॉर्ड में नाम का अंतर (Character Discrepancy):</span>
+              <b>Match: ${farmer.nameDiff.matchPct}</b>
+            </div>
+            <div class="diff-grid">
+              <div class="diff-side aadhaar-side">
+                <span class="diff-label">आधार कार्ड पर नाम (Aadhaar):</span>
+                <strong class="diff-value">${farmer.nameDiff.aadhaar}</strong>
+              </div>
+              <div class="diff-side bank-side">
+                <span class="diff-label">बैंक पासबुक पर नाम (Bank):</span>
+                <strong class="diff-value">${farmer.nameDiff.bank} <span class="diff-highlight">[MISMATCH]</span></strong>
+              </div>
+            </div>
+            <p class="diff-hint">💡 सुधार का उपाय: बैंक शाखा में आधार कार्ड प्रस्तुत कर पासबुक में पूरा नाम 'SUNITA DEVI' दर्ज कराएं।</p>
+          </div>
+        ` : ''}
       </article>
 
       <button id="open-parchi-btn" class="parchi-btn">

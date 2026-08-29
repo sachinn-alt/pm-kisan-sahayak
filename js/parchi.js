@@ -78,6 +78,9 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
         </div>
 
         <div class="parchi-actions">
+          <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(`*🌾 पीएम-किसान सम्मान निधि सेवा पर्ची*\n\n👤 किसान का नाम: ${farmer.name}\n🆔 पंजीकरण: ${farmer.regNumber}\n📍 स्थान: ${farmer.village}, ${farmer.district}\n\n⚠️ समस्या: ${issue.title}\n📄 आवश्यक दस्तावेज:\n${issue.documents.map(d => `• ${d}`).join('\n')}\n\n💡 यह पर्ची PM-KISAN Sahayak पोर्टल से बनाई गई है।`)}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+            <span>💬</span> <span>WhatsApp पर पर्ची भेजें (Share Slip)</span>
+          </a>
           <button class="primary-btn" id="print-parchi-btn">
             ${tablerIcon('printer', 18)} <span>पर्ची प्रिंट / PDF सेव करें</span>
           </button>

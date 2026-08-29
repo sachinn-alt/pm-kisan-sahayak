@@ -1575,3 +1575,230 @@ button:active, .action-card:active, .service-card:active, .hub-btn:active {
   }
 }
 
+/* =========================================================
+   NEW FEATURE STYLES (24th Tracker, Name Diff, WhatsApp Share)
+   ========================================================= */
+
+.header-top-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.offline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(74, 222, 128, 0.18);
+  color: #cbfbe0;
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* 24th Installment Eligibility Card */
+.eligibility-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 4px 14px #15541e14;
+  margin-top: 18px;
+  border-left: 5px solid #287b36;
+}
+
+.eligibility-card.action-needed {
+  border-left-color: #f5b62d;
+  background: linear-gradient(145deg, #ffffff, #fffdf8);
+}
+
+.eligibility-card.eligible {
+  border-left-color: #287b36;
+  background: linear-gradient(145deg, #ffffff, #f7fcf8);
+}
+
+.eligibility-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eef5ee;
+  padding-bottom: 8px;
+}
+
+.eligibility-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  margin-bottom: 4px;
+}
+
+.action-needed .eligibility-tag {
+  background: #fff3e0;
+  color: #b78103;
+}
+
+.eligibility-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: var(--deep);
+}
+
+.expected-date {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #f0f4f0;
+  padding: 3px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.eligibility-checklist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f9fcf9;
+  border: 1px solid #e3eee3;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.check-item.ok .check-icon {
+  color: #2e7d32;
+}
+
+.check-item.warn {
+  border-color: #ffe082;
+  background: #fffdf5;
+}
+
+.check-item.warn .check-icon {
+  color: #f57f17;
+}
+
+.check-item strong {
+  display: block;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.check-item small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* Name Discrepancy Diff Box */
+.name-diff-box {
+  margin-top: 14px;
+  background: #fff8f8;
+  border: 1.5px solid #ffcdd2;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.diff-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #b71c1c;
+  margin-bottom: 8px;
+}
+
+.diff-title span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.diff-title b {
+  background: #ffebee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.diff-side {
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ffebee;
+}
+
+.diff-label {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.diff-value {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--deep);
+}
+
+.diff-highlight {
+  color: #c62828;
+  font-size: 9px;
+  background: #ffebee;
+  padding: 1px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.diff-hint {
+  font-size: 11px;
+  color: #5d4037;
+  line-height: 1.4;
+  margin: 6px 0 0;
+}
+
+/* WhatsApp Share Button */
+.whatsapp-btn {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  border-radius: 13px;
+  padding: 12px 16px;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: .2s;
+}
+
+.whatsapp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+}
+
+

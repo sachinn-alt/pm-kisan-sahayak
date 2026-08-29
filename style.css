@@ -386,51 +386,198 @@ h1, h2, h3, p { margin-top: 0; }
 .dashboard-hero {
   position: relative;
   color: #fff;
-  padding: 24px 22px 64px;
-  background: radial-gradient(circle at 75% 5%, #27873e, #0c4820 83%);
-  border-radius: 0 0 42px 42px;
+  padding: 16px 18px 58px;
+  background: radial-gradient(circle at 85% 10%, #298c42, #0d4621 82%);
+  border-radius: 0 0 36px 36px;
+  box-shadow: 0 8px 24px rgba(13, 70, 33, 0.25);
 }
 
-.dashboard-hero .govt-badge {
-  display: inline-block;
-  margin-bottom: 8px;
-}
-
-.dashboard-hero .header-actions {
-  position: absolute;
-  right: 17px;
-  top: 18px;
+/* Official Gov Masthead Top Bar */
+.gov-topbar {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: 12px;
 }
 
-.dashboard-hero p {
-  font-size: 17px;
-  margin: 16px 0 2px;
+.gov-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
-.dashboard-hero h1 {
-  font-size: 28px;
-  line-height: 1.1;
-  margin: 0 0 6px;
+.gov-tricolor {
+  width: 4px;
+  height: 28px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%);
+  flex-shrink: 0;
 }
 
-.dashboard-hero .reg-badge {
+.gov-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.gov-dept-name {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+.gov-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #cbfbe0;
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 999px;
+  padding: 1px 7px;
+  width: max-content;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
   display: inline-block;
-  font-size: 12px;
-  opacity: .9;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 3px 8px;
-  border-radius: 6px;
-  margin-top: 4px;
+  animation: beaconPulse 1.8s infinite ease-in-out;
 }
 
-.dashboard-hero .location {
-  display: block;
-  font-size: 13px;
-  opacity: .88;
-  margin-top: 6px;
+@keyframes beaconPulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.gov-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.gov-actions .lang-select-dropdown {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+
+.gov-actions .lang-select-dropdown option {
+  color: #102015;
+  background: #fff;
+}
+
+.gov-actions .icon-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+/* Citizen Profile Banner */
+.citizen-profile-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.citizen-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f5b62d, #df9b15);
+  color: #322400;
+  font-size: 19px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.citizen-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.citizen-details .greeting-text {
+  font-size: 12px;
+  opacity: 0.9;
+  margin: 0 0 2px;
+}
+
+.citizen-details h1 {
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.citizen-meta-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.dbt-verified-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.reg-pill {
+  font-size: 10px;
+  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.15);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.citizen-loc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon-btn {
@@ -1578,27 +1725,6 @@ button:active, .action-card:active, .service-card:active, .hub-btn:active {
 /* =========================================================
    NEW FEATURE STYLES (24th Tracker, Name Diff, WhatsApp Share)
    ========================================================= */
-
-.header-top-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.offline-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(74, 222, 128, 0.18);
-  color: #cbfbe0;
-  border: 1px solid rgba(74, 222, 128, 0.35);
-  border-radius: 999px;
-  padding: 3px 8px;
-  font-size: 10px;
-  font-weight: 700;
-}
 
 /* 24th Installment Eligibility Card */
 .eligibility-card {

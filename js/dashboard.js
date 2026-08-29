@@ -16,22 +16,43 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
   return `
     <section class="screen dashboard-screen">
       <header class="dashboard-hero">
-        <div class="header-top-row">
-          <span class="govt-badge dark">PM-KISAN · DBT CITIZEN PORTAL</span>
-          <span class="offline-badge">${tablerIcon('shieldCheck', 12)} Offline Ready</span>
+        <!-- Official Government Masthead Row -->
+        <div class="gov-topbar">
+          <div class="gov-brand">
+            <span class="gov-tricolor"></span>
+            <div class="gov-title-group">
+              <span class="gov-dept-name">PM-KISAN · भारत सरकार</span>
+              <span class="gov-status-pill">
+                <i class="pulse-dot"></i> 2G/Offline Ready
+              </span>
+            </div>
+          </div>
+
+          <div class="gov-actions">
+            <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
+              ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
+            </select>
+            <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">
+              ${tablerIcon('logout', 17)}
+            </button>
+          </div>
         </div>
-        <div class="header-actions">
-          <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
-            ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
-          </select>
-          <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">
-            ${tablerIcon('logout', 18)}
-          </button>
+
+        <!-- Citizen Profile Card -->
+        <div class="citizen-profile-banner">
+          <div class="citizen-avatar">
+            ${farmer.name.split(' ').map(x => x[0]).join('').slice(0, 2)}
+          </div>
+          <div class="citizen-details">
+            <p class="greeting-text">${t('namaste', lang)} 🙏</p>
+            <h1>${farmer.name}</h1>
+            <div class="citizen-meta-pills">
+              <span class="dbt-verified-pill">${tablerIcon('circleCheck', 12)} DBT Verified</span>
+              <span class="reg-pill">Reg: ${farmer.regNumber}</span>
+            </div>
+            <span class="citizen-loc">${tablerIcon('mapPin', 12)} ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+          </div>
         </div>
-        <p>${t('namaste', lang)} 🙏</p>
-        <h1>${farmer.name}</h1>
-        <span class="reg-badge">${t('regNumber', lang)}: ${farmer.regNumber}</span>
-        <span class="location">${tablerIcon('mapPin', 14)} ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
       </header>
 
       <div class="dashboard-body">

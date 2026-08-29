@@ -1,4 +1,5 @@
 import { t } from './i18n.js';
+import { tablerIcon } from './icons.js';
 
 export function renderSevaParchiModal(farmer, lang = 'hi') {
   if (!farmer) return '';
@@ -6,7 +7,7 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
     title: 'सभी विवरण सही हैं (All Records Updated)',
     explain: 'कोई लंबित समस्या नहीं पाई गई।',
     failedInstallment: null,
-    documents: ['आधार कार्ड']
+    documents: ['मूल आधार कार्ड', 'बैंक पासबुक']
   };
 
   const today = new Date().toLocaleDateString('en-IN', {
@@ -23,12 +24,14 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
             <span class="parchi-badge">CSC & SEVA KENDRA SLIP</span>
             <h2>नागरिक सहायता पर्ची (Action Slip)</h2>
           </div>
-          <button class="icon-btn" id="close-parchi-btn" aria-label="Close">✕</button>
+          <button class="icon-btn" id="close-parchi-btn" aria-label="Close">
+            ${tablerIcon('close', 18)}
+          </button>
         </div>
 
         <div class="parchi-slip-content" id="parchi-print-area">
           <div class="slip-header-banner">
-            <h3>🌾 पीएम-किसान सम्मान निधि सेवा पर्ची</h3>
+            <h3>${tablerIcon('sprout', 20)} पीएम-किसान सम्मान निधि सेवा पर्ची</h3>
             <p>PM-KISAN CITIZEN FACILITATION RECEIPT • ${today}</p>
           </div>
 
@@ -58,14 +61,14 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
           </div>
 
           <div class="slip-operator-box">
-            <h4>📌 सीएससी / बैंक ऑपरेटर हेतु निर्देश (Action for Operator):</h4>
+            <h4>${tablerIcon('idBadge', 16)} सीएससी / बैंक ऑपरेटर हेतु निर्देश:</h4>
             <p>कृपया इस किसान के <strong>${issue.title}</strong> का समाधान करें। बायोमेट्रिक प्रमाणीकरण / आधार सीडिंग विवरण पोर्टल पर अपडेट करें।</p>
           </div>
 
           <div class="slip-docs-box">
-            <h4>📄 साथ लाए जाने वाले जरूरी दस्तावेज:</h4>
+            <h4>${tablerIcon('fileDescription', 16)} साथ लाए जाने वाले जरूरी दस्तावेज:</h4>
             <ul>
-              ${issue.documents.map(doc => `<li>✓ ${doc}</li>`).join('')}
+              ${issue.documents.map(doc => `<li>${tablerIcon('check', 14)} ${doc}</li>`).join('')}
             </ul>
           </div>
 
@@ -75,7 +78,9 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
         </div>
 
         <div class="parchi-actions">
-          <button class="primary-btn" id="print-parchi-btn">🖨️ पर्ची प्रिंट / PDF सेव करें</button>
+          <button class="primary-btn" id="print-parchi-btn">
+            ${tablerIcon('printer', 18)} <span>पर्ची प्रिंट / PDF सेव करें</span>
+          </button>
           <button class="text-btn centered" id="dismiss-parchi-btn">वापस जाएं (Back)</button>
         </div>
       </div>

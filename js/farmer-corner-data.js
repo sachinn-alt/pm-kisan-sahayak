@@ -81,6 +81,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'ekyc',
     icon: '🪪',
+    tablerName: 'idBadge',
     title: 'e-KYC (आधार प्रमाणीकरण)',
     desc: 'Mandatory annual Aadhaar-based OTP or Biometric verification',
     badge: 'Mandatory',
@@ -89,6 +90,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'status',
     icon: '📋',
+    tablerName: 'fileDescription',
     title: 'Know Your Status (स्थिति जानें)',
     desc: 'Check installment credit status, UTR numbers & PFMS feedback',
     badge: 'Live',
@@ -97,6 +99,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'new_reg',
     icon: '📝',
+    tablerName: 'userPlus',
     title: 'New Farmer Registration (नया पंजीकरण)',
     desc: 'Apply for PM-KISAN ₹6,000 annual assistance with land papers',
     badge: 'Self-Service',
@@ -105,6 +108,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'village_list',
     icon: '🏘️',
+    tablerName: 'usersGroup',
     title: 'Village Beneficiary List (ग्राम सूची)',
     desc: 'View approved beneficiaries in your Gram Panchayat & Village',
     badge: 'Transparent',
@@ -113,6 +117,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'name_correction',
     icon: '✏️',
+    tablerName: 'userCheck',
     title: 'Name Correction as per Aadhaar (नाम सुधार)',
     desc: 'Fix spelling mismatches between Aadhaar and bank passbook',
     badge: 'Essential',
@@ -121,6 +126,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'bank_seeding',
     icon: '🏦',
+    tablerName: 'buildingBank',
     title: 'Aadhaar-Bank NPCI Seeding (डीबीटी स्थिति)',
     desc: 'Verify if your bank account is linked for Direct Benefit Transfer',
     badge: 'DBT Enabled',
@@ -129,6 +135,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'surrender',
     icon: '🤝',
+    tablerName: 'shieldCheck',
     title: 'Voluntary Surrender (स्वेच्छा से छोड़ें)',
     desc: 'Option to voluntarily give up benefits for other needy farmers',
     badge: 'Citizen Choice',
@@ -137,6 +144,7 @@ export const FARMER_CORNER_SERVICES = [
   {
     id: 'face_auth',
     icon: '📱',
+    tablerName: 'faceId',
     title: 'PM-KISAN Face Auth App (चेहरा प्रमाणीकरण)',
     desc: 'Complete eKYC by scanning your face via mobile camera without OTP',
     badge: 'Smart AI',

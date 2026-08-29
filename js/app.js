@@ -54,6 +54,8 @@ function splashView() {
   </section>`;
 }
 
+import { tablerIcon } from './icons.js';
+
 function loginView() {
   const lang = state.language;
   return `<section class="screen login-screen">
@@ -73,7 +75,7 @@ function loginView() {
         <span id="prefix">+91</span>
         <input id="identifier" value="${state.pendingLogin}" inputmode="numeric" maxlength="12" placeholder="Enter your 10-digit mobile" />
       </div>
-      <button class="primary-btn" id="send-otp">${t('sendOtp', lang)} <span>→</span></button>
+      <button class="primary-btn" id="send-otp">${t('sendOtp', lang)} ${tablerIcon('arrowRight', 18)}</button>
       <div class="demo-box">
         <b>${t('demoNotice', lang)}</b>
         <span>${t('demoAccount', lang)}</span>
@@ -91,8 +93,12 @@ function otpView() {
   const lang = state.language;
   const phone = state.pendingLogin;
   return `<section class="screen otp-screen standard-screen">
-    <button class="back" data-route="login">← Back</button>
-    <div class="otp-illustration">📲</div>
+    <button class="back" data-route="login">
+      ${tablerIcon('arrowLeft', 16)} <span>Back</span>
+    </button>
+    <div class="otp-illustration">
+      <div class="heading-icon phone-icon">${tablerIcon('deviceMobile', 48)}</div>
+    </div>
     <div class="page-heading">
       <h1>${t('enterOtp', lang)}</h1>
       <p>${t('otpSentTo', lang)} +91 ${phone.slice(0, 5)} ${phone.slice(5)}</p>
@@ -112,20 +118,37 @@ function otpView() {
 function helplineView() {
   const lang = state.language;
   return `<section class="screen standard-screen">
-    <button class="back" data-route="dashboard">← Back to dashboard</button>
+    <button class="back" data-route="dashboard">
+      ${tablerIcon('arrowLeft', 16)} <span>Back to dashboard</span>
+    </button>
     <div class="page-heading">
-      <div>📞</div>
+      <div class="heading-icon phone-icon">${tablerIcon('phone', 40)}</div>
       <h1>${t('helplineSupport', lang)}</h1>
       <p>Speak to official support assistance representatives.</p>
     </div>
     <div class="support-list">
-      <a href="tel:155261"><b>155261</b><span>Toll-free · Mon–Sat, 9am–6pm</span><i>›</i></a>
-      <a href="tel:01124300606"><b>011-24300606</b><span>Direct helpline</span><i>›</i></a>
-      <a href="tel:1800115526"><b>1800-115-526</b><span>Toll-free alternate</span><i>›</i></a>
-      <div><b>🏛️ District Agriculture Office</b><span>Visit with Aadhaar and land records</span></div>
+      <a href="tel:155261">
+        <b>155261</b>
+        <span>Toll-free · Mon–Sat, 9am–6pm</span>
+        <i>${tablerIcon('chevronRight', 18)}</i>
+      </a>
+      <a href="tel:01124300606">
+        <b>011-24300606</b>
+        <span>Direct helpline</span>
+        <i>${tablerIcon('chevronRight', 18)}</i>
+      </a>
+      <a href="tel:1800115526">
+        <b>1800-115-526</b>
+        <span>Toll-free alternate</span>
+        <i>${tablerIcon('chevronRight', 18)}</i>
+      </a>
+      <div>
+        <b>🏛️ District Agriculture Office</b>
+        <span>Visit with Aadhaar and land records</span>
+      </div>
     </div>
     <article class="scam-box">
-      <h2>⚠️ Stay safe from scams</h2>
+      <h2>${tablerIcon('shieldCheck', 20)} Stay safe from scams</h2>
       <p>PM-KISAN has no WhatsApp support. Never share your OTP, Aadhaar number, bank PIN, or card details.</p>
     </article>
   </section>`;

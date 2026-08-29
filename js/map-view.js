@@ -1,15 +1,18 @@
 import { STATE_DISBURSEMENT_DATA } from './farmer-corner-data.js';
 import { t } from './i18n.js';
+import { tablerIcon } from './icons.js';
 
 export function mapView(selectedStateCode = 'UP', lang = 'hi') {
   const selectedState = STATE_DISBURSEMENT_DATA[selectedStateCode] || STATE_DISBURSEMENT_DATA.UP;
 
   return `
     <section class="screen standard-screen map-screen">
-      <button class="back" data-route="dashboard">← Back to dashboard</button>
+      <button class="back" data-route="dashboard">
+        ${tablerIcon('arrowLeft', 16)} <span>Back to dashboard</span>
+      </button>
 
       <div class="page-heading">
-        <div>🗺️</div>
+        <div class="heading-icon map-icon">${tablerIcon('map', 40)}</div>
         <h1>राज्य व जिला वितरण नक्शा</h1>
         <p>PM-KISAN National Disbursement & District Analytics Map</p>
       </div>
@@ -26,7 +29,7 @@ export function mapView(selectedStateCode = 'UP', lang = 'hi') {
       <!-- Macro Stats Card -->
       <div class="map-stats-card">
         <div class="map-stats-header">
-          <h3>📍 ${selectedState.hindi} (${selectedState.name})</h3>
+          <h3>${tablerIcon('mapPin', 18)} ${selectedState.hindi} (${selectedState.name})</h3>
           <span class="ekyc-badge">eKYC: ${selectedState.ekycPercentage}</span>
         </div>
 
@@ -54,7 +57,7 @@ export function mapView(selectedStateCode = 'UP', lang = 'hi') {
 
       <!-- District Breakdown -->
       <div class="section-heading">
-        <h2>जिलेवार वितरण (District Breakdown)</h2>
+        <h2>${tablerIcon('chartBar', 20)} जिलेवार वितरण (District Breakdown)</h2>
       </div>
 
       <div class="district-table-card">
@@ -62,9 +65,9 @@ export function mapView(selectedStateCode = 'UP', lang = 'hi') {
           <thead>
             <tr>
               <th>जिला (District)</th>
-              <th>लाभार्थी</th>
-              <th>कुल भुगतान</th>
-              <th>eKYC</th>
+              <th>किसान (Farmers)</th>
+              <th>राशि (Disbursed)</th>
+              <th>eKYC %</th>
             </tr>
           </thead>
           <tbody>
@@ -80,9 +83,9 @@ export function mapView(selectedStateCode = 'UP', lang = 'hi') {
         </table>
       </div>
 
-      <div class="mock-notice" style="margin-top: 18px;">
-        <span class="mock-badge">PUBLIC TRANSPARENCY</span>
-        <span>Data updated as per 23rd Installment Direct Benefit Transfer cycle.</span>
+      <div class="scam-box" style="margin-top: 22px;">
+        <h2>${tablerIcon('shieldCheck', 20)} आधिकारिक सार्वजनिक डेटा स्रोत</h2>
+        <p>यह डेटा राष्ट्रीय प्रत्यक्ष लाभ अंतरण (DBT Bharat) और पीएम-किसान पोर्टल के आधार पर संकलित किया गया है।</p>
       </div>
     </section>
   `;

@@ -1,5 +1,6 @@
 import { rupees, statusMeta } from './utils.js';
 import { LANGUAGES, t } from './i18n.js';
+import { tablerIcon } from './icons.js';
 
 export function dashboardView(farmer, all = false, lang = 'hi') {
   const received = farmer.installments.filter(x => x.status === 'received');
@@ -15,28 +16,30 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
             ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
           </select>
-          <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">🚪</button>
+          <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">
+            ${tablerIcon('logout', 18)}
+          </button>
         </div>
         <p>${t('namaste', lang)} 🙏</p>
         <h1>${farmer.name}</h1>
         <span class="reg-badge">${t('regNumber', lang)}: ${farmer.regNumber}</span>
-        <span class="location">📍 ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+        <span class="location">${tablerIcon('mapPin', 14)} ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
       </header>
 
       <div class="dashboard-body">
         <div class="summary-grid" aria-label="Payment summary">
           <article class="summary success">
-            <span>💰</span>
+            <span class="summary-icon">${tablerIcon('coinRupee', 22)}</span>
             <strong>${rupees(received.length * 2000)}</strong>
             <small>${t('totalReceived', lang)}</small>
           </article>
           <article class="summary warning">
-            <span>⏳</span>
+            <span class="summary-icon">${tablerIcon('clock', 22)}</span>
             <strong>${pending.length}</strong>
             <small>${t('pending', lang)}</small>
           </article>
           <article class="summary danger">
-            <span>❌</span>
+            <span class="summary-icon">${tablerIcon('alertTriangle', 22)}</span>
             <strong>${failed.length}</strong>
             <small>${t('failed', lang)}</small>
           </article>
@@ -44,49 +47,49 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
 
         ${failed.length ? `
           <div class="failure-banner">
-            <span>⚠️</span>
+            <span>${tablerIcon('alertCircle', 24)}</span>
             <p><b>${t('paymentFailed', lang)}</b><br>${t('paymentFailedDesc', lang)}</p>
-            <button data-route="diagnosis">${t('fixNow', lang)}</button>
+            <button data-route="diagnosis">${t('fixNow', lang)} ${tablerIcon('arrowRight', 14)}</button>
           </div>
         ` : `
-          <div class="success-banner">✅ All your installments are up to date.</div>
+          <div class="success-banner">${tablerIcon('circleCheck', 20)} All your installments are up to date.</div>
         `}
 
         <!-- Hub Highlights (Farmer Corner & Map) -->
         <div class="hub-action-row">
           <button class="hub-btn primary-hub" data-route="farmer-corner">
-            <span class="hub-icon">🌾</span>
+            <span class="hub-icon">${tablerIcon('tractor', 24)}</span>
             <div>
               <strong>किसान कॉर्नर (Farmer Corner)</strong>
-              <small>All 8 Beneficial Government Services</small>
+              <small>All 8 Beneficial Services</small>
             </div>
-            <i>›</i>
+            <i>${tablerIcon('chevronRight', 18)}</i>
           </button>
           <button class="hub-btn map-hub" data-route="map">
-            <span class="hub-icon">🗺️</span>
+            <span class="hub-icon">${tablerIcon('map', 24)}</span>
             <div>
               <strong>वितरण नक्शा (Disbursement Map)</strong>
-              <small>State & District City Analytics</small>
+              <small>State & District Analytics</small>
             </div>
-            <i>›</i>
+            <i>${tablerIcon('chevronRight', 18)}</i>
           </button>
         </div>
 
         <div class="action-grid">
           <button class="action-card" data-route="diagnosis">
-            <i>🔍</i>
+            <i>${tablerIcon('search', 20)}</i>
             <span>${t('whyPaymentFailed', lang)}</span>
           </button>
           <button class="action-card" data-route="chat">
-            <i>🤖</i>
+            <i>${tablerIcon('robot', 20)}</i>
             <span>${t('talkToSahayak', lang)}</span>
           </button>
           <button class="action-card" data-route="diagnosis">
-            <i>🪪</i>
+            <i>${tablerIcon('idBadge', 20)}</i>
             <span>${t('completeEkyc', lang)}</span>
           </button>
           <button class="action-card" data-route="helpline">
-            <i>📞</i>
+            <i>${tablerIcon('phone', 20)}</i>
             <span>${t('helplineSupport', lang)}</span>
           </button>
         </div>
@@ -101,7 +104,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
         </div>
 
         <article class="about-card">
-          <span>🌾</span>
+          <span class="about-icon">${tablerIcon('sprout', 28)}</span>
           <div>
             <h2>${t('aboutScheme', lang)}</h2>
             <p>${t('aboutDesc', lang)}</p>
@@ -119,14 +122,18 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
 }
 
 function paymentCard(item) {
-  const [icon, label] = statusMeta(item.status);
+  const isReceived = item.status === 'received';
+  const isFailed = item.status === 'failed';
+  const icon = isReceived ? tablerIcon('circleCheck', 14) : (isFailed ? tablerIcon('circleX', 14) : tablerIcon('clock', 14));
+  const label = isReceived ? 'Received' : (isFailed ? 'Failed' : 'Pending');
+
   return `
     <article class="payment-card">
       <div>
         <h3>${item.number}${suffix(item.number)} Installment</h3>
         <p>${item.date} • ${rupees(item.amount)}</p>
       </div>
-      <span class="payment-status ${item.status}">${icon} ${label}</span>
+      <span class="payment-status ${item.status}">${icon} <span>${label}</span></span>
     </article>
   `;
 }

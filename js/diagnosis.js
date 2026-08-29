@@ -1,17 +1,22 @@
 import { t } from './i18n.js';
 import { isAudioSpeaking } from './voice.js';
+import { tablerIcon } from './icons.js';
 
 export function diagnosisView(farmer, lang = 'hi') {
   if (!farmer.issue) {
     return `
       <section class="screen standard-screen">
-        <button class="back" data-route="dashboard">← Back</button>
+        <button class="back" data-route="dashboard">
+          ${tablerIcon('arrowLeft', 16)} <span>Back</span>
+        </button>
         <div class="page-heading">
-          <div>✅</div>
+          <div class="heading-icon success-icon">${tablerIcon('circleCheck', 48)}</div>
           <h1>Everything looks good</h1>
           <p>There are no payment issues in your PM-KISAN profile right now.</p>
         </div>
-        <button class="primary-btn" data-route="chat">💬 Ask Sahayak AI</button>
+        <button class="primary-btn" data-route="chat">
+          ${tablerIcon('robot', 18)} <span>Ask Sahayak AI</span>
+        </button>
       </section>
     `;
   }
@@ -21,17 +26,20 @@ export function diagnosisView(farmer, lang = 'hi') {
 
   return `
     <section class="screen standard-screen diagnosis-screen">
-      <button class="back" data-route="dashboard">← Back to dashboard</button>
+      <button class="back" data-route="dashboard">
+        ${tablerIcon('arrowLeft', 16)} <span>Back to dashboard</span>
+      </button>
       
       <div class="page-heading">
-        <div>🔍</div>
+        <div class="heading-icon alert-icon">${tablerIcon('search', 40)}</div>
         <h1>${t('diagnosisTitle', lang)}</h1>
-        <p>We found why your payment needs attention.</p>
+        <p>We diagnosed the exact issue holding your 23rd installment.</p>
       </div>
 
       <div class="audio-action-row">
         <button id="toggle-diag-speech-btn" class="audio-btn ${speaking ? 'speaking' : ''}">
-          ${speaking ? t('stopAudio', lang) : t('listenAudio', lang)}
+          ${speaking ? tablerIcon('volumeStop', 18) : tablerIcon('volume', 18)}
+          <span>${speaking ? t('stopAudio', lang) : t('listenAudio', lang)}</span>
         </button>
       </div>
 
@@ -42,21 +50,21 @@ export function diagnosisView(farmer, lang = 'hi') {
       </article>
 
       <button id="open-parchi-btn" class="parchi-btn">
-        <span>📄</span>
+        <span>${tablerIcon('fileDescription', 20)}</span>
         <span>${t('generateSlip', lang)}</span>
       </button>
 
-      <h2 class="section-title">✅ ${t('howToFix', lang)}</h2>
+      <h2 class="section-title">${tablerIcon('circleCheck', 20)} ${t('howToFix', lang)}</h2>
       <div class="resolution-list">
         ${issue.resolutionOptions.map((option, index) => `
           <details class="resolution-card" ${index === 0 ? 'open' : ''}>
             <summary>
-              <span>${option.icon}</span>
+              <span class="option-icon">${tablerIcon('shieldCheck', 22)}</span>
               <div>
                 <h3>${option.title}</h3>
                 <small>${option.time} • ${option.difficulty}</small>
               </div>
-              <b>▼</b>
+              <b class="chevron">${tablerIcon('chevronDown', 18)}</b>
             </summary>
             <ol>
               ${option.steps.map(step => `<li>${step}</li>`).join('')}
@@ -66,11 +74,13 @@ export function diagnosisView(farmer, lang = 'hi') {
       </div>
 
       <article class="documents-card">
-        <h2>📄 ${t('documentsNeeded', lang)}</h2>
-        ${issue.documents.map(item => `<p>☑️ ${item}</p>`).join('')}
+        <h2>${tablerIcon('idBadge', 20)} ${t('documentsNeeded', lang)}</h2>
+        ${issue.documents.map(item => `<p>${tablerIcon('check', 16)} ${item}</p>`).join('')}
       </article>
 
-      <button class="primary-btn" data-route="chat">💬 Still confused? Talk to Sahayak AI</button>
+      <button class="primary-btn" data-route="chat">
+        ${tablerIcon('robot', 20)} <span>Still confused? Talk to Sahayak AI</span>
+      </button>
     </section>
   `;
 }

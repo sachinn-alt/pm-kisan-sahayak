@@ -170,6 +170,8 @@ export function initialMessages(farmer, language = 'hi') {
   return [{ from: 'bot', text: content }];
 }
 
+import { tablerIcon } from './icons.js';
+
 export function chatView(farmer, messages, language = 'hi', typing = false, isListening = false) {
   const langName = LANGUAGES[language]?.name || 'हिंदी';
   const chips = LOCALIZED_CHIPS[language] || LOCALIZED_CHIPS['hi'];
@@ -177,8 +179,10 @@ export function chatView(farmer, messages, language = 'hi', typing = false, isLi
   return `
     <section class="screen chat-screen">
       <header class="chat-header">
-        <button class="icon-btn light" data-route="dashboard" aria-label="Back">←</button>
-        <div class="bot-avatar">🤖</div>
+        <button class="icon-btn light" data-route="dashboard" aria-label="Back">
+          ${tablerIcon('arrowLeft', 18)}
+        </button>
+        <div class="bot-avatar">${tablerIcon('robot', 22)}</div>
         <div class="chat-header-info">
           <h1>Sahayak AI (${langName})</h1>
           <p><span class="online-dot"></span> Online · ${farmer.name} (${farmer.village})</p>
@@ -192,7 +196,7 @@ export function chatView(farmer, messages, language = 'hi', typing = false, isLi
         ${messages.map(message => `
           <div class="message ${message.from}">
             <div class="msg-content">${escape(message.text)}</div>
-            ${message.from === 'bot' ? `<button class="bot-speak-btn" data-speak="${escape(message.text)}" title="Listen audio" aria-label="Listen audio">🔊</button>` : ''}
+            ${message.from === 'bot' ? `<button class="bot-speak-btn" data-speak="${escape(message.text)}" title="Listen audio" aria-label="Listen audio">${tablerIcon('volume', 14)} <span>Listen</span></button>` : ''}
           </div>
         `).join('')}
         ${typing ? '<div class="message bot typing"><i></i><i></i><i></i></div>' : ''}
@@ -204,10 +208,10 @@ export function chatView(farmer, messages, language = 'hi', typing = false, isLi
 
       <form id="chat-form" class="chat-input">
         <button type="button" id="voice-input-btn" class="icon-btn voice-mic-btn ${isListening ? 'listening' : ''}" title="Speak using mic" aria-label="Voice input">
-          ${isListening ? '🛑' : '🎙️'}
+          ${isListening ? tablerIcon('micOff', 20) : tablerIcon('mic', 20)}
         </button>
         <input id="chat-message" autocomplete="off" placeholder="${isListening ? t('listening', language) : t('chatPlaceholder', language)}" aria-label="Your question" />
-        <button type="submit" aria-label="Send message" class="send-btn">➤</button>
+        <button type="submit" aria-label="Send message" class="send-btn">${tablerIcon('send', 18)}</button>
       </form>
     </section>
   `;

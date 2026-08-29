@@ -38,7 +38,7 @@ export function diagnosisView(farmer, lang = 'hi') {
 
       <div class="audio-action-row">
         <button id="toggle-diag-speech-btn" class="audio-btn ${speaking ? 'speaking' : ''}">
-          ${speaking ? tablerIcon('volumeStop', 18) : tablerIcon('volume', 18)}
+          ${speaking ? '<span class="eq-bars"><i></i><i></i><i></i><i></i></span>' : tablerIcon('volume', 18)}
           <span>${speaking ? t('stopAudio', lang) : t('listenAudio', lang)}</span>
         </button>
       </div>

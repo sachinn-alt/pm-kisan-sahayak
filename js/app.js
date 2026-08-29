@@ -2,7 +2,7 @@ import { FARMERS, farmerFor } from './mock-data.js';
 import { dashboardView } from './dashboard.js';
 import { diagnosisView } from './diagnosis.js';
 import { chatView, initialMessages, replyFor } from './chat.js';
-import { toast, initials } from './utils.js';
+import { toast, initials, animateCounters } from './utils.js';
 import { LANGUAGES, t } from './i18n.js';
 import { speakText, stopSpeaking, isAudioSpeaking, startSpeechRecognition, stopSpeechRecognition } from './voice.js';
 import { renderSevaParchiModal } from './parchi.js';
@@ -185,6 +185,7 @@ function render() {
 
   app.innerHTML = html;
   bind(current);
+  animateCounters();
 }
 
 function bind(current) {

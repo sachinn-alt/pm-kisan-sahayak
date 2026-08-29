@@ -28,19 +28,19 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
 
       <div class="dashboard-body">
         <div class="summary-grid" aria-label="Payment summary">
-          <article class="summary success">
+          <article class="summary success stagger-card" style="animation-delay: 0.05s">
             <span class="summary-icon">${tablerIcon('coinRupee', 22)}</span>
-            <strong>${rupees(received.length * 2000)}</strong>
+            <strong data-count-target="${received.length * 2000}" data-is-currency="true">${rupees(received.length * 2000)}</strong>
             <small>${t('totalReceived', lang)}</small>
           </article>
-          <article class="summary warning">
+          <article class="summary warning stagger-card" style="animation-delay: 0.12s">
             <span class="summary-icon">${tablerIcon('clock', 22)}</span>
-            <strong>${pending.length}</strong>
+            <strong data-count-target="${pending.length}">${pending.length}</strong>
             <small>${t('pending', lang)}</small>
           </article>
-          <article class="summary danger">
+          <article class="summary danger stagger-card" style="animation-delay: 0.18s">
             <span class="summary-icon">${tablerIcon('alertTriangle', 22)}</span>
-            <strong>${failed.length}</strong>
+            <strong data-count-target="${failed.length}">${failed.length}</strong>
             <small>${t('failed', lang)}</small>
           </article>
         </div>

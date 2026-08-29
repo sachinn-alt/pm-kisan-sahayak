@@ -2,7 +2,7 @@
 
 > **An AI-powered public-service companion that helps 11+ crore Indian farmers understand payment statuses, diagnose failure reasons, and resolve DBT/eKYC/land-seeding issues with step-by-step guidance.**
 
-Built as a submission prototype for the **OpenAI Builder Hackathon (August 2026)**.
+Built for the **What Moves India Initiative (August 2026)**.
 
 ---
 
@@ -72,4 +72,4 @@ npm run build
 ---
 
 ## 🛡️ Disclaimer
-*This project is an independent educational prototype developed for the hackathon. It is not affiliated with or endorsed by the Ministry of Agriculture & Farmers Welfare, Government of India, or any official entity. All citizen data presented in the demo is purely synthetic.*
+*This project is an independent educational initiative developed for the hackathon. It is not affiliated with or endorsed by the Ministry of Agriculture & Farmers Welfare, Government of India, or any official entity. All citizen data presented in the demo is purely synthetic.*

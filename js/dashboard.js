@@ -10,17 +10,17 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
   return `
     <section class="screen dashboard-screen">
       <header class="dashboard-hero">
-        <div class="prototype">PROTOTYPE</div>
+        <div class="govt-badge dark">PM-KISAN · DBT CITIZEN PORTAL</div>
         <div class="header-actions">
           <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
             ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
           </select>
-          <button class="icon-btn light" data-route="login" aria-label="Log out">🚪</button>
+          <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">🚪</button>
         </div>
         <p>${t('namaste', lang)} 🙏</p>
         <h1>${farmer.name}</h1>
-        <span>${t('regNumber', lang)}: ${farmer.regNumber}</span>
-        <span class="location">${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+        <span class="reg-badge">${t('regNumber', lang)}: ${farmer.regNumber}</span>
+        <span class="location">📍 ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
       </header>
 
       <div class="dashboard-body">

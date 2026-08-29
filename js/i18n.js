@@ -53,7 +53,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'Print / Save PDF 🖨️',
     chatPlaceholder: 'Ask a question or tap mic... / अपना सवाल पूछें...',
     listening: 'Listening... बोलिए...',
-    disclaimer: 'Prototype for hackathon demonstration. Not affiliated with any government body.'
+    disclaimer: 'Direct Benefit Transfer (DBT) Citizen Advisory System for PM-KISAN Beneficiaries.'
   },
   hi: {
     appTitle: 'पीएम-किसान सहायक',
@@ -96,7 +96,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'पर्ची प्रिंट / सेव करें 🖨️',
     chatPlaceholder: 'सवाल लिखें या माइक दबाकर बोलें...',
     listening: 'सुन रहे हैं... बोलिए...',
-    disclaimer: 'यह हैकाथॉन का प्रोटोटाइप है। किसी सरकारी विभाग से संबद्ध नहीं है।'
+    disclaimer: 'पीएम-किसान प्रत्यक्ष लाभ अंतरण (DBT) नागरिक सहायता प्रणाली।'
   },
   pa: {
     appTitle: 'ਪੀਐਮ-ਕਿਸਾਨ ਸਹਾਇਕ',
@@ -139,7 +139,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'ਪ੍ਰਿੰਟ ਕਰੋ 🖨️',
     chatPlaceholder: 'ਸਵਾਲ ਪੁੱਛੋ ਜਾਂ ਮਾਈਕ ਦਬਾਓ...',
     listening: 'ਸੁਣ ਰਹੇ ਹਾਂ...',
-    disclaimer: 'ਇਹ ਹੈਕਾਥੌਨ ਦਾ ਪ੍ਰੋਟੋਟਾਈਪ ਹੈ।'
+    disclaimer: 'ਪੀਐਮ-ਕਿਸਾਨ ਨਾਗਰਿਕ ਸਹਾਇਤਾ ਪ੍ਰਣਾਲੀ।'
   },
   mr: {
     appTitle: 'पीएम-किसान सहाय्यक',
@@ -182,7 +182,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'प्रिंट करा 🖨️',
     chatPlaceholder: 'प्रश्न विचारा किंवा माइक दाबा...',
     listening: 'ऐकत आहे...',
-    disclaimer: 'हा हॅकाथॉनसाठी बनवलेला प्रोटोटाइप आहे.'
+    disclaimer: 'पीएम-किसान थेट लाभ हस्तांतरण (DBT) नागरिक सहाय्यता प्रणाली.'
   },
   bn: {
     appTitle: 'পিএম-কিসান সহায়ক',
@@ -225,7 +225,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'প্রিন্ট করুন 🖨️',
     chatPlaceholder: 'প্রশ্ন লিখুন বা মাইকে বলুন...',
     listening: 'শুনছি...',
-    disclaimer: 'এটি একটি হ্যাকাথন প্রোটোটাইপ।'
+    disclaimer: 'পিএম-কিসান প্রত্যক্ষ সুবিধা স্থানান্তর (DBT) নাগরিক সহায়তা পরিষেবা।'
   },
   te: {
     appTitle: 'పీఎం-కిసాన్ సహాయక్',
@@ -268,7 +268,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'ప్రింట్ చేయండి 🖨️',
     chatPlaceholder: 'ప్రశ్న అడగండి లేదా మైక్ నొక్కండి...',
     listening: 'వింటున్నాము...',
-    disclaimer: 'ఇది ఒక నమూనా ప్రాజెక్ట్.'
+    disclaimer: 'పీఎం-కిసాన్ డీబీటీ (DBT) పౌర సహాయక వ్యవస్థ.'
   },
   ta: {
     appTitle: 'பிஎம்-கிசான் சஹாயக்',
@@ -311,7 +311,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'அச்சிடுக 🖨️',
     chatPlaceholder: 'கேள்வி கேட்கவும் அல்லது மைக் அழுத்தவும்...',
     listening: 'கேட்கிறது...',
-    disclaimer: 'இது ஒரு மாதிரி திட்டம் மட்டுமே.'
+    disclaimer: 'பிஎம்-கிசான் நேரடி நிதி பரிமாற்ற (DBT) குடிமக்கள் உதவி தளம்.'
   },
   kn: {
     appTitle: 'ಪಿಎಂ-ಕಿಸಾನ್ ಸಹಾಯಕ',
@@ -354,7 +354,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'ಪ್ರಿಂಟ್ ಮಾಡಿ 🖨️',
     chatPlaceholder: 'ಪ್ರಶ್ನೆ ಕೇಳಿ ಅಥವಾ ಮೈಕ್ ಒತ್ತಿ...',
     listening: 'ಆಲಿಸಲಾಗುತ್ತಿದೆ...',
-    disclaimer: 'ಇದು ಹ್ಯಾಕಥಾನ್ ಮಾದರಿ ಯೋಜನೆಯಾಗಿದೆ.'
+    disclaimer: 'ಪಿಎಂ-ಕಿಸಾನ್ ನೇರ ನಗದು ವರ್ಗಾವಣೆ (DBT) ನಾಗರಿಕ ಸೇವಾ ವ್ಯವಸ್ಥೆ.'
   },
   gu: {
     appTitle: 'પીએમ-કિસાન સહાયક',
@@ -397,7 +397,7 @@ export const UI_TRANSLATIONS = {
     printSlip: 'પ્રિન્ટ કરો 🖨️',
     chatPlaceholder: 'પ્રશ્ન પૂછો અથવા માઇક દબાવો...',
     listening: 'સાંભળી રહ્યા છીએ...',
-    disclaimer: 'આ હેકાથોન પ્રોટોટાઇપ છે.'
+    disclaimer: 'પીએમ-કિસાન ડીબીટી (DBT) નાગરિક સહાયતા પ્રણાલી.'
   }
 };
 

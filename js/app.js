@@ -46,7 +46,7 @@ function splashView() {
   return `<section class="screen splash-screen">
     <div class="splash-content">
       ${logo()}
-      <span class="prototype dark">PROTOTYPE</span>
+      <span class="govt-badge dark">GOVERNMENT OF INDIA</span>
       <h1>PM-KISAN<br>Sahayak</h1>
       <p>पीएम-किसान सहायक</p>
       <div class="loader"><i></i></div>
@@ -59,7 +59,7 @@ function loginView() {
   return `<section class="screen login-screen">
     <div class="login-hero">
       ${logo()}
-      <span class="prototype">PROTOTYPE</span>
+      <span class="govt-badge">CITIZEN DBT SERVICES</span>
       <h1>${t('appTitle', lang)}</h1>
       <p class="hindi">${t('loginTagline', lang)}</p>
     </div>

@@ -11,6 +11,7 @@ import { farmerCornerView } from './farmer-corner-view.js';
 import { whatsappBotView } from './whatsapp-bot-view.js';
 import { cscLocatorView } from './csc-locator-view.js';
 import { impactView } from './impact-view.js';
+import { ivrSimulatorView } from './ivr-simulator-view.js';
 
 const app = document.querySelector('#app');
 const state = {
@@ -28,7 +29,11 @@ const state = {
   cscSearchQuery: '',
   cscServiceFilter: '',
   impactBeneficiariesCount: 50000,
-  impactActiveTab: 'impact'
+  impactActiveTab: 'impact',
+  activeIvrFarmer: '9876543210',
+  ivrCallState: 'idle',
+  ivrCallStep: 1,
+  ivrCallDuration: '00:00'
 };
 
 const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact'];
@@ -194,7 +199,7 @@ function render() {
     ? cscLocatorView(state.farmer, state.cscSearchQuery, state.cscServiceFilter, state.language)
     : current === 'impact'
     ? impactView(state.impactBeneficiariesCount, state.impactActiveTab, state.language)
-    : helplineView();
+    : ivrSimulatorView(state.activeIvrFarmer, state.ivrCallState, state.ivrCallStep, state.ivrCallDuration, state.language);
 
   if (state.showParchi && state.farmer) {
     const parchiFarmer = current === 'whatsapp' ? (FARMERS[state.activeWaFarmer] || state.farmer) : state.farmer;
@@ -477,6 +482,82 @@ function bind(current) {
       card.addEventListener('click', () => {
         const targetRoute = card.dataset.serviceRoute;
         navigate(targetRoute);
+      });
+    });
+  }
+
+  // IVR 155261 Simulator Bindings
+  if (current === 'helpline') {
+    document.querySelectorAll('[data-ivr-farmer]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeIvrFarmer = btn.dataset.ivrFarmer;
+        state.ivrCallState = 'idle';
+        state.ivrCallStep = 1;
+        stopSpeaking();
+        render();
+      });
+    });
+
+    const startCallBtn = document.querySelector('#ivr-start-call');
+    if (startCallBtn) {
+      startCallBtn.addEventListener('click', () => {
+        state.ivrCallState = 'connected';
+        state.ivrCallStep = 1;
+        state.ivrCallDuration = '00:06';
+        render();
+        const promptText = "नमस्ते! पीएम-किसान सम्मान निधि स्वचालित हेल्पलाइन 155261 में आपका स्वागत है। हिंदी के लिए कीपैड पर 1 दबाएं, For English press 2.";
+        speakText(promptText, 'hi');
+      });
+    }
+
+    const endCallBtn = document.querySelector('#ivr-end-call');
+    if (endCallBtn) {
+      endCallBtn.addEventListener('click', () => {
+        state.ivrCallState = 'idle';
+        state.ivrCallStep = 1;
+        state.ivrCallDuration = '00:00';
+        stopSpeaking();
+        render();
+      });
+    }
+
+    document.querySelectorAll('.key-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (state.ivrCallState !== 'connected') {
+          toast('कृपया पहले नीचे हरे बटन से कॉल लगाएं', 'info');
+          return;
+        }
+
+        const f = FARMERS[state.activeIvrFarmer] || FARMERS['9876543210'];
+        const received = f.installments ? f.installments.filter(x => x.status === 'received').length : 22;
+
+        if (state.ivrCallStep === 1 && key === '1') {
+          state.ivrCallStep = 2;
+          state.ivrCallDuration = '00:15';
+          render();
+          const step2Text = "किस्त भुगतान स्थिति जानने के लिए 1 दबाएं। ई-केवाईसी जानकारी के लिए 2 दबाएं।";
+          speakText(step2Text, 'hi');
+        } else if (state.ivrCallStep === 2 && key === '1') {
+          state.ivrCallStep = 3;
+          state.ivrCallDuration = '00:28';
+          render();
+          let step3Text = '';
+          if (f.issue) {
+            step3Text = `${f.name} जी, आपके खाते में कुल ${received} किस्तें प्राप्त हो चुकी हैं। आपकी 23वीं किस्त ${f.issueDetails.title} के कारण रुकी है। समाधान के लिए अपने नजदीकी सीएससी केंद्र पर जाएं और आधार कार्ड साथ ले जाएं।`;
+          } else {
+            step3Text = `${f.name} जी, आपकी सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं। आपका खाता अगली किस्त के लिए पूरी तरह सक्रिय है।`;
+          }
+          speakText(step3Text, 'hi');
+        } else if (key === '*') {
+          // Repeat
+          const repeatText = state.ivrCallStep === 1 
+            ? "हिंदी के लिए 1 दबाएं, For English press 2." 
+            : state.ivrCallStep === 2 
+            ? "किस्त स्थिति के लिए 1 दबाएं। ई-केवाईसी जानकारी के लिए 2 दबाएं।" 
+            : "आपकी स्थिति बताई जा चुकी है। कॉल समाप्त करने के लिए लाल बटन दबाएं।";
+          speakText(repeatText, 'hi');
+        }
       });
     });
   }

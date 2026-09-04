@@ -1,0 +1,19 @@
+{
+  "name": "PM-KISAN Sahayak (पीएम-किसान सहायक)",
+  "short_name": "Kisan Sahayak",
+  "description": "Voice-First & WhatsApp-Ready Citizen DBT Companion for 11+ crore Indian farmers.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1b5e20",
+  "theme_color": "#1b5e20",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

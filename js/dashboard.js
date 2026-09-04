@@ -56,6 +56,24 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
       </header>
 
       <div class="dashboard-body">
+        <!-- Farmer-First Audio Walkthrough / Read-Aloud Banner -->
+        <div class="farmer-audio-guide-banner" id="dash-audio-guide-btn">
+          <div class="audio-guide-left">
+            <span class="audio-guide-icon-box">
+              <span class="pulse-ring"></span>
+              ${tablerIcon('volume', 24)}
+            </span>
+            <div class="audio-guide-texts">
+              <span class="audio-guide-tag">🎙️ आवाज़ में सहायता (AUDIO GUIDE)</span>
+              <strong>${lang === 'hi' ? 'बोलकर पूरी जानकारी सुनें' : 'Listen to Complete Status'}</strong>
+              <small>${lang === 'hi' ? 'यहाँ दबाएं और स्थिति आवाज़ में समझें' : 'Tap to hear your payment summary in voice'}</small>
+            </div>
+          </div>
+          <button class="audio-play-pill" id="dash-speak-toggle" type="button">
+            ${tablerIcon('volume', 16)} <span>${lang === 'hi' ? 'सुनाएं' : 'Play'}</span>
+          </button>
+        </div>
+
         <div class="summary-grid" aria-label="Payment summary">
           <article class="summary success stagger-card" style="animation-delay: 0.05s">
             <span class="summary-icon">${tablerIcon('coinRupee', 22)}</span>

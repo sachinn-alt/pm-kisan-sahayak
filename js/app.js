@@ -201,15 +201,99 @@ function render() {
     html += renderSevaParchiModal(parchiFarmer, state.language);
   }
 
+  // Floating Farmer Voice Assistant button (shown on core screens)
+  if (['dashboard', 'diagnosis', 'csc-locator', 'farmer-corner', 'map', 'impact', 'helpline'].includes(current)) {
+    const speaking = isAudioSpeaking();
+    html += `
+      <aside class="floating-voice-bar" id="global-floating-voice" aria-label="Audio Guide">
+        <button class="floating-voice-btn ${speaking ? 'active-speaking' : ''}" id="floating-audio-guide-btn" title="बोलकर समझें (Audio Guide)">
+          <span class="floating-icon-wrap">
+            ${speaking ? '<span class="mini-eq"><i></i><i></i><i></i></span>' : tablerIcon('volume', 20)}
+          </span>
+          <span class="floating-voice-label">
+            <b>${speaking ? 'आवाज़ बंद करें' : '🔊 बोलकर समझें'}</b>
+            <small>${speaking ? 'Tap to Stop' : 'Audio Guide'}</small>
+          </span>
+        </button>
+      </aside>
+    `;
+  }
+
   app.innerHTML = html;
   bind(current);
   animateCounters();
+}
+
+function getContextualVoiceText(current) {
+  const f = state.farmer || FARMERS['9876543210'];
+  const received = f.installments ? f.installments.filter(x => x.status === 'received').length : 22;
+  const failed = f.installments ? f.installments.filter(x => x.status === 'failed').length : 0;
+
+  if (current === 'dashboard') {
+    let t = `नमस्ते ${f.name} जी! पीएम-किसान सहायक में आपका स्वागत है। आपके बैंक खाते में अब तक कुल ${received} किस्तें, यानी ${received * 2000} रुपये प्राप्त हो चुके हैं। `;
+    if (failed > 0 && f.issueDetails) {
+      t += `ध्यान दें, आपकी ${f.issueDetails.failedInstallment}वीं किस्त रुकी हुई है। कारण है: ${f.issueDetails.title}। समाधान के लिए 'समस्या का समाधान' बटन दबाएं। `;
+    } else {
+      t += `आपकी सभी किस्तें पूरी तरह से सही हैं और आप 24वीं किस्त के लिए पात्र हैं। `;
+    }
+    t += `बिना ऐप डाउनलोड किए सहायता के लिए आप व्हाट्सएप बॉट भी खोल सकते हैं।`;
+    return t;
+  }
+
+  if (current === 'diagnosis') {
+    if (!f.issueDetails) return `नमस्ते ${f.name} जी, आपके खाते में कोई लंबित समस्या नहीं है।`;
+    return `नमस्ते ${f.name} जी। आपकी समस्या है: ${f.issueDetails.title}। ${f.issueDetails.explain}। समाधान के लिए अपने नजदीकी सीएससी केंद्र जाएं और अपना आधार कार्ड साथ ले जाएं। यह सेवा पूर्णतः निःशुल्क है।`;
+  }
+
+  if (current === 'csc-locator') {
+    return `नमस्ते ${f.name} जी। यह आपके नजदीकी सीएससी जन सेवा केंद्रों की सूची है। आप किसी भी ऑपरेटर को कॉल कर सकते हैं या व्हाट्सएप पर बात कर सकते हैं। सीएससी पर ई-केवाईसी और डीबीटी सीडिंग सरकारी नियमानुसार बिल्कुल मुफ्त सेवा है।`;
+  }
+
+  if (current === 'farmer-corner') {
+    return `किसान कॉर्नर में आप अपनी सभी 8 सरकारी योजनाओं की सेवाओं का उपयोग कर सकते हैं, जैसे ई-केवाईसी नवीनीकरण, बैंक आधार सीडिंग, नया पंजीकरण और फेस ऑथेंटिकेशन।`;
+  }
+
+  if (current === 'map') {
+    return `यह पूरे भारत का पीएम-किसान वितरण नक्शा है। यहाँ आप अपने राज्य और जिले में कुल वितरित धनराशि और ई-केवाईसी पूर्णता दर देख सकते हैं।`;
+  }
+
+  if (current === 'impact') {
+    return `इस पेज पर पीएम-किसान सहायक के सामाजिक और आर्थिक लाभ के आंकड़े दिए गए हैं। इससे किसानों को हर साल औसतन 1420 रुपये की बचत और समस्या निवारण 45 दिन से घटकर 48 घंटे में होता है।`;
+  }
+
+  return `नमस्ते किसान भाई, पीएम-किसान सहायक में आपका स्वागत है। टोल फ्री हेल्पलाइन 155261 पर भी संपर्क कर सकते हैं।`;
 }
 
 function bind(current) {
   document.querySelectorAll('[data-route]').forEach(button => {
     button.addEventListener('click', () => navigate(button.dataset.route));
   });
+
+  // Global Floating Audio Guide Button Handler
+  const floatingVoiceBtn = document.querySelector('#floating-audio-guide-btn');
+  if (floatingVoiceBtn) {
+    floatingVoiceBtn.addEventListener('click', () => {
+      if (isAudioSpeaking()) {
+        stopSpeaking(() => render());
+      } else {
+        const text = getContextualVoiceText(current);
+        speakText(text, state.language, () => render(), () => render());
+      }
+    });
+  }
+
+  // Dashboard Banner Voice Read-Aloud
+  const dashAudioBtn = document.querySelector('#dash-audio-guide-btn');
+  if (dashAudioBtn) {
+    dashAudioBtn.addEventListener('click', () => {
+      if (isAudioSpeaking()) {
+        stopSpeaking(() => render());
+      } else {
+        const text = getContextualVoiceText('dashboard');
+        speakText(text, state.language, () => render(), () => render());
+      }
+    });
+  }
 
   // Language selectors
   const dashLang = document.querySelector('#dash-lang-select');

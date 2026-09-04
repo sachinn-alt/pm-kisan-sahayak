@@ -206,13 +206,10 @@ function render() {
     const speaking = isAudioSpeaking();
     html += `
       <aside class="floating-voice-bar" id="global-floating-voice" aria-label="Audio Guide">
-        <button class="floating-voice-btn ${speaking ? 'active-speaking' : ''}" id="floating-audio-guide-btn" title="बोलकर समझें (Audio Guide)">
+        <button class="floating-voice-btn ${speaking ? 'active-speaking' : ''}" id="floating-audio-guide-btn" title="${speaking ? 'आवाज़ बंद करें (Stop Audio)' : 'बोलकर समझें (Audio Guide)'}">
+          <span class="floating-voice-pulse"></span>
           <span class="floating-icon-wrap">
-            ${speaking ? '<span class="mini-eq"><i></i><i></i><i></i></span>' : tablerIcon('volume', 20)}
-          </span>
-          <span class="floating-voice-label">
-            <b>${speaking ? 'आवाज़ बंद करें' : '🔊 बोलकर समझें'}</b>
-            <small>${speaking ? 'Tap to Stop' : 'Audio Guide'}</small>
+            ${speaking ? '<span class="mini-eq"><i></i><i></i><i></i></span>' : tablerIcon('volume', 22)}
           </span>
         </button>
       </aside>

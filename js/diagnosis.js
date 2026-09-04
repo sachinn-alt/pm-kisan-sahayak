@@ -69,10 +69,20 @@ export function diagnosisView(farmer, lang = 'hi') {
         ` : ''}
       </article>
 
-      <button id="open-parchi-btn" class="parchi-btn">
-        <span>${tablerIcon('fileDescription', 20)}</span>
-        <span>${t('generateSlip', lang)}</span>
-      </button>
+      <div class="diag-action-buttons">
+        <button id="open-parchi-btn" class="parchi-btn primary-parchi">
+          <span>${tablerIcon('fileDescription', 20)}</span>
+          <span>${t('generateSlip', lang)}</span>
+        </button>
+        <a href="https://wa.me/?text=${encodeURIComponent(`*PM-KISAN Sahayak Report*\nकिसान: ${farmer.name}\nसमस्या: ${issue.title}\nसमाधान: नजदीकी CSC केंद्र पर जाएं।\nदस्तावेज़: ${issue.documents.join(', ')}`)}" target="_blank" rel="noopener" class="parchi-btn wa-share-btn">
+          <span>${tablerIcon('brandWhatsapp', 20)}</span>
+          <span>व्हाट्सएप पर शेयर करें</span>
+        </a>
+        <button class="parchi-btn csc-locator-trigger" data-route="csc-locator">
+          <span>${tablerIcon('mapPin', 20)}</span>
+          <span>नजदीकी CSC केंद्र खोजें</span>
+        </button>
+      </div>
 
       <h2 class="section-title">${tablerIcon('circleCheck', 20)} ${t('howToFix', lang)}</h2>
       <div class="resolution-list">

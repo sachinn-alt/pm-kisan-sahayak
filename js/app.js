@@ -8,6 +8,9 @@ import { speakText, stopSpeaking, isAudioSpeaking, startSpeechRecognition, stopS
 import { renderSevaParchiModal } from './parchi.js';
 import { mapView } from './map-view.js';
 import { farmerCornerView } from './farmer-corner-view.js';
+import { whatsappBotView } from './whatsapp-bot-view.js';
+import { cscLocatorView } from './csc-locator-view.js';
+import { impactView } from './impact-view.js';
 
 const app = document.querySelector('#app');
 const state = {
@@ -18,10 +21,17 @@ const state = {
   pendingLogin: '9876543210',
   isListening: false,
   showParchi: false,
-  selectedMapState: 'UP'
+  selectedMapState: 'UP',
+  activeWaFarmer: '9876543210',
+  activeWaFlow: 'status',
+  isWaVoicePlaying: false,
+  cscSearchQuery: '',
+  cscServiceFilter: '',
+  impactBeneficiariesCount: 50000,
+  impactActiveTab: 'impact'
 };
 
-const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map'];
+const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact'];
 
 function route() { return location.hash.slice(1) || 'splash'; }
 function navigate(to) { location.hash = `#${to}`; }
@@ -157,8 +167,9 @@ function helplineView() {
 function render() {
   let current = route();
   if (!routes.includes(current)) current = 'splash';
-  if (['dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map'].includes(current) && !state.farmer) {
-    return navigate('login');
+  if (['dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact'].includes(current) && !state.farmer) {
+    state.farmer = FARMERS['9876543210'];
+    state.farmer.pendingLogin = '9876543210';
   }
 
   let html = current === 'splash'
@@ -177,10 +188,17 @@ function render() {
     ? farmerCornerView(state.language)
     : current === 'map'
     ? mapView(state.selectedMapState, state.language)
+    : current === 'whatsapp'
+    ? whatsappBotView(state.activeWaFarmer, state.activeWaFlow, state.isWaVoicePlaying)
+    : current === 'csc-locator'
+    ? cscLocatorView(state.farmer, state.cscSearchQuery, state.cscServiceFilter, state.language)
+    : current === 'impact'
+    ? impactView(state.impactBeneficiariesCount, state.impactActiveTab, state.language)
     : helplineView();
 
   if (state.showParchi && state.farmer) {
-    html += renderSevaParchiModal(state.farmer, state.language);
+    const parchiFarmer = current === 'whatsapp' ? (FARMERS[state.activeWaFarmer] || state.farmer) : state.farmer;
+    html += renderSevaParchiModal(parchiFarmer, state.language);
   }
 
   app.innerHTML = html;
@@ -240,6 +258,126 @@ function bind(current) {
         speakText(textToRead, state.language, () => render(), () => render());
       }
     });
+  }
+
+  // WhatsApp Simulator Bindings
+  if (current === 'whatsapp') {
+    document.querySelectorAll('[data-wa-farmer]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeWaFarmer = btn.dataset.waFarmer;
+        state.isWaVoicePlaying = false;
+        stopSpeaking();
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-wa-flow]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeWaFlow = btn.dataset.waFlow;
+        render();
+      });
+    });
+
+    const triggerVoice = () => {
+      if (state.isWaVoicePlaying) {
+        stopSpeaking(() => {
+          state.isWaVoicePlaying = false;
+          render();
+        });
+      } else {
+        const f = FARMERS[state.activeWaFarmer] || FARMERS['9876543210'];
+        const text = f.issue 
+          ? `नमस्ते ${f.name} जी। आपकी समस्या: ${f.issueDetails.title}। समाधान के लिए अपने नजदीकी सीएससी केंद्र जाएं और आधार कार्ड साथ ले जाएं।`
+          : `नमस्ते ${f.name} जी। आपकी 23वीं किस्त का ₹2000 आपके खाते में आ चुका है। आपका सभी रिकॉर्ड सही है।`;
+        state.isWaVoicePlaying = true;
+        render();
+        speakText(text, 'hi', () => {}, () => {
+          state.isWaVoicePlaying = false;
+          render();
+        });
+      }
+    };
+
+    const waVoiceBtn = document.querySelector('#wa-voice-play-trigger');
+    if (waVoiceBtn) waVoiceBtn.addEventListener('click', triggerVoice);
+    const waMicBtn = document.querySelector('#wa-mic-speak-btn');
+    if (waMicBtn) waMicBtn.addEventListener('click', triggerVoice);
+
+    const waOpenParchi = document.querySelector('#wa-open-parchi-btn');
+    if (waOpenParchi) {
+      waOpenParchi.addEventListener('click', () => {
+        state.farmer = FARMERS[state.activeWaFarmer];
+        state.showParchi = true;
+        render();
+      });
+    }
+
+    const waQuickParchi = document.querySelector('#wa-quick-parchi');
+    if (waQuickParchi) {
+      waQuickParchi.addEventListener('click', () => {
+        state.farmer = FARMERS[state.activeWaFarmer];
+        state.showParchi = true;
+        render();
+      });
+    }
+  }
+
+  // CSC Locator Bindings
+  if (current === 'csc-locator') {
+    const searchInput = document.querySelector('#csc-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        state.cscSearchQuery = e.target.value;
+        render();
+        const freshInput = document.querySelector('#csc-search-input');
+        if (freshInput) {
+          freshInput.focus();
+          freshInput.setSelectionRange(freshInput.value.length, freshInput.value.length);
+        }
+      });
+    }
+
+    const clearBtn = document.querySelector('#clear-csc-search');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        state.cscSearchQuery = '';
+        render();
+      });
+    }
+
+    document.querySelectorAll('[data-service-filter]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        state.cscServiceFilter = chip.dataset.serviceFilter;
+        render();
+      });
+    });
+
+    const gpsBtn = document.querySelector('#gps-location-btn');
+    if (gpsBtn) {
+      gpsBtn.addEventListener('click', () => {
+        state.cscSearchQuery = state.farmer ? state.farmer.village : 'Lucknow';
+        toast('📍 Location updated: Showing centers near you', 'success');
+        render();
+      });
+    }
+  }
+
+  // Impact & Competition Bindings
+  if (current === 'impact') {
+    document.querySelectorAll('[data-impact-tab]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        state.impactActiveTab = tab.dataset.impactTab;
+        render();
+      });
+    });
+
+    const slider = document.querySelector('#impact-slider');
+    if (slider) {
+      slider.addEventListener('input', (e) => {
+        state.impactBeneficiariesCount = parseInt(e.target.value, 10);
+        render();
+      });
+    }
   }
 
   // Map state selector pills

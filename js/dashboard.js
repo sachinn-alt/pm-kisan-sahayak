@@ -84,23 +84,55 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           <div class="success-banner">${tablerIcon('circleCheck', 20)} All your installments are up to date.</div>
         `}
 
-        <!-- Hub Highlights (Farmer Corner & Map) -->
+        <!-- WhatsApp Guidance Banner (Zero-Install Rural Access) -->
+        <div class="whatsapp-prompt-banner">
+          <div class="wa-banner-icon">${tablerIcon('brandWhatsapp', 28)}</div>
+          <div class="wa-banner-content">
+            <span class="wa-badge">ZERO-INSTALL COMPANION</span>
+            <h3>${lang === 'hi' ? 'व्हाट्सएप सहायक बॉट (WhatsApp Bot)' : 'WhatsApp Sahayak Bot'}</h3>
+            <p>${lang === 'hi' ? 'बिना ऐप डाउनलोड किए सीधे व्हाट्सएप पर स्थिति व समाधान देखें' : 'Instant guidance & Seva Parchi on WhatsApp without downloading any app'}</p>
+          </div>
+          <button class="wa-launch-btn" data-route="whatsapp">
+            <span>${lang === 'hi' ? 'शुरू करें' : 'Open'}</span> ${tablerIcon('arrowRight', 14)}
+          </button>
+        </div>
+
+        <!-- Hub Highlights (Farmer Corner, Map, CSC Locator & Impact) -->
         <div class="hub-action-row">
           <button class="hub-btn primary-hub" data-route="farmer-corner">
-            <span class="hub-icon">${tablerIcon('tractor', 24)}</span>
+            <span class="hub-icon">${tablerIcon('tractor', 22)}</span>
             <div>
-              <strong>किसान कॉर्नर (Farmer Corner)</strong>
-              <small>All 8 Beneficial Services</small>
+              <strong>किसान कॉर्नर</strong>
+              <small>8 Core Services</small>
             </div>
-            <i>${tablerIcon('chevronRight', 18)}</i>
+            <i>${tablerIcon('chevronRight', 16)}</i>
           </button>
           <button class="hub-btn map-hub" data-route="map">
-            <span class="hub-icon">${tablerIcon('map', 24)}</span>
+            <span class="hub-icon">${tablerIcon('map', 22)}</span>
             <div>
-              <strong>वितरण नक्शा (Disbursement Map)</strong>
-              <small>State & District Analytics</small>
+              <strong>वितरण नक्शा</strong>
+              <small>State Analytics</small>
             </div>
-            <i>${tablerIcon('chevronRight', 18)}</i>
+            <i>${tablerIcon('chevronRight', 16)}</i>
+          </button>
+        </div>
+
+        <div class="hub-action-row secondary-hubs">
+          <button class="hub-btn csc-hub" data-route="csc-locator">
+            <span class="hub-icon">${tablerIcon('mapPin', 22)}</span>
+            <div>
+              <strong>नजदीकी CSC केंद्र</strong>
+              <small>Locate Jan Seva Kendra</small>
+            </div>
+            <i>${tablerIcon('chevronRight', 16)}</i>
+          </button>
+          <button class="hub-btn impact-hub" data-route="impact">
+            <span class="hub-icon">${tablerIcon('award', 22)}</span>
+            <div>
+              <strong>प्रभाव व प्रतिस्पर्धा</strong>
+              <small>Impact & Benchmark</small>
+            </div>
+            <i>${tablerIcon('chevronRight', 16)}</i>
           </button>
         </div>
 
@@ -113,9 +145,9 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
             <i>${tablerIcon('robot', 20)}</i>
             <span>${t('talkToSahayak', lang)}</span>
           </button>
-          <button class="action-card" data-route="diagnosis">
-            <i>${tablerIcon('idBadge', 20)}</i>
-            <span>${t('completeEkyc', lang)}</span>
+          <button class="action-card" data-route="csc-locator">
+            <i>${tablerIcon('buildingStore', 20)}</i>
+            <span>${lang === 'hi' ? 'CSC केंद्र खोजें' : 'Locate CSC'}</span>
           </button>
           <button class="action-card" data-route="helpline">
             <i>${tablerIcon('phone', 20)}</i>

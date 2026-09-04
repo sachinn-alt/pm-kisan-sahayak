@@ -30,7 +30,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
 
           <div class="gov-actions">
             <select id="dash-lang-select" class="lang-select-dropdown" aria-label="Select Language">
-              ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
+              ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === lang ? 'selected' : ''}>${l.name}</option>`).join('')}
             </select>
             <button class="icon-btn light" data-route="login" aria-label="Log out" title="Log out">
               ${tablerIcon('logout', 17)}
@@ -44,7 +44,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
             ${farmer.name.split(' ').map(x => x[0]).join('').slice(0, 2)}
           </div>
           <div class="citizen-details">
-            <p class="greeting-text">${t('namaste', lang)} 🙏</p>
+            <p class="greeting-text">${t('namaste', lang)}</p>
             <h1>${farmer.name}</h1>
             <div class="citizen-meta-pills">
               <span class="dbt-verified-pill">${tablerIcon('circleCheck', 12)} DBT Verified</span>
@@ -159,7 +159,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
         <article class="eligibility-card ${isAllEligible ? 'eligible' : 'action-needed'}">
           <div class="eligibility-header">
             <div>
-              <span class="eligibility-tag">${isAllEligible ? '✅ 100% Eligible' : '⚠️ Action Required'}</span>
+              <span class="eligibility-tag">${isAllEligible ? `${tablerIcon('circleCheck', 14)} 100% Eligible` : `${tablerIcon('alertTriangle', 14)} Action Required`}</span>
               <h3>24वीं किस्त पात्रता जांच (24th Installment Tracker)</h3>
             </div>
             <span class="expected-date">Expected: Oct–Nov 2026</span>

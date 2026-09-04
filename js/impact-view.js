@@ -87,7 +87,7 @@ function renderImpactSection(count, economicValue, daysSaved, dbtUnlocked, lang)
       <div class="calculator-card">
         <div class="calc-header">
           <div>
-            <h3>${lang === 'hi' ? '🧮 प्रभाव कैलकुलेटर (Interactive ROI Calculator)' : 'Interactive ROI Calculator'}</h3>
+            <h3>${tablerIcon('coinRupee', 18)} ${lang === 'hi' ? 'प्रभाव कैलकुलेटर (Interactive ROI Calculator)' : 'Interactive ROI Calculator'}</h3>
             <p>${lang === 'hi' ? 'लाभार्थियों की संख्या बदलकर जिला या ब्लॉक स्तरीय बचत देखें:' : 'Slide to estimate savings for your district or state:'}</p>
           </div>
           <span class="count-badge">${count.toLocaleString('en-IN')} किसान</span>
@@ -119,7 +119,7 @@ function renderImpactSection(count, economicValue, daysSaved, dbtUnlocked, lang)
 
       <!-- Before vs After Flow Comparison -->
       <div class="workflow-comparison-card">
-        <h3>${lang === 'hi' ? '🔄 पहले बनाम अब (Before vs After Comparison)' : 'Before vs After Workflow'}</h3>
+        <h3>${tablerIcon('scale', 18)} ${lang === 'hi' ? 'पहले बनाम अब (Before vs After Comparison)' : 'Before vs After Workflow'}</h3>
         
         <div class="flow-row before">
           <div class="flow-tag red">पुराना तरीका (45 दिन)</div>
@@ -139,7 +139,7 @@ function renderCompetitionSection(lang) {
   return `
     <div class="impact-tab-content animate-in">
       <div class="competition-intro-card">
-        <h3>${lang === 'hi' ? '⚔️ प्रतिस्पर्धी परिदृश्य (Competitive Benchmark)' : 'Competitive Landscape Benchmark'}</h3>
+        <h3>${tablerIcon('award', 18)} ${lang === 'hi' ? 'प्रतिस्पर्धी परिदृश्य (Competitive Benchmark)' : 'Competitive Landscape Benchmark'}</h3>
         <p>${lang === 'hi' ? 'PM-KISAN Sahayak भारत सरकार के मौजूदा पोर्टल्स और प्राइवेट एग्रीटेक ऐप्स से कैसे बेहतर है:' : 'How PM-KISAN Sahayak compares against official and private solutions:'}</p>
       </div>
 
@@ -156,39 +156,39 @@ function renderCompetitionSection(lang) {
           <tbody>
             <tr>
               <td><b>त्रुटि निदान (Root Cause)</b></td>
-              <td>❌ केवल PFMS कोड (R02)</td>
-              <td>⚠️ सामान्य टेक्स्ट जवाब</td>
-              <td><span class="badge-win">✅ सटीक व स्पष्ट कारण</span></td>
+              <td>${tablerIcon('circleX', 14)} केवल PFMS कोड (R02)</td>
+              <td>${tablerIcon('alertTriangle', 14)} सामान्य टेक्स्ट जवाब</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} सटीक व स्पष्ट कारण</span></td>
             </tr>
             <tr>
               <td><b>WhatsApp जीरो-इंस्टॉल</b></td>
-              <td>❌ उपलब्ध नहीं</td>
-              <td>❌ केवल वेब चैट</td>
-              <td><span class="badge-win">✅ पूर्ण WhatsApp बॉट</span></td>
+              <td>${tablerIcon('circleX', 14)} उपलब्ध नहीं</td>
+              <td>${tablerIcon('circleX', 14)} केवल वेब चैट</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} पूर्ण WhatsApp बॉट</span></td>
             </tr>
             <tr>
               <td><b>क्षेत्रीय भाषा वॉइस सपोर्ट</b></td>
-              <td>❌ केवल टेक्स्ट</td>
-              <td>⚠️ सीमित 5 भाषाएं</td>
-              <td><span class="badge-win">✅ 9+ भाषाएं (स्पीच इन/आउट)</span></td>
+              <td>${tablerIcon('circleX', 14)} केवल टेक्स्ट</td>
+              <td>${tablerIcon('alertTriangle', 14)} सीमित 5 भाषाएं</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} 9+ भाषाएं (स्पीच इन/आउट)</span></td>
             </tr>
             <tr>
               <td><b>प्रिंट योग्य सेवा पर्ची</b></td>
-              <td>❌ नहीं</td>
-              <td>❌ नहीं</td>
-              <td><span class="badge-win">✅ 1-पेज CSC सेवा पर्ची</span></td>
+              <td>${tablerIcon('circleX', 14)} नहीं</td>
+              <td>${tablerIcon('circleX', 14)} नहीं</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} 1-पेज CSC सेवा पर्ची</span></td>
             </tr>
             <tr>
               <td><b>नजदीकी CSC लोकेटर</b></td>
-              <td>❌ नहीं</td>
-              <td>❌ नहीं</td>
-              <td><span class="badge-win">✅ मैप व WhatsApp कॉल सहित</span></td>
+              <td>${tablerIcon('circleX', 14)} नहीं</td>
+              <td>${tablerIcon('circleX', 14)} नहीं</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} मैप व WhatsApp कॉल सहित</span></td>
             </tr>
             <tr>
               <td><b>भ्रष्टाचार/दलाली रोकथाम</b></td>
-              <td>❌ कोई चेतावनी नहीं</td>
-              <td>❌ नहीं</td>
-              <td><span class="badge-win">✅ ₹0 सरकारी सेवा नोटिस</span></td>
+              <td>${tablerIcon('circleX', 14)} कोई चेतावनी नहीं</td>
+              <td>${tablerIcon('circleX', 14)} नहीं</td>
+              <td><span class="badge-win">${tablerIcon('circleCheck', 14)} ₹0 सरकारी सेवा नोटिस</span></td>
             </tr>
           </tbody>
         </table>
@@ -201,14 +201,14 @@ function renderCustomerSection(lang) {
   return `
     <div class="impact-tab-content animate-in">
       <div class="customer-persona-card">
-        <h3>${lang === 'hi' ? '🌾 हमारा किसान ग्राहक कौन है और क्या इस्तेमाल करता है?' : 'Where Our Customer Is & What Platform They Use'}</h3>
+        <h3>${tablerIcon('sprout', 18)} ${lang === 'hi' ? 'हमारा किसान ग्राहक कौन है और क्या इस्तेमाल करता है?' : 'Where Our Customer Is & What Platform They Use'}</h3>
         <p>भारत में 11+ करोड़ पीएम-किसान लाभार्थियों का डिजिटल और तकनीकी विश्लेषण:</p>
       </div>
 
       <div class="demographics-grid">
         <div class="demo-card">
           <div class="demo-header">
-            <span class="demo-icon">📱</span>
+            <span class="demo-icon">${tablerIcon('deviceMobile', 18)}</span>
             <strong>डिवाइस व हार्डवेयर</strong>
           </div>
           <ul>
@@ -220,7 +220,7 @@ function renderCustomerSection(lang) {
 
         <div class="demo-card">
           <div class="demo-header">
-            <span class="demo-icon">💬</span>
+            <span class="demo-icon">${tablerIcon('brandWhatsapp', 18)}</span>
             <strong>प्लेटफॉर्म प्राथमिकता</strong>
           </div>
           <ul>
@@ -232,7 +232,7 @@ function renderCustomerSection(lang) {
 
         <div class="demo-card">
           <div class="demo-header">
-            <span class="demo-icon">🏛️</span>
+            <span class="demo-icon">${tablerIcon('buildingStore', 18)}</span>
             <strong>सहायता का माध्यम</strong>
           </div>
           <ul>

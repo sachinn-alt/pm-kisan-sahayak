@@ -73,13 +73,13 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
           </div>
 
           <div class="slip-warning-footer">
-            <p><strong>⚠️ सरकारी निर्देश:</strong> आधार ई-केवाईसी और पोर्टल स्थिति जांच सीएससी पर पूर्णतः निःशुल्क या निर्धारित सरकारी शुल्क पर उपलब्ध है। अवैध राशि न दें। हेल्पलाइन: 155261</p>
+            <p><strong>${tablerIcon('shieldCheck', 14)} सरकारी निर्देश:</strong> आधार ई-केवाईसी और पोर्टल स्थिति जांच सीएससी पर पूर्णतः निःशुल्क या निर्धारित सरकारी शुल्क पर उपलब्ध है। अवैध राशि न दें। हेल्पलाइन: 155261</p>
           </div>
         </div>
 
         <div class="parchi-actions">
-          <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(`*🌾 पीएम-किसान सम्मान निधि सेवा पर्ची*\n\n👤 किसान का नाम: ${farmer.name}\n🆔 पंजीकरण: ${farmer.regNumber}\n📍 स्थान: ${farmer.village}, ${farmer.district}\n\n⚠️ समस्या: ${issue.title}\n📄 आवश्यक दस्तावेज:\n${issue.documents.map(d => `• ${d}`).join('\n')}\n\n💡 यह पर्ची PM-KISAN Sahayak पोर्टल से बनाई गई है।`)}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
-            <span>💬</span> <span>WhatsApp पर पर्ची भेजें (Share Slip)</span>
+          <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(`*पीएम-किसान सम्मान निधि सेवा पर्ची*\n\nकिसान का नाम: ${farmer.name}\nपंजीकरण: ${farmer.regNumber}\nस्थान: ${farmer.village}, ${farmer.district}\n\nसमस्या: ${issue.title}\nआवश्यक दस्तावेज:\n${issue.documents.map(d => `• ${d}`).join('\n')}\n\nयह पर्ची PM-KISAN Sahayak पोर्टल से बनाई गई है।`)}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+            ${tablerIcon('brandWhatsapp', 18)} <span>WhatsApp पर पर्ची भेजें (Share Slip)</span>
           </a>
           <button class="primary-btn" id="print-parchi-btn">
             ${tablerIcon('printer', 18)} <span>पर्ची प्रिंट / PDF सेव करें</span>

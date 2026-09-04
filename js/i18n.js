@@ -1,14 +1,14 @@
 // Comprehensive i18n dictionary for major Indian agricultural states
 export const LANGUAGES = {
-  hi: { name: 'हिंदी', bcp47: 'hi-IN', flag: '🇮🇳' },
-  en: { name: 'English', bcp47: 'en-IN', flag: '🌐' },
-  pa: { name: 'ਪੰਜਾਬੀ', bcp47: 'pa-IN', flag: '🌾' }, // Punjab / Haryana
-  mr: { name: 'मराठी', bcp47: 'mr-IN', flag: '🚩' }, // Maharashtra
-  bn: { name: 'বাংলা', bcp47: 'bn-IN', flag: '🌾' }, // West Bengal
-  te: { name: 'తెలుగు', bcp47: 'te-IN', flag: '🌿' }, // Andhra / Telangana
-  ta: { name: 'தமிழ்', bcp47: 'ta-IN', flag: '🌾' }, // Tamil Nadu
-  kn: { name: 'ಕನ್ನಡ', bcp47: 'kn-IN', flag: '🌿' }, // Karnataka
-  gu: { name: 'ગુજરાતી', bcp47: 'gu-IN', flag: '🌾' } // Gujarat
+  hi: { name: 'हिंदी', bcp47: 'hi-IN' },
+  en: { name: 'English', bcp47: 'en-IN' },
+  pa: { name: 'ਪੰਜਾਬੀ', bcp47: 'pa-IN' }, // Punjab / Haryana
+  mr: { name: 'मराठी', bcp47: 'mr-IN' }, // Maharashtra
+  bn: { name: 'বাংলা', bcp47: 'bn-IN' }, // West Bengal
+  te: { name: 'తెలుగు', bcp47: 'te-IN' }, // Andhra / Telangana
+  ta: { name: 'தமிழ்', bcp47: 'ta-IN' }, // Tamil Nadu
+  kn: { name: 'ಕನ್ನಡ', bcp47: 'kn-IN' }, // Karnataka
+  gu: { name: 'ગુજરાતી', bcp47: 'gu-IN' } // Gujarat
 };
 
 export const UI_TRANSLATIONS = {

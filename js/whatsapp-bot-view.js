@@ -16,7 +16,7 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
     <section class="screen whatsapp-simulator-screen">
       <!-- Persona Switcher Bar for Evaluators / Hackathon Judges -->
       <div class="wa-persona-bar">
-        <span class="persona-label">💡 Select Farmer Persona:</span>
+        <span class="persona-label">${tablerIcon('help', 13)} Select Farmer Persona:</span>
         <div class="persona-chips">
           ${Object.entries(FARMERS).map(([key, f]) => {
             const isSelected = key === currentFarmerKey;
@@ -40,7 +40,7 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
               ${tablerIcon('arrowLeft', 20)}
             </button>
             <div class="wa-avatar">
-              🌾
+              ${tablerIcon('sprout', 20)}
             </div>
             <div class="wa-contact-info">
               <div class="wa-contact-name">
@@ -75,14 +75,14 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
           <!-- Message 1: Automated Proactive Notification -->
           <div class="wa-message-row incoming">
             <div class="wa-bubble">
-              <span class="wa-sender-tag">PM-KISAN DBT Notification 🔔</span>
-              <p>नमस्ते <b>${farmer.name}</b> जी! 🙏</p>
+              <span class="wa-sender-tag">${tablerIcon('alertCircle', 12)} PM-KISAN DBT Notification</span>
+              <p>नमस्ते <b>${farmer.name}</b> जी!</p>
               ${isAllClear ? `
-                <p>आपकी <b>23वीं किस्त का ₹2,000</b> सफलतापूर्वक आपके बैंक खाते में जमा हो चुका है। कुल प्राप्त राशि: <b>${rupees(received.length * 2000)}</b> ✅</p>
+                <p>आपकी <b>23वीं किस्त का ₹2,000</b> सफलतापूर्वक आपके बैंक खाते में जमा हो चुका है। कुल प्राप्त राशि: <b>${rupees(received.length * 2000)}</b> ${tablerIcon('circleCheck', 14)}</p>
               ` : `
                 <p>आपकी <b>${farmer.issueDetails.failedInstallment}वीं किस्त</b> पर भुगतान रोका गया है।</p>
                 <div class="wa-highlight-box danger">
-                  <b>⚠️ कारण: ${farmer.issueDetails.title}</b>
+                  <b>${tablerIcon('alertTriangle', 14)} कारण: ${farmer.issueDetails.title}</b>
                   <p>${farmer.issueDetails.explain}</p>
                 </div>
               `}
@@ -117,7 +117,7 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
             <!-- Message 3: Resolution Action Plan -->
             <div class="wa-message-row incoming animate-in">
               <div class="wa-bubble">
-                <span class="wa-sender-tag">📋 समाधान के आसान कदम (Resolution Checklist)</span>
+                <span class="wa-sender-tag">${tablerIcon('fileDescription', 12)} समाधान के आसान कदम (Resolution Checklist)</span>
                 <p>आपको केवल 2 काम करने हैं:</p>
                 <ol class="wa-steps-list">
                   ${farmer.issueDetails.resolutionOptions[0].steps.slice(0, 3).map(s => `<li>${s}</li>`).join('')}
@@ -156,7 +156,7 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
           <!-- Message 5: Nearest CSC Center Location -->
           <div class="wa-message-row incoming">
             <div class="wa-bubble wa-csc-bubble">
-              <span class="wa-sender-tag">📍 नजदीकी सीएससी केंद्र (Nearest CSC Center)</span>
+              <span class="wa-sender-tag">${tablerIcon('mapPin', 12)} नजदीकी सीएससी केंद्र (Nearest CSC Center)</span>
               <strong>${nearestCsc.name}</strong>
               <p>${tablerIcon('mapPin', 12)} ${nearestCsc.address}</p>
               <div class="wa-csc-meta">
@@ -179,24 +179,24 @@ export function whatsappBotView(currentFarmerKey, activeChatFlow = 'status', isP
         <!-- WhatsApp Quick-Reply Chips -->
         <div class="wa-quick-replies">
           <button class="wa-chip ${activeChatFlow === 'status' ? 'active' : ''}" data-wa-flow="status">
-            📊 ${isAllClear ? 'किस्त स्टेटस' : 'रुकी किस्त स्टेटस'}
+            ${tablerIcon('chartBar', 14)} <span>${isAllClear ? 'किस्त स्टेटस' : 'रुकी किस्त स्टेटस'}</span>
           </button>
           <button class="wa-chip ${activeChatFlow === 'fix' ? 'active' : ''}" data-wa-flow="fix">
-            🛠️ समाधान कैसे करें?
+            ${tablerIcon('shieldCheck', 14)} <span>समाधान कैसे करें?</span>
           </button>
           <button class="wa-chip" id="wa-quick-parchi">
-            📄 सेवा पर्ची देखें
+            ${tablerIcon('fileDescription', 14)} <span>सेवा पर्ची देखें</span>
           </button>
           <button class="wa-chip" data-route="csc-locator">
-            📍 नजदीकी CSC खोजें
+            ${tablerIcon('mapPin', 14)} <span>नजदीकी CSC खोजें</span>
           </button>
         </div>
 
         <!-- WhatsApp Input Footer -->
         <footer class="wa-footer">
           <div class="wa-input-pill">
-            <span class="wa-emoji-icon">😊</span>
-            <input type="text" id="wa-sim-input" placeholder="Type a message or tap voice note..." readonly value="🤖 Automated Guidance Mode Active" />
+            <span class="wa-emoji-icon">${tablerIcon('sparkles', 16)}</span>
+            <input type="text" id="wa-sim-input" placeholder="Type a message or tap voice note..." readonly value="Automated Guidance Mode Active" />
             <span class="wa-attach-icon">${tablerIcon('fileDescription', 18)}</span>
           </div>
           <button class="wa-mic-btn" id="wa-mic-speak-btn" title="Listen Audio Explanation">

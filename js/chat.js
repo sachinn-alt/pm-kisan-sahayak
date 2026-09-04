@@ -4,69 +4,69 @@ import { LANGUAGES, t } from './i18n.js';
 // Localized question chips for each language
 const LOCALIZED_CHIPS = {
   hi: [
-    { label: '💸 पैसा क्यों नहीं आया?', query: 'मेरा 23वीं किस्त का पैसा क्यों नहीं आया?' },
-    { label: '🪪 eKYC कैसे करें?', query: 'eKYC पूरा करने का तरीका बताएं' },
-    { label: '🏦 बैंक लिंक कैसे करें?', query: 'बैंक खाते को आधार DBT से कैसे जोड़ें?' },
-    { label: '📍 नजदीकी CSC केंद्र?', query: 'नजदीकी CSC सेवा केंद्र कहां है?' },
-    { label: '📄 सेवा पर्ची क्या है?', query: 'CSC सेवा पर्ची का क्या उपयोग है?' },
-    { label: '📞 हेल्पलाइन नंबर?', query: 'पीएम किसान हेल्पलाइन नंबर क्या है?' }
+    { label: 'पैसा क्यों नहीं आया?', query: 'मेरा 23वीं किस्त का पैसा क्यों नहीं आया?' },
+    { label: 'eKYC कैसे करें?', query: 'eKYC पूरा करने का तरीका बताएं' },
+    { label: 'बैंक लिंक कैसे करें?', query: 'बैंक खाते को आधार DBT से कैसे जोड़ें?' },
+    { label: 'नजदीकी CSC केंद्र?', query: 'नजदीकी CSC सेवा केंद्र कहां है?' },
+    { label: 'सेवा पर्ची क्या है?', query: 'CSC सेवा पर्ची का क्या उपयोग है?' },
+    { label: 'हेल्पलाइन नंबर?', query: 'पीएम किसान हेल्पलाइन नंबर क्या है?' }
   ],
   en: [
-    { label: '💸 Why payment failed?', query: 'Why did my 23rd installment fail?' },
-    { label: '🪪 How to do eKYC?', query: 'How do I complete my eKYC online or offline?' },
-    { label: '🏦 Link Bank to DBT', query: 'How to seed Aadhaar with bank for DBT?' },
-    { label: '📍 Nearest CSC center?', query: 'Where is my nearest CSC digital seva kendra?' },
-    { label: '📄 What is Seva Parchi?', query: 'How does the CSC Seva Parchi help me?' },
-    { label: '📞 Helpline numbers', query: 'What are the official PM-KISAN helpline numbers?' }
+    { label: 'Why payment failed?', query: 'Why did my 23rd installment fail?' },
+    { label: 'How to do eKYC?', query: 'How do I complete my eKYC online or offline?' },
+    { label: 'Link Bank to DBT', query: 'How to seed Aadhaar with bank for DBT?' },
+    { label: 'Nearest CSC center?', query: 'Where is my nearest CSC digital seva kendra?' },
+    { label: 'What is Seva Parchi?', query: 'How does the CSC Seva Parchi help me?' },
+    { label: 'Helpline numbers', query: 'What are the official PM-KISAN helpline numbers?' }
   ],
   pa: [
-    { label: '💸 ਕਿਸ਼ਤ ਕਿਉਂ ਨਹੀਂ ਆਈ?', query: 'ਮੇਰੀ 23ਵੀਂ ਕਿਸ਼ਤ ਕਿਉਂ ਨਹੀਂ ਆਈ?' },
-    { label: '🪪 eKYC ਕਿਵੇਂ ਕਰੀਏ?', query: 'eKYC ਕਿਵੇਂ ਪੂਰੀ ਕਰੀਏ?' },
-    { label: '🏦 ਬੈਂਕ ਖਾਤਾ ਲਿੰਕ', query: 'ਬੈਂਕ ਖਾਤੇ ਨਾਲ ਆਧਾਰ ਡੀਬੀਟੀ ਕਿਵੇਂ ਜੋੜੀਏ?' },
-    { label: '📍 ਨੇੜਲਾ CSC ਸੈਂਟਰ', query: 'ਨੇੜੇ CSC ਸੇਵਾ ਕੇਂਦਰ ਕਿੱਥੇ ਹੈ?' }
+    { label: 'ਕਿਸ਼ਤ ਕਿਉਂ ਨਹੀਂ ਆਈ?', query: 'ਮੇਰੀ 23ਵੀਂ ਕਿਸ਼ਤ ਕਿਉਂ ਨਹੀਂ ਆਈ?' },
+    { label: 'eKYC ਕਿਵੇਂ ਕਰੀਏ?', query: 'eKYC ਕਿਵੇਂ ਪੂਰੀ ਕਰੀਏ?' },
+    { label: 'ਬੈਂਕ ਖਾਤਾ ਲਿੰਕ', query: 'ਬੈਂਕ ਖਾਤੇ ਨਾਲ ਆਧਾਰ ਡੀਬੀਟੀ ਕਿਵੇਂ ਜੋੜੀਏ?' },
+    { label: 'ਨੇੜਲਾ CSC ਸੈਂਟਰ', query: 'ਨੇੜੇ CSC ਸੇਵਾ ਕੇਂਦਰ ਕਿੱਥੇ ਹੈ?' }
   ],
   mr: [
-    { label: '💸 पैसे का आले नाहीत?', query: 'माझा २३ वा हप्ता का जमा झाला नाही?' },
-    { label: '🪪 eKYC कसे करावे?', query: 'eKYC पूर्ण करण्याची पद्धत सांगा' },
-    { label: '🏦 बँक आधार लिंक', query: 'बँक खात्याला आधार DBT कसे जोडावे?' },
-    { label: '📍 जवळचे CSC केंद्र', query: 'माझे जवळचे CSC केंद्र कुठे आहे?' }
+    { label: 'पैसे का आले नाहीत?', query: 'माझा २३ वा हप्ता का जमा झाला नाही?' },
+    { label: 'eKYC कसे करावे?', query: 'eKYC पूर्ण करण्याची पद्धत सांगा' },
+    { label: 'बँक आधार लिंक', query: 'बँक खात्याला आधार DBT कसे जोडावे?' },
+    { label: 'जवळचे CSC केंद्र', query: 'माझे जवळचे CSC केंद्र कुठे आहे?' }
   ],
   bn: [
-    { label: '💸 টাকা কেন আসেনি?', query: 'আমার ২৩তম কিশতির টাকা কেন আসেনি?' },
-    { label: '🪪 eKYC কীভাবে করব?', query: 'eKYC করার সঠিক নিয়ম কী?' },
-    { label: '🏦 ব্যাংক আধার লিঙ্ক', query: 'ব্যাংক অ্যাকাউন্টে আধার DBT কীভাবে যুক্ত করব?' },
-    { label: '📍 নিকটবর্তী CSC কেন্দ্র', query: 'নিকটবর্তী CSC সেবা কেন্দ্র কোথায়?' }
+    { label: 'টাকা কেন আসেনি?', query: 'আমার ২৩তম কিশতির টাকা কেন আসেনি?' },
+    { label: 'eKYC কীভাবে করব?', query: 'eKYC করার সঠিক নিয়ম কী?' },
+    { label: 'ব্যাংক আধার লিঙ্ক', query: 'ব্যাংক অ্যাকাউন্টে আধার DBT কীভাবে যুক্ত করব?' },
+    { label: 'নিকটবর্তী CSC কেন্দ্র', query: 'নিকটবর্তী CSC সেবা কেন্দ্র কোথায়?' }
   ],
   te: [
-    { label: '💸 డబ్బు ఎందుకు రాలేదు?', query: 'నా 23వ విడత డబ్బు ఎందుకు రాలేదు?' },
-    { label: '🪪 eKYC ఎలా చేయాలి?', query: 'eKYC ఎలా పూర్తి చేయాలి?' },
-    { label: '🏦 బ్యాంక్ ఆధార్ లింక్', query: 'బ్యాంక్ ఖాతాకు ఆధార్ DBT ఎలా లింక్ చేయాలి?' },
-    { label: '📍 సమీప CSC కేంద్రం', query: 'సమీపంలోని CSC కేంద్రం ఎక్కడ ఉంది?' }
+    { label: 'డబ్బు ఎందుకు రాలేదు?', query: 'నా 23వ విడత డబ్బు ఎందుకు రాలేదు?' },
+    { label: 'eKYC ఎలా చేయాలి?', query: 'eKYC ఎలా పూర్తి చేయాలి?' },
+    { label: 'బ్యాంక్ ఆధార్ లింక్', query: 'బ్యాంక్ ఖాతాకు ఆధార్ DBT ఎలా లింక్ చేయాలి?' },
+    { label: 'సమీప CSC కేంద్రం', query: 'సమీపంలోని CSC కేంద్రం ఎక్కడ ఉంది?' }
   ],
   ta: [
-    { label: '💸 பணம் ஏன் வரவில்லை?', query: 'எனது 23வது தவணை பணம் ஏன் வரவில்லை?' },
-    { label: '🪪 eKYC எப்படி செய்வது?', query: 'eKYC முடிப்பது எப்படி?' },
-    { label: '🏦 வங்கி ஆதார் இணைப்பு', query: 'வங்கி கணக்கில் ஆதார் DBT இணைப்பது எப்படி?' },
-    { label: '📍 அருகிலுள்ள CSC மையம்', query: 'அருகிலுள்ள CSC மையம் எங்குள்ளது?' }
+    { label: 'பணம் ஏன் வரவில்லை?', query: 'எனது 23வது தவணை பணம் ஏன் வரவில்லை?' },
+    { label: 'eKYC எப்படி செய்வது?', query: 'eKYC முடிப்பது எப்படி?' },
+    { label: 'வங்கி ஆதார் இணைப்பு', query: 'வங்கி கணக்கில் ஆதார் DBT இணைப்பது எப்படி?' },
+    { label: 'அருகிலுள்ள CSC மையம்', query: 'அருகிலுள்ள CSC மையம் எங்குள்ளது?' }
   ],
   kn: [
-    { label: '💸 ಹಣ ಏಕೆ ಬಂದಿಲ್ಲ?', query: 'ನನ್ನ 23ನೇ ಕಂತಿನ ಹಣ ಏಕೆ ಜಮಾ ಆಗಿಲ್ಲ?' },
-    { label: '🪪 eKYC ಹೇಗೆ ಮಾಡುವುದು?', query: 'eKYC ಪೂರ್ಣಗೊಳಿಸುವುದು ಹೇಗೆ?' },
-    { label: '🏦 ಬ್ಯಾಂಕ್ ಆಧಾರ್ ಲಿಂಕ್', query: 'ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ಆಧಾರ್ DBT ಲಿಂಕ್ ಮಾಡುವುದು ಹೇಗೆ?' },
-    { label: '📍 ಹತ್ತಿರದ CSC ಕೇಂದ್ರ', query: 'ಹತ್ತಿರದ CSC ಸೇವಾ ಕೇಂದ್ರ ಎಲ್ಲಿದೆ?' }
+    { label: 'ಹಣ ಏಕೆ ಬಂದಿಲ್ಲ?', query: 'ನನ್ನ 23ನೇ ಕಂತಿನ ಹಣ ಏಕೆ ಜಮಾ ಆಗಿಲ್ಲ?' },
+    { label: 'eKYC ಹೇಗೆ ಮಾಡುವುದು?', query: 'eKYC ಪೂರ್ಣಗೊಳಿಸುವುದು ಹೇಗೆ?' },
+    { label: 'ಬ್ಯಾಂಕ್ ಆಧಾರ್ ಲಿಂಕ್', query: 'ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ಆಧಾರ್ DBT ಲಿಂಕ್ ಮಾಡುವುದು ಹೇಗೆ?' },
+    { label: 'ಹತ್ತಿರದ CSC ಕೇಂದ್ರ', query: 'ಹತ್ತಿರದ CSC ಸೇವಾ ಕೇಂದ್ರ ಎಲ್ಲಿದೆ?' }
   ],
   gu: [
-    { label: '💸 પૈસા કેમ ન આવ્યા?', query: 'મારો ૨૩મો હપ્તો કેમ જમા નથી થયો?' },
-    { label: '🪪 eKYC કેવી રીતે કરવું?', query: 'eKYC કરવાની સાચી રીત જણાવો' },
-    { label: '🏦 બેંક આધાર લિંક', query: 'બેંક ખાતા સાથે આધાર DBT કેવી રીતે જોડવું?' },
-    { label: '📍 નજીકનું CSC કેન્દ્ર', query: 'નજીકનું CSC ડિજિટલ સેવા કેન્દ્ર ક્યાં છે?' }
+    { label: 'પૈસા કેમ ન આવ્યા?', query: 'મારો ૨૩મો હપ્તો કેમ જમા નથી થયો?' },
+    { label: 'eKYC કેવી રીતે કરવું?', query: 'eKYC કરવાની સાચી રીત જણાવો' },
+    { label: 'બેંક આધાર લિંક', query: 'બેંક ખાતા સાથે આધાર DBT કેવી રીતે જોડવું?' },
+    { label: 'નજીકનું CSC કેન્દ્ર', query: 'નજીકનું CSC ડિજિટલ સેવા કેન્દ્ર ક્યાં છે?' }
   ]
 };
 
 // Comprehensive, contextual multilingual knowledge generator
 const KNOWLEDGE_RESPONSES = {
   hi: {
-    greeting: (farmer) => `नमस्ते ${farmer.name} जी! 🙏 मैं आपका पीएम-किसान सहायक हूँ। ${farmer.issue ? `आपकी 23वीं किस्त "${farmer.issueDetails?.title || 'तकनीकी कारण'}" की वजह से रुकी है। मैं इसे तुरंत ठीक कराने में आपकी पूरी मदद करूँगा।` : 'आपके खाते में सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं। आप मुझसे योजना से संबंधित कोई भी सवाल पूछ सकते हैं।'}`,
+    greeting: (farmer) => `नमस्ते ${farmer.name} जी! मैं आपका पीएम-किसान सहायक हूँ। ${farmer.issue ? `आपकी 23वीं किस्त "${farmer.issueDetails?.title || 'तकनीकी कारण'}" की वजह से रुकी है। मैं इसे तुरंत ठीक कराने में आपकी पूरी मदद करूँगा।` : 'आपके खाते में सभी 23 किस्तें सफलतापूर्वक प्राप्त हो चुकी हैं। आप मुझसे योजना से संबंधित कोई भी सवाल पूछ सकते हैं।'}`,
     payment: (farmer) => {
       if (farmer.issue && farmer.issueDetails) {
         return `${farmer.name} जी, आपकी 23वीं किस्त (${farmer.issueDetails.title}) के कारण रुकी है:\n\n📌 मुख्य कारण: ${farmer.issueDetails.explain}\n\n💡 समाधान:\n1. 'भुगतान जांच' स्क्रीन पर जाएं।\n2. 'सेवा पर्ची' डाउनलोड करें।\n3. जरूरी दस्तावेज लेकर CSC या बैंक जाएं। विवरण अपडेट होते ही रुका हुआ पैसा सीधे आपके खाते में आ जाएगा।`;
@@ -188,7 +188,7 @@ export function chatView(farmer, messages, language = 'hi', typing = false, isLi
           <p><span class="online-dot"></span> Online · ${farmer.name} (${farmer.village})</p>
         </div>
         <select id="chat-lang-select" class="lang-select-dropdown" aria-label="Language">
-          ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === language ? 'selected' : ''}>${l.flag} ${l.name}</option>`).join('')}
+          ${Object.entries(LANGUAGES).map(([code, l]) => `<option value="${code}" ${code === language ? 'selected' : ''}>${l.name}</option>`).join('')}
         </select>
       </header>
 

@@ -26,7 +26,7 @@ export function cscLocatorView(farmer, searchQuery = '', activeServiceFilter = '
       <div class="zero-fee-banner">
         <span class="shield-badge">${tablerIcon('shieldCheck', 20)}</span>
         <div>
-          <strong>${lang === 'hi' ? '⚠️ आधिकारिक सरकारी सूचना: यह सेवा निःशुल्क है' : 'Official Notice: Free Public Service'}</strong>
+          <strong>${lang === 'hi' ? 'आधिकारिक सरकारी सूचना: यह सेवा निःशुल्क है' : 'Official Notice: Free Public Service'}</strong>
           <p>${lang === 'hi' ? 'PM-KISAN बायोमेट्रिक e-KYC और आधार सीडिंग पूर्णतः निःशुल्क (₹0) है। कोई भी ऑपरेटर अवैध शुल्क नहीं ले सकता।' : 'Biometric e-KYC and Aadhaar seeding are 100% free government services.'}</p>
         </div>
       </div>
@@ -99,7 +99,7 @@ function renderCscCard(center, lang = 'hi') {
             <h3>${center.name}</h3>
             <span class="distance-pill">${center.distanceKm} km</span>
           </div>
-          <span class="vle-name">VLE: <b>${center.vleName}</b> • ⭐ ${center.rating}</span>
+          <span class="vle-name">VLE: <b>${center.vleName}</b> • ${tablerIcon('award', 12)} ${center.rating}</span>
         </div>
       </div>
 

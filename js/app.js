@@ -15,6 +15,8 @@ import { ivrSimulatorView } from './ivr-simulator-view.js';
 import { tablerIcon, emblemOfIndia } from './icons.js';
 import { playDtmfTone, startRingTone, stopRingTone, playDisconnectTone } from './dtmf-audio.js';
 import { renderOcrScannerModal } from './ocr-scanner.js';
+import { fetchDistrictWeather } from './weather.js';
+import { scamRadarView } from './scam-radar-view.js';
 
 const app = document.querySelector('#app');
 const state = {
@@ -29,6 +31,8 @@ const state = {
   ocrScanType: 'aadhaar',
   ocrSampleName: '',
   userLocation: null,
+  weatherData: null,
+  scamQuizIndex: 0,
   selectedMapState: 'UP',
   activeWaFarmer: '9876543210',
   activeWaFlow: 'status',
@@ -43,7 +47,7 @@ const state = {
   ivrCallDuration: '00:00'
 };
 
-const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact'];
+const routes = ['splash', 'login', 'otp', 'dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact', 'scam-radar'];
 
 function route() { return location.hash.slice(1) || 'splash'; }
 function navigate(to) { location.hash = `#${to}`; }
@@ -68,7 +72,7 @@ function splashView() {
   return `<section class="screen splash-screen">
     <div class="splash-content">
       <div class="splash-emblem-wrap">
-        ${emblemOfIndia(56, 'splash-emblem')}
+        ${emblemOfIndia(76, 'splash-emblem')}
       </div>
       ${logo()}
       <span class="govt-badge dark">GOVERNMENT OF INDIA · भारत सरकार</span>
@@ -84,7 +88,7 @@ function loginView() {
   return `<section class="screen login-screen">
     <div class="login-hero">
       <div class="login-emblem-box">
-        ${emblemOfIndia(48, 'login-emblem')}
+        ${emblemOfIndia(68, 'login-emblem')}
       </div>
       ${logo()}
       <span class="govt-badge">CITIZEN DBT SERVICES · भारत सरकार</span>
@@ -168,7 +172,7 @@ function helplineView() {
         <span>Toll-free alternate</span>
         <i>${tablerIcon('chevronRight', 18)}</i>
       </a>
-      <div class="support-card-ivr" data-route="helpline-ivr">
+      <div class="support-card-ivr">
         <button class="primary-btn sm" data-route="helpline">
           ${tablerIcon('deviceMobile', 16)} 155261 Feature Phone Simulator
         </button>
@@ -185,12 +189,29 @@ function helplineView() {
   </section>`;
 }
 
+// Load weather for current farmer
+function loadWeather() {
+  const district = state.farmer ? state.farmer.district : 'Lucknow';
+  fetchDistrictWeather(district).then(data => {
+    state.weatherData = data;
+    const badgeWrap = document.querySelector('#weather-badge-wrap');
+    if (badgeWrap && route() === 'dashboard') {
+      render();
+    }
+  }).catch(() => {});
+}
+
 function render() {
   let current = route();
   if (!routes.includes(current)) current = 'splash';
-  if (['dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact'].includes(current) && !state.farmer) {
+  if (['dashboard', 'diagnosis', 'chat', 'helpline', 'farmer-corner', 'map', 'whatsapp', 'csc-locator', 'impact', 'scam-radar'].includes(current) && !state.farmer) {
     state.farmer = FARMERS['9876543210'];
     state.farmer.pendingLogin = '9876543210';
+  }
+
+  // Auto-fetch weather if not yet loaded
+  if (!state.weatherData && state.farmer) {
+    loadWeather();
   }
 
   let html = current === 'splash'
@@ -200,7 +221,7 @@ function render() {
     : current === 'otp'
     ? otpView()
     : current === 'dashboard'
-    ? dashboardView(state.farmer, state.historyAll, state.language)
+    ? dashboardView(state.farmer, state.historyAll, state.language, state.weatherData)
     : current === 'diagnosis'
     ? diagnosisView(state.farmer, state.language)
     : current === 'chat'
@@ -215,6 +236,8 @@ function render() {
     ? cscLocatorView(state.farmer, state.cscSearchQuery, state.cscServiceFilter, state.language, state.userLocation)
     : current === 'impact'
     ? impactView(state.impactBeneficiariesCount, state.impactActiveTab, state.language)
+    : current === 'scam-radar'
+    ? scamRadarView(state.language, state.scamQuizIndex)
     : ivrSimulatorView(state.activeIvrFarmer, state.ivrCallState, state.ivrCallStep, state.ivrCallDuration, state.language);
 
   if (state.showParchi && state.farmer) {
@@ -227,7 +250,7 @@ function render() {
   }
 
   // Floating Farmer Voice Assistant button (shown on core screens)
-  if (['dashboard', 'diagnosis', 'csc-locator', 'farmer-corner', 'map', 'impact', 'helpline'].includes(current)) {
+  if (['dashboard', 'diagnosis', 'csc-locator', 'farmer-corner', 'map', 'impact', 'helpline', 'scam-radar'].includes(current)) {
     const speaking = isAudioSpeaking();
     html += `
       <aside class="floating-voice-bar" id="global-floating-voice" aria-label="Audio Guide">
@@ -258,7 +281,7 @@ function getContextualVoiceText(current) {
     } else {
       t += `आपकी सभी किस्तें पूरी तरह से सही हैं और आप 24वीं किस्त के लिए पात्र हैं। `;
     }
-    t += `बिना ऐप डाउनलोड किए सहायता के लिए आप व्हाट्सएप बॉट भी खोल सकते हैं।`;
+    t += `आपके क्षेत्र का आज का तापमान व मंडी भाव भी स्क्रीन पर उपलब्ध है।`;
     return t;
   }
 
@@ -269,6 +292,10 @@ function getContextualVoiceText(current) {
 
   if (current === 'csc-locator') {
     return `नमस्ते ${f.name} जी। यह आपके नजदीकी सीएससी जन सेवा केंद्रों की सूची है। आप किसी भी ऑपरेटर को कॉल कर सकते हैं या व्हाट्सएप पर बात कर सकते हैं। सीएससी पर ई-केवाईसी और डीबीटी सीडिंग सरकारी नियमानुसार बिल्कुल मुफ्त सेवा है।`;
+  }
+
+  if (current === 'scam-radar') {
+    return `किसान भाइयों, साइबर ठगी से सावधान रहें। पीएम-किसान के नाम पर व्हाट्सएप पर आने वाले किसी भी अनजान लिंक या ऐप फाइल को डाउनलोड न करें। हेल्पलाइन नंबर 1930 है।`;
   }
 
   if (current === 'farmer-corner') {
@@ -527,8 +554,7 @@ function bind(current) {
               render();
             },
             (err) => {
-              // Fallback to district default coordinates
-              state.userLocation = { lat: 26.8467, lng: 80.9462 }; // Lucknow coordinates default
+              state.userLocation = { lat: 26.8467, lng: 80.9462 };
               toast(`📍 GPS location active (Nearest centers sorted)`, 'success');
               render();
             },
@@ -656,7 +682,6 @@ function bind(current) {
           }
           speakText(step3Text, 'hi');
         } else if (key === '*') {
-          // Repeat
           const repeatText = state.ivrCallStep === 1 
             ? "हिंदी के लिए 1 दबाएं, For English press 2." 
             : state.ivrCallStep === 2 
@@ -692,6 +717,7 @@ function bind(current) {
       button.addEventListener('click', () => {
         state.pendingLogin = button.dataset.account;
         input.value = state.pendingLogin;
+        state.weatherData = null;
         toast(`${FARMERS[state.pendingLogin].name}'s demo account selected`, 'success');
       });
     });
@@ -725,6 +751,8 @@ function bind(current) {
       state.farmer = farmerFor(state.pendingLogin);
       state.farmer.pendingLogin = state.pendingLogin;
       state.messages = initialMessages(state.farmer, state.language);
+      state.weatherData = null;
+      loadWeather();
       toast(`Welcome, ${state.farmer.name}!`, 'success');
       navigate('dashboard');
     };
@@ -812,6 +840,61 @@ function bind(current) {
     document.querySelectorAll('[data-question]').forEach(button => {
       button.addEventListener('click', () => send(button.dataset.question));
     });
+  }
+
+  // Cyber-Fraud & Scam Protection Radar Bindings
+  if (current === 'scam-radar') {
+    document.querySelectorAll('[data-quiz-choice]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = btn.dataset.quizChoice; // 'safe' or 'scam'
+        const quizId = btn.dataset.quizId;
+        const resultArea = document.querySelector('#quiz-result-area');
+        const isUserScam = choice === 'scam';
+        const isActuallyScam = quizId === 'q1';
+        const isCorrect = (isUserScam && isActuallyScam) || (!isUserScam && !isActuallyScam);
+
+        if (resultArea) {
+          resultArea.style.display = 'block';
+          resultArea.className = `quiz-result-area ${isCorrect ? 'result-correct' : 'result-wrong'}`;
+          resultArea.innerHTML = `
+            <div class="result-header">
+              <span class="result-icon">${isCorrect ? '🎉' : '⚠️'}</span>
+              <strong>${isCorrect ? (state.language === 'hi' ? 'बिल्कुल सही पहचान!' : 'Spot on! Correct Answer') : (state.language === 'hi' ? 'सावधान! गलत उत्तर' : 'Caution! Incorrect Answer')}</strong>
+            </div>
+            <p class="result-explanation">
+              ${isActuallyScam 
+                ? (state.language === 'hi' ? 'यह एक खतरनाक साइबर फ्रॉड (Scam) है! सरकार कभी भी SMS या WhatsApp लिंक पर OTP दर्ज करने को नहीं कहती। .xyz डोमेन फर्जी होते हैं।' : 'This is a phishing scam! The government never asks for OTP via web links. .xyz domains are fraudulent.') 
+                : (state.language === 'hi' ? 'यह आधिकारिक व सुरक्षित संदेश है! इसमें केवल pmkisan.gov.in और अधिकृत CSC केंद्र का उल्लेख है।' : 'This is safe and genuine! It directs citizens to the official pmkisan.gov.in portal or CSC centers.')}
+            </p>
+            <button class="primary-btn sm next-quiz-btn" id="btn-next-quiz">
+              ${state.language === 'hi' ? 'अगला संदेश जांचें ➔' : 'Try Next Message ➔'}
+            </button>
+          `;
+
+          const nextBtn = document.querySelector('#btn-next-quiz');
+          if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+              state.scamQuizIndex = (state.scamQuizIndex + 1) % 2;
+              render();
+            });
+          }
+        }
+      });
+    });
+
+    const call1930 = document.querySelector('#btn-call-1930');
+    if (call1930) {
+      call1930.addEventListener('click', () => {
+        toast('राष्ट्रीय साइबर अपराध हेल्पलाइन 1930 पर कॉल की जा रही है...', 'info');
+      });
+    }
+
+    const callKcc = document.querySelector('#btn-call-kcc');
+    if (callKcc) {
+      callKcc.addEventListener('click', () => {
+        toast('किसान कॉल सेंटर 1800-180-1551 पर कॉल की जा रही है...', 'info');
+      });
+    }
   }
 }
 

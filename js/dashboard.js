@@ -1,8 +1,10 @@
 import { rupees, statusMeta } from './utils.js';
 import { LANGUAGES, t } from './i18n.js';
 import { tablerIcon, emblemOfIndia } from './icons.js';
+import { renderWeatherBadge } from './weather.js';
+import { renderMandiTicker } from './mandi-data.js';
 
-export function dashboardView(farmer, all = false, lang = 'hi') {
+export function dashboardView(farmer, all = false, lang = 'hi', weatherData = null) {
   const received = farmer.installments.filter(x => x.status === 'received');
   const failed = farmer.installments.filter(x => x.status === 'failed');
   const pending = farmer.installments.filter(x => x.status === 'pending');
@@ -19,7 +21,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
         <!-- Official Government Masthead Row with State Emblem -->
         <div class="gov-topbar">
           <div class="gov-brand">
-            ${emblemOfIndia(32, 'gov-masthead-emblem')}
+            ${emblemOfIndia(42, 'gov-masthead-emblem')}
             <div class="gov-title-group">
               <span class="gov-dept-name">PM-KISAN · भारत सरकार</span>
               <span class="gov-status-pill">
@@ -38,21 +40,31 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           </div>
         </div>
 
-        <!-- Citizen Profile Card -->
+        <!-- Citizen Profile Card with Live Weather Widget on Right -->
         <div class="citizen-profile-banner">
-          <div class="citizen-avatar">
-            ${farmer.name.split(' ').map(x => x[0]).join('').slice(0, 2)}
-          </div>
-          <div class="citizen-details">
-            <p class="greeting-text">${t('namaste', lang)}</p>
-            <h1>${farmer.name}</h1>
-            <div class="citizen-meta-pills">
-              <span class="dbt-verified-pill">${tablerIcon('circleCheck', 12)} DBT Verified</span>
-              <span class="reg-pill">Reg: ${farmer.regNumber}</span>
+          <div class="citizen-profile-left">
+            <div class="citizen-avatar">
+              ${farmer.name.split(' ').map(x => x[0]).join('').slice(0, 2)}
             </div>
-            <span class="citizen-loc">${tablerIcon('mapPin', 12)} ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+            <div class="citizen-details">
+              <p class="greeting-text">${t('namaste', lang)}</p>
+              <h1>${farmer.name}</h1>
+              <div class="citizen-meta-pills">
+                <span class="dbt-verified-pill">${tablerIcon('circleCheck', 12)} DBT Verified</span>
+                <span class="reg-pill">Reg: ${farmer.regNumber}</span>
+              </div>
+              <span class="citizen-loc">${tablerIcon('mapPin', 12)} ${farmer.village}, ${farmer.district}, ${farmer.state}</span>
+            </div>
+          </div>
+
+          <!-- Live District Weather Widget -->
+          <div class="citizen-profile-right">
+            ${renderWeatherBadge(weatherData, lang)}
           </div>
         </div>
+
+        <!-- Live APMC Mandi Bhav Moving Marquee Ticker -->
+        ${renderMandiTicker(farmer.state, lang)}
       </header>
 
       <div class="dashboard-body">
@@ -136,6 +148,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           </button>
         </div>
 
+        <!-- Action Grid with OCR & Scam Radar -->
         <div class="action-grid">
           <button class="action-card" data-route="diagnosis">
             <i>${tablerIcon('search', 20)}</i>
@@ -147,11 +160,11 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           </button>
           <button class="action-card" id="btn-open-ocr-scanner">
             <i>${tablerIcon('camera', 20)}</i>
-            <span>${lang === 'hi' ? 'दस्तावेज OCR स्कैनर' : 'Document OCR'}</span>
+            <span>${lang === 'hi' ? 'दस्तावेज OCR' : 'Document OCR'}</span>
           </button>
-          <button class="action-card" data-route="helpline">
-            <i>${tablerIcon('phone', 20)}</i>
-            <span>${t('helplineSupport', lang)}</span>
+          <button class="action-card" data-route="scam-radar">
+            <i>${tablerIcon('shieldCheck', 20)}</i>
+            <span>${lang === 'hi' ? 'सुरक्षा व फ्रॉड रडार' : 'Scam Radar'}</span>
           </button>
         </div>
 

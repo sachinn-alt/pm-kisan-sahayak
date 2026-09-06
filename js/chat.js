@@ -60,6 +60,36 @@ const LOCALIZED_CHIPS = {
     { label: 'eKYC કેવી રીતે કરવું?', query: 'eKYC કરવાની સાચી રીત જણાવો' },
     { label: 'બેંક આધાર લિંક', query: 'બેંક ખાતા સાથે આધાર DBT કેવી રીતે જોડવું?' },
     { label: 'નજીકનું CSC કેન્દ્ર', query: 'નજીકનું CSC ડિજિટલ સેવા કેન્દ્ર ક્યાં છે?' }
+  ],
+  ml: [
+    { label: 'പണം എന്തുകൊണ്ട് വന്നില്ല?', query: 'എന്റെ 23-ാം ഗഡു പണം എന്തുകൊണ്ട് ലഭിച്ചില്ല?' },
+    { label: 'eKYC എങ്ങനെ ചെയ്യാം?', query: 'eKYC പൂർത്തിയാക്കാനുള്ള വഴി വ്യക്തമാക്കൂ' },
+    { label: 'ബാങ്ക് ആധാർ ലിങ്ക്', query: 'ബാങ്ക് അക്കൗണ്ട് ആധാർ DBT യുമായി എങ്ങനെ ബന്ധിപ്പിക്കാം?' },
+    { label: 'അടുത്തുള്ള CSC കേന്ദ്രം', query: 'എന്റെ അടുത്തുള്ള CSC സേവാ കേന്ദ്രം എവിടെയാണ്?' }
+  ],
+  or: [
+    { label: 'ଟଙ୍କା କାହିଁକି ଆସିଲା ନାହିଁ?', query: 'ମୋର ୨୩ତମ କିସ୍ତି ଟଙ୍କା କାହିଁକି ଆସିନାହିଁ?' },
+    { label: 'eKYC କିପରି କରିବେ?', query: 'eKYC ସମ୍ପୂର୍ଣ୍ଣ କରିବାର ସଠିକ୍ ଉପାୟ କ’ଣ?' },
+    { label: 'ବ୍ୟାଙ୍କ ଆଧାର ଲିଙ୍କ', query: 'ବ୍ୟାଙ୍କ ଖାତାରେ ଆଧାର DBT କିପରି ସଂଯୋଗ କରିବେ?' },
+    { label: 'ନିକଟସ୍ଥ CSC କେନ୍ଦ୍ର', query: 'ମୋ ନିକଟସ୍ଥ CSC ସେବା କେନ୍ଦ୍ର କେଉଁଠାରେ ଅଛି?' }
+  ],
+  as: [
+    { label: 'টকা কিয় অহা নাই?', query: 'মোৰ ২৩তম কিস্তিৰ টকা কিয় অহা নাই?' },
+    { label: 'eKYC কেনেকৈ কৰিব?', query: 'eKYC সম্পন্ন কৰাৰ সঠিক নিয়ম কি?' },
+    { label: 'বেংক আধাৰ সংযোগ', query: 'বেংক একাউণ্টত আধাৰ DBT কেনেকৈ সংযোগ কৰিম?' },
+    { label: 'ওচৰৰ CSC কেন্দ্ৰ', query: 'মোৰ ওচৰৰ CSC সেৱা কেন্দ্ৰ ক’ত আছে?' }
+  ],
+  ur: [
+    { label: 'رقم کیوں نہیں آئی؟', query: 'میری 23 ویں قسط کی رقم کیوں نہیں آئی؟' },
+    { label: 'eKYC کیسے کریں؟', query: 'eKYC مکمل کرنے کا طریقہ بتائیں' },
+    { label: 'بینک آدھار لنک', query: 'بینک اکاؤنٹ کو آدھار DBT سے کیسے جوڑیں؟' },
+    { label: 'قریبی CSC سینٹر', query: 'میرا قریبی سی ایس سی کیندر کہاں ہے؟' }
+  ],
+  mai: [
+    { label: 'टका किएक नहि आएल?', query: 'हमर 23म किस्त केर टका किएक नहि आएल?' },
+    { label: 'eKYC कोना करू?', query: 'eKYC पूरा करबाक सही तरीका बताओ' },
+    { label: 'बैंक आधार लिंक', query: 'बैंक खाता के आधार DBT सँ कोना जोड़ी?' },
+    { label: 'लगक CSC केंद्र', query: 'हमर लगक CSC सेवा केंद्र कतय अछि?' }
   ]
 };
 
@@ -161,6 +191,51 @@ const KNOWLEDGE_RESPONSES = {
     csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Kendra, near ${farmer.village}.`,
     helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
     default: (farmer) => `Namaste ${farmer.name} Ji, ask any question regarding eKYC or installment.`
+  },
+  ml: {
+    greeting: (farmer) => `Namaskaram ${farmer.name}! I am your PM-KISAN Sahayak. ${farmer.issue ? `Your 23rd installment is on hold due to "${farmer.issueDetails?.title || 'technical issue'}".` : 'All installments credited successfully.'}`,
+    payment: (farmer) => farmer.issue ? `${farmer.name}, installment stopped due to "${farmer.issueDetails.title}".\n\nReason: ${farmer.issueDetails.explain}\n\nAction: Download CSC Seva slip and update records at nearest CSC.` : 'All 23 installments received.',
+    ekyc: () => `Ways to complete e-KYC:\n1. At pmkisan.gov.in with Aadhaar OTP.\n2. Via Face Auth app.\n3. Biometric scan at CSC kiosk.`,
+    bank: () => `Visit bank branch with Aadhaar card and passbook for DBT mapping.`,
+    csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Center, near ${farmer.village}. Timings: 10 AM to 5 PM.`,
+    helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
+    default: (farmer) => `Namaskaram ${farmer.name}, feel free to ask about eKYC or installment status.`
+  },
+  or: {
+    greeting: (farmer) => `Namaskar ${farmer.name} Ji! I am your PM-KISAN Sahayak. ${farmer.issue ? `Your 23rd installment is on hold due to "${farmer.issueDetails?.title || 'issue'}".` : 'All installments credited successfully.'}`,
+    payment: (farmer) => farmer.issue ? `${farmer.name} Ji, installment stopped due to "${farmer.issueDetails.title}".\n\nReason: ${farmer.issueDetails.explain}\n\nAction: Download Seva Parchi and visit nearest CSC center.` : 'All 23 installments received.',
+    ekyc: () => `Ways to complete e-KYC:\n1. Online at pmkisan.gov.in with Aadhaar OTP.\n2. Through Face Auth mobile app.\n3. Biometric at CSC kiosk.`,
+    bank: () => `Visit bank branch with Aadhaar card and passbook for NPCI linking.`,
+    csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Kendra, near ${farmer.village}.`,
+    helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
+    default: (farmer) => `Namaskar ${farmer.name} Ji, ask any question about eKYC or payment status.`
+  },
+  as: {
+    greeting: (farmer) => `Namaskar ${farmer.name}! I am your PM-KISAN Sahayak. ${farmer.issue ? `Your 23rd installment stopped due to "${farmer.issueDetails?.title || 'issue'}".` : 'All installments credited successfully.'}`,
+    payment: (farmer) => farmer.issue ? `${farmer.name}, installment stopped due to "${farmer.issueDetails.title}".\n\nReason: ${farmer.issueDetails.explain}\n\nAction: Download Seva slip and update at CSC center.` : 'All 23 installments received.',
+    ekyc: () => `Ways to complete e-KYC:\n1. At pmkisan.gov.in via Aadhaar OTP.\n2. Using Face Auth app.\n3. Biometric at nearest CSC.`,
+    bank: () => `Visit bank with Aadhaar card and passbook for DBT seeding.`,
+    csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Kendra, near ${farmer.village}.`,
+    helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
+    default: (farmer) => `Namaskar ${farmer.name}, ask any question about eKYC or PM-KISAN scheme.`
+  },
+  ur: {
+    greeting: (farmer) => `Aadaab ${farmer.name} Sahab! I am your PM-KISAN Sahayak. ${farmer.issue ? `Your 23rd installment is on hold due to "${farmer.issueDetails?.title || 'technical issue'}".` : 'All installments received successfully.'}`,
+    payment: (farmer) => farmer.issue ? `${farmer.name} Sahab, installment stopped due to "${farmer.issueDetails.title}".\n\nReason: ${farmer.issueDetails.explain}\n\nAction: Download Seva Parchee and visit nearest CSC center.` : 'All 23 installments credited.',
+    ekyc: () => `Ways to complete e-KYC:\n1. At pmkisan.gov.in with Aadhaar OTP.\n2. Through Face Auth app.\n3. Biometric at CSC center.`,
+    bank: () => `Visit bank with Aadhaar and passbook to link DBT/NPCI.`,
+    csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Center, near ${farmer.village}. Timings: 10 AM to 5 PM.`,
+    helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
+    default: (farmer) => `Aadaab ${farmer.name} Sahab, feel free to ask about eKYC or payment status.`
+  },
+  mai: {
+    greeting: (farmer) => `Pranam ${farmer.name} Ji! I am your PM-KISAN Sahayak. ${farmer.issue ? `Your 23rd installment stopped due to "${farmer.issueDetails?.title || 'reason'}".` : 'All installments received successfully.'}`,
+    payment: (farmer) => farmer.issue ? `${farmer.name} Ji, installment stopped due to "${farmer.issueDetails.title}".\n\nReason: ${farmer.issueDetails.explain}\n\nAction: Download Seva Parchi and visit CSC center.` : 'All 23 installments credited.',
+    ekyc: () => `Ways to complete e-KYC:\n1. At pmkisan.gov.in with Aadhaar OTP.\n2. Face Auth mobile app.\n3. Biometric at CSC center.`,
+    bank: () => `Visit bank branch with Aadhaar card and passbook for DBT seeding.`,
+    csc: (farmer) => `Nearest CSC: ${farmer.district} Digital Seva Kendra, near ${farmer.village}.`,
+    helpline: () => `PM-KISAN Helpline:\n• Toll-free: 155261\n• Direct: 011-24300606`,
+    default: (farmer) => `Pranam ${farmer.name} Ji, ask any question about eKYC or installment status.`
   }
 };
 

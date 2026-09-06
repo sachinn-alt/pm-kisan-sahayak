@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" width="100%" height="100%" fill="none" aria-label="State Emblem of India" role="img">
+  <!-- Official High-Detail State Emblem of India (Ashoka Lion Capital Sarnath) -->
+  <g fill="#1b5e20" stroke="#1b5e20" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Center Lion Head & Mane -->
+    <!-- Ears -->
+    <path d="M135 48 C130 35 140 25 148 30 C152 34 150 44 145 48 Z" fill="#1b5e20"/>
+    <path d="M185 48 C190 35 180 25 172 30 C168 34 170 44 175 48 Z" fill="#1b5e20"/>
+    <!-- Head crown -->
+    <path d="M145 32 C152 24 168 24 175 32 C182 40 182 52 178 60 C172 68 148 68 142 60 C138 52 138 40 145 32 Z" fill="#1b5e20"/>
+    <!-- Center Face details -->
+    <ellipse cx="160" cy="55" rx="14" ry="18" fill="#ffffff"/>
+    <path d="M153 48 C153 46 156 44 158 46 C160 48 158 50 155 50 Z" fill="#1b5e20"/>
+    <path d="M167 48 C167 46 164 44 162 46 C160 48 162 50 165 50 Z" fill="#1b5e20"/>
+    <path d="M157 54 L163 54 L160 60 Z" fill="#1b5e20"/>
+    <path d="M152 64 Q160 68 168 64" stroke="#1b5e20" stroke-width="2.5" fill="none"/>
+    <path d="M156 65 L156 70 M164 65 L164 70" stroke="#1b5e20" stroke-width="2"/>
+    
+    <!-- Left Lion Head -->
+    <path d="M102 78 C94 65 102 50 114 55 C122 59 122 72 116 80 Z" fill="#1b5e20"/>
+    <ellipse cx="112" cy="90" rx="12" ry="15" fill="#ffffff" transform="rotate(-20 112 90)"/>
+    <circle cx="108" cy="85" r="2.5" fill="#1b5e20"/>
+    <path d="M105 92 Q112 96 116 90" stroke="#1b5e20" stroke-width="2" fill="none"/>
+
+    <!-- Right Lion Head -->
+    <path d="M218 78 C226 65 218 50 206 55 C198 59 198 72 204 80 Z" fill="#1b5e20"/>
+    <ellipse cx="208" cy="90" rx="12" ry="15" fill="#ffffff" transform="rotate(20 208 90)"/>
+    <circle cx="212" cy="85" r="2.5" fill="#1b5e20"/>
+    <path d="M215 92 Q208 96 204 90" stroke="#1b5e20" stroke-width="2" fill="none"/>
+
+    <!-- Massive Textured Mane (Curls and locks) -->
+    <!-- Center mane curls -->
+    <path d="M136 70 C128 85 130 105 138 120 C144 110 148 95 142 80 Z" fill="#1b5e20"/>
+    <path d="M184 70 C192 85 190 105 182 120 C176 110 172 95 178 80 Z" fill="#1b5e20"/>
+    <path d="M148 76 C142 95 145 125 160 145 C175 125 178 95 172 76 Z" fill="#1b5e20"/>
+    <path d="M152 90 Q160 110 168 90" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M146 110 Q160 135 174 110" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M142 130 Q160 160 178 130" stroke="#ffffff" stroke-width="2" fill="none"/>
+    
+    <!-- Left lion mane curls -->
+    <path d="M82 105 C75 125 80 155 95 185 C108 165 110 135 98 112 Z" fill="#1b5e20"/>
+    <path d="M96 125 C90 150 96 180 115 210 C124 185 122 155 110 130 Z" fill="#1b5e20"/>
+    <path d="M72 135 C64 160 70 190 85 218 C96 195 95 170 85 145 Z" fill="#1b5e20"/>
+
+    <!-- Right lion mane curls -->
+    <path d="M238 105 C245 125 240 155 225 185 C212 165 210 135 222 112 Z" fill="#1b5e20"/>
+    <path d="M224 125 C230 150 224 180 205 210 C196 185 198 155 210 130 Z" fill="#1b5e20"/>
+    <path d="M248 135 C256 160 250 190 235 218 C224 195 225 170 235 145 Z" fill="#1b5e20"/>
+
+    <!-- Lion Muscular Chest, Legs & Paws -->
+    <!-- Center Paws/Legs -->
+    <path d="M138 180 L134 275 L148 285 L156 285 L152 180 Z" fill="#1b5e20"/>
+    <path d="M182 180 L186 275 L172 285 L164 285 L168 180 Z" fill="#1b5e20"/>
+    <path d="M142 270 Q145 285 150 285" stroke="#ffffff" stroke-width="2"/>
+    <path d="M178 270 Q175 285 170 285" stroke="#ffffff" stroke-width="2"/>
+
+    <!-- Outer Left Leg & Claws -->
+    <path d="M98 215 L88 280 L106 288 L116 280 L112 215 Z" fill="#1b5e20"/>
+    <!-- Outer Right Leg & Claws -->
+    <path d="M222 215 L232 280 L214 288 L204 280 L208 215 Z" fill="#1b5e20"/>
+
+    <!-- Circular Beaded Base (Abacus) -->
+    <!-- Top Beaded Rim -->
+    <path d="M68 288 L252 288 L256 300 L64 300 Z" fill="#1b5e20"/>
+    <!-- Beads pattern -->
+    <circle cx="75" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="90" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="105" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="120" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="135" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="150" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="165" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="180" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="195" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="210" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="225" cy="294" r="3" fill="#ffffff"/>
+    <circle cx="240" cy="294" r="3" fill="#ffffff"/>
+
+    <!-- Main Drum / Abacus Wall with Ashoka Chakra, Horse and Bull -->
+    <rect x="58" y="300" width="204" height="68" fill="#ffffff" stroke="#1b5e20" stroke-width="3"/>
+
+    <!-- Central Dharma Chakra (Ashoka Wheel with 24 spokes) -->
+    <circle cx="160" cy="334" r="28" fill="#ffffff" stroke="#1b5e20" stroke-width="4"/>
+    <circle cx="160" cy="334" r="6" fill="#1b5e20"/>
+    <!-- 24 Spokes generated at 15-degree increments -->
+    <path d="M160 306 L160 362 M132 334 L188 334 M140 314 L180 354 M140 354 L180 314 M149 308 L171 360 M149 360 L171 308 M134 323 L186 345 M134 345 L186 323 M137 318 L183 350 M137 350 L183 318 M154 307 L166 361 M154 361 L166 307" stroke="#1b5e20" stroke-width="2"/>
+
+    <!-- Galloping Horse on Left -->
+    <path d="M85 320 C92 312 102 312 108 318 C115 325 125 330 130 338 C122 342 115 338 108 344 C100 350 94 360 86 358 C80 354 84 344 88 338 C80 334 76 326 85 320 Z" fill="#1b5e20"/>
+    <path d="M102 344 L98 360 M114 340 L120 360" stroke="#1b5e20" stroke-width="3"/>
+
+    <!-- Bull on Right -->
+    <path d="M235 320 C228 312 218 312 212 318 C205 325 195 330 190 338 C198 342 205 338 212 344 C220 350 226 360 234 358 C240 354 236 344 232 338 C240 334 244 326 235 320 Z" fill="#1b5e20"/>
+    <path d="M218 344 L222 360 M206 340 L200 360" stroke="#1b5e20" stroke-width="3"/>
+
+    <!-- Lower Lotus Base / Bell Platform -->
+    <path d="M60 368 L260 368 L266 386 L54 386 Z" fill="#1b5e20"/>
+    <!-- Lotus Petals Pattern -->
+    <path d="M68 386 Q76 372 84 386 M84 386 Q92 372 100 386 M100 386 Q108 372 116 386 M116 386 Q124 372 132 386 M132 386 Q140 372 148 386 M148 386 Q156 372 164 386 M164 386 Q172 372 180 386 M180 386 Q188 372 196 386 M196 386 Q204 372 212 386 M212 386 Q220 372 228 386 M228 386 Q236 372 244 386 M244 386 Q252 372 260 386" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+
+    <!-- Stepped Foundation Base -->
+    <rect x="74" y="386" width="172" height="12" rx="3" fill="#1b5e20"/>
+    <rect x="88" y="398" width="144" height="8" rx="2" fill="#1b5e20"/>
+
+    <!-- Motto: Satyameva Jayate (सत्यमेव जयते) in Authentic Devanagari Typography -->
+    <text x="160" y="448" text-anchor="middle" font-family="'Noto Sans Devanagari', 'Mukta', 'Plus Jakarta Sans', serif" font-weight="900" font-size="34" fill="#1b5e20" stroke="none" letter-spacing="3">सत्यमेव जयते</text>
+  </g>
+</svg>

@@ -76,43 +76,79 @@ export function tablerIcon(name, size = 20, className = '', extraAttrs = '') {
   return `<svg xmlns="http://www.w3.org/2000/svg" class="tabler-icon tabler-icon-${name} ${className}" width="${size}" height="${size}" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extraAttrs}>${path}</svg>`;
 }
 
-// Official Government of India Lion Capital Emblem (Ashoka Sarnath Capital)
+// Official Government of India Lion Capital Emblem (Ashoka Sarnath Capital with Satyameva Jayate)
 export function emblemOfIndia(height = 36, className = '') {
-  return `<svg class="govt-emblem-svg ${className}" height="${height}" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="State Emblem of India" role="img">
-    <defs>
-      <linearGradient id="emblemGold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#8a6714"/>
-        <stop offset="50%" stop-color="#b8860b"/>
-        <stop offset="100%" stop-color="#6e500b"/>
-      </linearGradient>
-    </defs>
-    <!-- Central Main Lion Head -->
-    <path d="M60 14 C52 14 46 20 46 28 C46 36 50 42 54 45 C50 48 48 54 50 62 C52 69 57 73 60 74 C63 73 68 69 70 62 C72 54 70 48 66 45 C70 42 74 36 74 28 C74 20 68 14 60 14 Z" fill="url(#emblemGold)"/>
-    <!-- Left Lion Head -->
-    <path d="M38 24 C32 24 26 28 26 35 C26 42 30 46 34 49 C30 52 28 57 30 64 C32 70 38 73 44 74 C42 66 42 58 44 50 C40 46 38 41 38 35 C38 30 40 26 42 24 Z" fill="url(#emblemGold)"/>
-    <!-- Right Lion Head -->
-    <path d="M82 24 C88 24 94 28 94 35 C94 42 90 46 86 49 C90 52 92 57 90 64 C88 70 82 73 76 74 C78 66 78 58 76 50 C80 46 82 41 82 35 C82 30 80 26 78 24 Z" fill="url(#emblemGold)"/>
-    <!-- Mane details & facial features -->
-    <circle cx="56" cy="30" r="2" fill="#fff"/>
-    <circle cx="64" cy="30" r="2" fill="#fff"/>
-    <path d="M57 36 L63 36 L60 40 Z" fill="#fff"/>
-    <path d="M55 42 Q60 45 65 42" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Lion Paws & Torso Support -->
-    <path d="M42 74 L78 74 L80 90 L40 90 Z" fill="url(#emblemGold)"/>
-    <!-- Abacus Platform Base -->
-    <rect x="20" y="92" width="80" height="8" rx="2" fill="url(#emblemGold)"/>
-    <!-- Ashoka Chakra (Wheel of Dharma) with 24 spokes -->
-    <circle cx="60" cy="112" r="14" stroke="url(#emblemGold)" stroke-width="2.5" fill="#fdfbf7"/>
-    <circle cx="60" cy="112" r="3" fill="url(#emblemGold)"/>
-    <!-- Chakra Spokes -->
-    <path d="M60 98 L60 126 M46 112 L74 112 M50 102 L70 122 M50 122 L70 102 M54 99 L66 125 M54 125 L66 99 M47 106 L73 118 M47 118 L73 106" stroke="url(#emblemGold)" stroke-width="1.2"/>
-    <!-- Flanking Figures: Bull on right, Horse on left -->
-    <path d="M28 106 C25 106 23 110 25 115 C27 119 32 119 35 116 C37 113 36 109 33 107 Z" fill="url(#emblemGold)"/>
-    <path d="M87 106 C84 106 83 110 85 115 C87 119 92 119 95 116 C97 113 96 109 93 107 Z" fill="url(#emblemGold)"/>
-    <!-- Lower Base Foundation -->
-    <rect x="15" y="128" width="90" height="6" rx="2" fill="url(#emblemGold)"/>
-    <rect x="22" y="136" width="76" height="4" rx="1" fill="url(#emblemGold)"/>
-    <!-- Motto: Satyameva Jayate (सत्यमेव जयते) in Devanagari -->
-    <text x="60" y="152" text-anchor="middle" font-family="'Noto Sans Devanagari', serif" font-weight="700" font-size="9" fill="#1b5e20" letter-spacing="1">सत्यमेव जयते</text>
+  return `<svg class="govt-emblem-svg ${className}" height="${height}" viewBox="0 0 320 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="State Emblem of India" role="img">
+    <g fill="#1b5e20" stroke="#1b5e20" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Ears -->
+      <path d="M135 48 C130 35 140 25 148 30 C152 34 150 44 145 48 Z" fill="#1b5e20"/>
+      <path d="M185 48 C190 35 180 25 172 30 C168 34 170 44 175 48 Z" fill="#1b5e20"/>
+      <!-- Head crown -->
+      <path d="M145 32 C152 24 168 24 175 32 C182 40 182 52 178 60 C172 68 148 68 142 60 C138 52 138 40 145 32 Z" fill="#1b5e20"/>
+      <!-- Center Face details -->
+      <ellipse cx="160" cy="55" rx="14" ry="18" fill="#ffffff"/>
+      <path d="M153 48 C153 46 156 44 158 46 C160 48 158 50 155 50 Z" fill="#1b5e20"/>
+      <path d="M167 48 C167 46 164 44 162 46 C160 48 162 50 165 50 Z" fill="#1b5e20"/>
+      <path d="M157 54 L163 54 L160 60 Z" fill="#1b5e20"/>
+      <path d="M152 64 Q160 68 168 64" stroke="#1b5e20" stroke-width="2.5" fill="none"/>
+      
+      <!-- Left Lion Head -->
+      <path d="M102 78 C94 65 102 50 114 55 C122 59 122 72 116 80 Z" fill="#1b5e20"/>
+      <ellipse cx="112" cy="90" rx="12" ry="15" fill="#ffffff" transform="rotate(-20 112 90)"/>
+      <circle cx="108" cy="85" r="2.5" fill="#1b5e20"/>
+      <path d="M105 92 Q112 96 116 90" stroke="#1b5e20" stroke-width="2" fill="none"/>
+
+      <!-- Right Lion Head -->
+      <path d="M218 78 C226 65 218 50 206 55 C198 59 198 72 204 80 Z" fill="#1b5e20"/>
+      <ellipse cx="208" cy="90" rx="12" ry="15" fill="#ffffff" transform="rotate(20 208 90)"/>
+      <circle cx="212" cy="85" r="2.5" fill="#1b5e20"/>
+      <path d="M215 92 Q208 96 204 90" stroke="#1b5e20" stroke-width="2" fill="none"/>
+
+      <!-- Center & Side Mane -->
+      <path d="M136 70 C128 85 130 105 138 120 C144 110 148 95 142 80 Z" fill="#1b5e20"/>
+      <path d="M184 70 C192 85 190 105 182 120 C176 110 172 95 178 80 Z" fill="#1b5e20"/>
+      <path d="M148 76 C142 95 145 125 160 145 C175 125 178 95 172 76 Z" fill="#1b5e20"/>
+      <path d="M152 90 Q160 110 168 90" stroke="#ffffff" stroke-width="2" fill="none"/>
+      <path d="M146 110 Q160 135 174 110" stroke="#ffffff" stroke-width="2" fill="none"/>
+      <path d="M142 130 Q160 160 178 130" stroke="#ffffff" stroke-width="2" fill="none"/>
+      
+      <!-- Left lion mane curls -->
+      <path d="M82 105 C75 125 80 155 95 185 C108 165 110 135 98 112 Z" fill="#1b5e20"/>
+      <path d="M96 125 C90 150 96 180 115 210 C124 185 122 155 110 130 Z" fill="#1b5e20"/>
+
+      <!-- Right lion mane curls -->
+      <path d="M238 105 C245 125 240 155 225 185 C212 165 210 135 222 112 Z" fill="#1b5e20"/>
+      <path d="M224 125 C230 150 224 180 205 210 C196 185 198 155 210 130 Z" fill="#1b5e20"/>
+
+      <!-- Center & Side Legs/Paws -->
+      <path d="M138 180 L134 275 L148 285 L156 285 L152 180 Z" fill="#1b5e20"/>
+      <path d="M182 180 L186 275 L172 285 L164 285 L168 180 Z" fill="#1b5e20"/>
+      <path d="M98 215 L88 280 L106 288 L116 280 L112 215 Z" fill="#1b5e20"/>
+      <path d="M222 215 L232 280 L214 288 L204 280 L208 215 Z" fill="#1b5e20"/>
+
+      <!-- Beaded Rim Base -->
+      <path d="M68 288 L252 288 L256 300 L64 300 Z" fill="#1b5e20"/>
+
+      <!-- Drum Base Wall with Ashoka Chakra, Horse & Bull -->
+      <rect x="58" y="300" width="204" height="68" fill="#ffffff" stroke="#1b5e20" stroke-width="3"/>
+
+      <!-- Ashoka Dharma Chakra (24 spokes) -->
+      <circle cx="160" cy="334" r="28" fill="#ffffff" stroke="#1b5e20" stroke-width="3.5"/>
+      <circle cx="160" cy="334" r="5" fill="#1b5e20"/>
+      <path d="M160 306 L160 362 M132 334 L188 334 M140 314 L180 354 M140 354 L180 314 M149 308 L171 360 M149 360 L171 308 M134 323 L186 345 M134 345 L186 323" stroke="#1b5e20" stroke-width="1.8"/>
+
+      <!-- Galloping Horse (Left) & Bull (Right) -->
+      <path d="M85 320 C92 312 102 312 108 318 C115 325 125 330 130 338 C122 342 115 338 108 344 C100 350 94 360 86 358 C80 354 84 344 88 338 Z" fill="#1b5e20"/>
+      <path d="M235 320 C228 312 218 312 212 318 C205 325 195 330 190 338 C198 342 205 338 212 344 C220 350 226 360 234 358 C240 354 236 344 232 338 Z" fill="#1b5e20"/>
+
+      <!-- Lotus Pedestal Base -->
+      <path d="M60 368 L260 368 L266 386 L54 386 Z" fill="#1b5e20"/>
+      <rect x="74" y="386" width="172" height="12" rx="3" fill="#1b5e20"/>
+      <rect x="88" y="398" width="144" height="8" rx="2" fill="#1b5e20"/>
+
+      <!-- Motto: सत्यमेव जयते -->
+      <text x="160" y="448" text-anchor="middle" font-family="'Noto Sans Devanagari', 'Mukta', serif" font-weight="900" font-size="34" fill="#1b5e20" stroke="none" letter-spacing="3">सत्यमेव जयते</text>
+    </g>
   </svg>`;
 }
+

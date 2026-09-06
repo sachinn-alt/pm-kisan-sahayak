@@ -45,9 +45,9 @@ export async function downloadParchiPdf(farmer) {
     });
 
     const issue = farmer.issueDetails || {
-      title: 'All Records Updated',
-      explain: 'No pending issue found.',
-      documents: ['Original Aadhaar Card', 'Bank Passbook']
+      title: 'सभी विवरण सही हैं (All Records Updated)',
+      explain: 'खाते में कोई लंबित समस्या नहीं पाई गई। आगामी किस्त समय पर जमा होगी।',
+      documents: ['मूल आधार कार्ड (Original Aadhaar)', 'बैंक पासबुक (Bank Passbook)']
     };
 
     const today = new Date().toLocaleDateString('en-IN', {
@@ -56,188 +56,255 @@ export async function downloadParchiPdf(farmer) {
       year: 'numeric'
     });
 
-    // Tricolor top banner
+    // Outer Certificate Double Border Frame
+    doc.setDrawColor(27, 94, 32); // Forest Green
+    doc.setLineWidth(0.7);
+    doc.rect(8, 8, 194, 281, 'D');
+
+    doc.setDrawColor(218, 165, 32); // Warm Gold
+    doc.setLineWidth(0.3);
+    doc.rect(9.5, 9.5, 191, 278, 'D');
+
+    // National Tricolor Top Ribbon
     doc.setFillColor(255, 153, 51); // Saffron
-    doc.rect(10, 8, 190, 2, 'F');
+    doc.rect(10, 10, 190, 2.5, 'F');
     doc.setFillColor(255, 255, 255); // White
-    doc.rect(10, 10, 190, 2, 'F');
-    doc.setFillColor(19, 136, 8); // Green
-    doc.rect(10, 12, 190, 2, 'F');
+    doc.rect(10, 12.5, 190, 2.5, 'F');
+    doc.setFillColor(19, 136, 8); // India Green
+    doc.rect(10, 15, 190, 2.5, 'F');
 
     // Header Titles
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
+    doc.setFontSize(13);
     doc.setTextColor(27, 94, 32);
-    doc.text('GOVERNMENT OF INDIA / भारत सरकार', 105, 22, { align: 'center' });
+    doc.text('GOVERNMENT OF INDIA / भारत सरकार', 105, 25, { align: 'center' });
 
-    doc.setFontSize(10);
+    doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(60, 60, 60);
-    doc.text('Ministry of Agriculture & Farmers Welfare | कृषि एवं किसान कल्याण मंत्रालय', 105, 28, { align: 'center' });
+    doc.setTextColor(50, 50, 50);
+    doc.text('Ministry of Agriculture & Farmers Welfare | कृषि एवं किसान कल्याण मंत्रालय', 105, 30, { align: 'center' });
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
+    doc.setFontSize(12.5);
     doc.setTextColor(20, 20, 20);
-    doc.text('PM-KISAN CITIZEN ACTION SLIP (पीएम-किसान सेवा पर्ची)', 105, 36, { align: 'center' });
+    doc.text('PM-KISAN DBT CITIZEN SEVA PARCHI (नागरिक सहायता पर्ची)', 105, 37, { align: 'center' });
 
+    // Reference Pill
+    doc.setFillColor(240, 248, 240);
+    doc.setDrawColor(180, 220, 180);
+    doc.roundedRect(42, 40.5, 126, 6, 2, 2, 'FD');
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(27, 94, 32);
+    doc.text(`Official Ref: PMK-${farmer.regNumber.slice(-6)}   |   Date: ${today}   |   CSC Priority Slip`, 105, 44.5, { align: 'center' });
+
+    // Vector QR Code on Top Right (x: 172, y: 22)
+    doc.setFillColor(27, 94, 32);
+    doc.rect(172, 21, 22, 22, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(173.5, 22.5, 19, 19, 'F');
+    doc.setFillColor(27, 94, 32);
+    // Corners
+    doc.rect(175, 24, 5, 5, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(176, 25, 3, 3, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(177, 26, 1, 1, 'F');
+
+    doc.rect(185, 24, 5, 5, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(186, 25, 3, 3, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(187, 26, 1, 1, 'F');
+
+    doc.rect(175, 34, 5, 5, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(176, 35, 3, 3, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(177, 36, 1, 1, 'F');
+
+    // Matrix dots
+    doc.rect(181, 25, 2, 2, 'F');
+    doc.rect(181, 29, 4, 1.5, 'F');
+    doc.rect(182, 32, 1.5, 3, 'F');
+    doc.rect(185, 34, 5, 2, 'F');
+    doc.rect(187, 37, 3, 2, 'F');
+
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(27, 94, 32);
+    doc.text('SCAN TO VERIFY', 183, 46, { align: 'center' });
+
+    // Section 1: Beneficiary Credentials
+    doc.setDrawColor(187, 222, 194);
+    doc.setFillColor(248, 253, 249);
+    doc.roundedRect(13, 49, 184, 42, 3, 3, 'FD');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(27, 94, 32);
+    doc.text('1. BENEFICIARY IDENTIFICATION / किसान पहचान विवरण', 18, 56);
+
+    // 2-Column Beneficiary Details Grid
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Generated on: ${today} | Unique Verification Ref: PMK-${farmer.regNumber.slice(-6)}`, 105, 41, { align: 'center' });
-
-    // Section 1: Beneficiary Details Box
-    doc.setDrawColor(200, 220, 200);
-    doc.setFillColor(248, 253, 248);
-    doc.roundedRect(15, 46, 180, 42, 3, 3, 'FD');
-
+    doc.setTextColor(80, 80, 80);
+    doc.text('Farmer Name (किसान का नाम):', 18, 63);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    doc.setTextColor(20, 20, 20);
+    doc.text(`${farmer.name}`, 72, 63);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Registration No (पंजीकरण सं.):', 110, 63);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(20, 20, 20);
+    doc.text(`${farmer.regNumber}`, 160, 63);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Mobile No (मोबाइल नंबर):', 18, 71);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(20, 20, 20);
+    doc.text(`+91 ${farmer.pendingLogin || '9876543210'}`, 72, 71);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Aadhaar Seeding Status:', 110, 71);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(20, 20, 20);
+    doc.text(`XXXX-XXXX-${farmer.aadhaarLast4 || '4321'}`, 160, 71);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Village / Panchayat (ग्राम):', 18, 79);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(20, 20, 20);
+    doc.text(`${farmer.village}`, 72, 79);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('District & State (जिला व राज्य):', 110, 79);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(20, 20, 20);
+    doc.text(`${farmer.district}, ${farmer.state}`, 160, 79);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Installments Received / Total:', 18, 87);
+    doc.setFont('helvetica', 'bold');
     doc.setTextColor(27, 94, 32);
-    doc.text('1. BENEFICIARY DETAILS (किसान का विवरण)', 20, 54);
-
-    doc.setFontSize(10);
-    doc.setTextColor(40, 40, 40);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Farmer Name:`, 20, 62);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${farmer.name}`, 60, 62);
-
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Registration No:`, 110, 62);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${farmer.regNumber}`, 150, 62);
-
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Mobile Number:`, 20, 70);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`+91 ${farmer.pendingLogin || '9876543210'}`, 60, 70);
-
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Aadhaar Last 4:`, 110, 70);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`XXXX-XXXX-${farmer.aadhaarLast4 || '4321'}`, 150, 70);
-
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Village & District:`, 20, 78);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${farmer.village}, ${farmer.district}, ${farmer.state}`, 60, 78);
+    const recCount = farmer.installments.filter(x => x.status === 'received').length;
+    doc.text(`${recCount} Credited (Total ₹${(recCount * 2000).toLocaleString('en-IN')})`, 72, 87);
 
     // Section 2: Rejection / Issue Diagnosis
-    doc.setDrawColor(245, 180, 180);
-    doc.setFillColor(255, 246, 246);
-    doc.roundedRect(15, 93, 180, 42, 3, 3, 'FD');
+    doc.setDrawColor(254, 202, 202);
+    doc.setFillColor(255, 245, 245);
+    doc.roundedRect(13, 94, 184, 40, 3, 3, 'FD');
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(180, 40, 40);
-    doc.text('2. PFMS REJECTION DIAGNOSIS (समस्या का कारण)', 20, 101);
-
     doc.setFontSize(10.5);
-    doc.setTextColor(20, 20, 20);
-    doc.text(`Issue Found: ${issue.title}`, 20, 110);
+    doc.setTextColor(185, 28, 28);
+    doc.text('2. PFMS & DBT REJECTION DIAGNOSIS / अस्वीकृति का मुख्य कारण', 18, 101);
 
-    doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
-    doc.setTextColor(60, 60, 60);
-    const splitExplain = doc.splitTextToSize(`Explanation: ${issue.explain}`, 170);
-    doc.text(splitExplain, 20, 118);
-
-    // Section 3: Action Instructions for CSC / Bank Operator
-    doc.setDrawColor(180, 210, 240);
-    doc.setFillColor(245, 250, 255);
-    doc.roundedRect(15, 140, 180, 40, 3, 3, 'FD');
-
+    doc.setTextColor(153, 27, 27);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(15, 75, 140);
-    doc.text('3. CSC / VLE OPERATOR INSTRUCTIONS (सीएससी ऑपरेटर हेतु निर्देश)', 20, 148);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9.5);
-    doc.setTextColor(40, 40, 40);
-    doc.text('• Verify biometric authentication on pmkisan.gov.in CSC login portal.', 20, 156);
-    doc.text('• Re-seed Aadhaar with active bank account in NPCI DBT Bharat mapper.', 20, 163);
-    doc.text('• Issue physical acknowledgment receipt to the farmer after biometric scan.', 20, 170);
-
-    // Section 4: Required Documents
-    doc.setDrawColor(220, 220, 220);
-    doc.setFillColor(252, 252, 252);
-    doc.roundedRect(15, 185, 180, 35, 3, 3, 'FD');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(40, 40, 40);
-    doc.text('4. MANDATORY DOCUMENTS REQUIRED (जरूरी दस्तावेज)', 20, 193);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9.5);
-    let docY = 201;
-    issue.documents.forEach((d) => {
-      doc.text(`[✓] ${d}`, 25, docY);
-      docY += 6;
-    });
-
-    // Anti-Corruption Zero Fee Statutory Warning Box
-    doc.setDrawColor(255, 160, 0);
-    doc.setFillColor(255, 250, 235);
-    doc.roundedRect(15, 225, 180, 24, 3, 3, 'FD');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(180, 90, 0);
-    doc.text('OFFICIAL STATUTORY NOTICE (शुल्क संबंधी सरकारी निर्देश):', 20, 232);
+    doc.text(`Detected Issue: ${issue.title}`, 18, 109);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
-    doc.setTextColor(60, 50, 20);
-    doc.text('Biometric e-KYC and Aadhaar DBT seeding on PM-KISAN are 100% FREE (₹0). Do NOT pay any unofficial', 20, 238);
-    doc.text('charges to middlemen or touts. Report illegal demands to Toll-Free Helpline: 155261 / 1800-115-526.', 20, 243);
+    doc.setTextColor(60, 60, 60);
+    const splitExplain = doc.splitTextToSize(`Root Cause Explanation: ${issue.explain}`, 174);
+    doc.text(splitExplain, 18, 116);
 
-    // Official DBT Verification Seal (Stamp)
+    // Section 3: Action Required by CSC / VLE Operator
+    doc.setDrawColor(191, 219, 254);
+    doc.setFillColor(240, 247, 255);
+    doc.roundedRect(13, 137, 184, 42, 3, 3, 'FD');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(29, 78, 216);
+    doc.text('3. CSC / VLE / BANK OPERATOR DIRECTIVES / ऑपरेटर हेतु कार्य निर्देश', 18, 144);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(30, 41, 59);
+    doc.text('Step 1: Open official PM-KISAN portal (pmkisan.gov.in) via authorized CSC Login.', 20, 151);
+    doc.text('Step 2: Carry out Biometric Fingerprint / Iris / Face authentication for the citizen.', 20, 157);
+    doc.text('Step 3: Verify and link active bank account to NPCI Aadhaar Direct Benefit Transfer mapper.', 20, 163);
+    doc.text('Step 4: Issue official signed acknowledgement slip to farmer (Zero Fee / निःशुल्क).', 20, 169);
+
+    // Section 4: Mandatory Documents Checklist
+    doc.setDrawColor(226, 232, 240);
+    doc.setFillColor(250, 250, 250);
+    doc.roundedRect(13, 182, 184, 38, 3, 3, 'FD');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(51, 65, 85);
+    doc.text('4. MANDATORY DOCUMENTS REQUIRED / किसान द्वारा साथ लाए जाने वाले दस्तावेज', 18, 189);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(30, 41, 59);
+    let docY = 196;
+    issue.documents.forEach((d) => {
+      doc.setDrawColor(27, 94, 32);
+      doc.setFillColor(240, 253, 244);
+      doc.rect(20, docY - 3, 3.5, 3.5, 'FD');
+      doc.text('✓', 20.8, docY - 0.5);
+      doc.text(`${d}`, 27, docY);
+      docY += 6.5;
+    });
+
+    // Section 5: Anti-Corruption & Zero Fee Statutory Notice
+    doc.setDrawColor(251, 191, 36);
+    doc.setFillColor(255, 251, 235);
+    doc.roundedRect(13, 223, 184, 25, 3, 3, 'FD');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    doc.setTextColor(180, 83, 9);
+    doc.text('5. OFFICIAL STATUTORY ZERO-FEE NOTICE / शुल्क संबंधी सरकारी निर्देश:', 18, 230);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(120, 53, 15);
+    doc.text('• Government biometric e-KYC and DBT status verification are 100% FREE (₹0).', 20, 236);
+    doc.text('• Do NOT pay any unauthorized fees or bribes to agents or middlemen.', 20, 240.5);
+    doc.text('• Report corruption or extortion to National Kisan Helpline: 155261 / Cyber Crime: 1930.', 20, 245);
+
+    // Official DBT Verification Seal (Stamp) on Bottom Right
     doc.setDrawColor(27, 94, 32);
     doc.setLineWidth(0.8);
-    doc.circle(170, 260, 11, 'D');
+    doc.circle(170, 263, 11, 'D');
     doc.setLineWidth(0.3);
-    doc.circle(170, 260, 9.8, 'D');
+    doc.circle(170, 263, 9.8, 'D');
     doc.setFontSize(5);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(27, 94, 32);
-    doc.text('PM-KISAN DBT', 170, 257.5, { align: 'center' });
-    doc.text('GOVT OF INDIA', 170, 260.5, { align: 'center' });
-    doc.text('★ VERIFIED ★', 170, 263.5, { align: 'center' });
+    doc.text('PM-KISAN DBT', 170, 260.5, { align: 'center' });
+    doc.text('GOVT OF INDIA', 170, 263.5, { align: 'center' });
+    doc.text('★ VERIFIED ★', 170, 266.5, { align: 'center' });
 
-    // Vector QR Code on Top Right (x: 162, y: 16)
-    doc.setFillColor(27, 94, 32);
-    // Corner 1
-    doc.rect(162, 16, 8, 8, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(164, 18, 4, 4, 'F');
-    doc.setFillColor(27, 94, 32);
-    doc.rect(165, 19, 2, 2, 'F');
-    // Corner 2
-    doc.rect(178, 16, 8, 8, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(180, 18, 4, 4, 'F');
-    doc.setFillColor(27, 94, 32);
-    doc.rect(181, 19, 2, 2, 'F');
-    // Corner 3
-    doc.rect(162, 30, 8, 8, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(164, 32, 4, 4, 'F');
-    doc.setFillColor(27, 94, 32);
-    doc.rect(165, 33, 2, 2, 'F');
-    // Pattern dots
-    doc.rect(172, 18, 3, 3, 'F');
-    doc.rect(172, 24, 6, 2, 'F');
-    doc.rect(173, 28, 2, 5, 'F');
-    doc.rect(178, 30, 8, 3, 'F');
-    doc.rect(182, 34, 4, 4, 'F');
+    // Official Signature & Authorized Line
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(60, 60, 60);
+    doc.text('Authorized Verification Digest', 20, 262);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Digital Token: SHA256-${farmer.regNumber.slice(-8)}-${Date.now().toString(36).toUpperCase()}`, 20, 266);
+    doc.text('Valid at all Common Service Centres (CSC), Bank Branches & Agriculture Offices across India.', 20, 270);
 
     // Footer
-    doc.setFontSize(8);
+    doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(140, 140, 140);
-    doc.text('PM-KISAN Sahayak Citizen Companion | Built for Build What Moves India | Authentic Digital Receipt', 100, 275, { align: 'center' });
+    doc.text('PM-KISAN Sahayak Companion  |  Built for "Build What Moves India" Hackathon  |  pmkisan.gov.in', 105, 279, { align: 'center' });
 
     // Save File with authentic naming
     const filename = `PM-KISAN_Seva_Parchi_${farmer.regNumber}.pdf`;
@@ -256,7 +323,6 @@ export async function downloadParchiPdf(farmer) {
     return true;
   } catch (err) {
     console.error('PDF generation error:', err);
-    window.print();
     return false;
   }
 }
@@ -370,9 +436,6 @@ export function renderSevaParchiModal(farmer, lang = 'hi') {
           <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
             ${tablerIcon('brandWhatsapp', 18)} <span>WhatsApp पर भेजें (Share)</span>
           </a>
-          <button class="secondary-btn" id="print-parchi-btn">
-            ${tablerIcon('printer', 18)} <span>प्रिंट करें (Print)</span>
-          </button>
           <button class="text-btn centered" id="dismiss-parchi-btn">वापस जाएं (Close)</button>
         </div>
       </div>

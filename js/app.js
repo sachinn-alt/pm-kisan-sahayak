@@ -405,11 +405,6 @@ function bind(current) {
   const dismissParchiBtn = document.querySelector('#dismiss-parchi-btn');
   if (dismissParchiBtn) dismissParchiBtn.addEventListener('click', () => { state.showParchi = false; render(); });
 
-  const printParchiBtn = document.querySelector('#print-parchi-btn');
-  if (printParchiBtn) {
-    printParchiBtn.addEventListener('click', () => { window.print(); });
-  }
-
   // Real PDF Download Button
   const downloadPdfBtn = document.querySelector('#download-parchi-pdf-btn');
   if (downloadPdfBtn) {

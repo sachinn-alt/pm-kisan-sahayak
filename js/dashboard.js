@@ -89,12 +89,84 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
         ${failed.length ? `
           <div class="failure-banner">
             <span>${tablerIcon('alertCircle', 24)}</span>
-            <p><b>${t('paymentFailed', lang)}</b><br>${t('paymentFailedDesc', lang)}</p>
+            <div class="failure-banner-text">
+              <b>${t('paymentFailed', lang)}</b>
+              <p>${t('paymentFailedDesc', lang)}</p>
+            </div>
             <button data-route="diagnosis">${t('fixNow', lang)} ${tablerIcon('arrowRight', 14)}</button>
           </div>
         ` : `
-          <div class="success-banner">${tablerIcon('circleCheck', 20)} All your installments are up to date.</div>
+          <div class="success-banner">${tablerIcon('circleCheck', 20)} ${lang === 'hi' ? 'आपकी सभी किस्तें अपडेट हैं। कोई समस्या नहीं है।' : 'All your installments are up to date.'}</div>
         `}
+
+        <!-- Core Citizen Action Grid (4 Primary Tools) -->
+        <div class="action-grid">
+          <button class="action-card ${failed.length ? 'highlight-alert' : ''}" data-route="diagnosis">
+            <span class="action-card-icon">${tablerIcon('search', 22)}</span>
+            <div class="action-card-info">
+              <strong>${t('whyPaymentFailed', lang)}</strong>
+              <small>${lang === 'hi' ? 'समस्या का कारण व निवारण' : 'Instant AI Diagnosis'}</small>
+            </div>
+          </button>
+          <button class="action-card" data-route="chat">
+            <span class="action-card-icon chat-icon">${tablerIcon('robot', 22)}</span>
+            <div class="action-card-info">
+              <strong>${t('talkToSahayak', lang)}</strong>
+              <small>${lang === 'hi' ? 'आवाज़ में सवाल पूछें' : 'Voice AI Assistant'}</small>
+            </div>
+          </button>
+          <button class="action-card" id="btn-open-ocr-scanner">
+            <span class="action-card-icon ocr-icon">${tablerIcon('camera', 22)}</span>
+            <div class="action-card-info">
+              <strong>${lang === 'hi' ? 'दस्तावेज OCR स्कैनर' : 'Document OCR'}</strong>
+              <small>${lang === 'hi' ? 'आधार व पासबुक जांच' : 'Aadhaar & Passbook'}</small>
+            </div>
+          </button>
+          <button class="action-card" data-route="scam-radar">
+            <span class="action-card-icon scam-icon">${tablerIcon('shieldCheck', 22)}</span>
+            <div class="action-card-info">
+              <strong>${lang === 'hi' ? 'सुरक्षा व फ्रॉड रडार' : 'Scam Radar'}</strong>
+              <small>${lang === 'hi' ? '1930 साइबर हेल्पलाइन' : '1930 Cyber Hotline'}</small>
+            </div>
+          </button>
+        </div>
+
+        <!-- 24th Installment Eligibility & Release Tracker -->
+        <article class="eligibility-card ${isAllEligible ? 'eligible' : 'action-needed'}">
+          <div class="eligibility-header">
+            <div>
+              <span class="eligibility-tag">${isAllEligible ? `${tablerIcon('circleCheck', 14)} 100% Eligible` : `${tablerIcon('alertTriangle', 14)} Action Required`}</span>
+              <h3>24वीं किस्त पात्रता जांच (24th Installment Tracker)</h3>
+            </div>
+            <span class="expected-date">Expected: Oct–Nov 2026</span>
+          </div>
+
+          <div class="eligibility-checklist">
+            <div class="check-item ${isEkycOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isEkycOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>e-KYC सत्यापन</strong>
+                <small>${isEkycOk ? 'सक्रिय (Active)' : 'नवीनीकरण लंबित (Expired)'}</small>
+              </div>
+            </div>
+
+            <div class="check-item ${isDbtOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isDbtOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>आधार-बैंक DBT सीडिंग</strong>
+                <small>${isDbtOk ? 'सक्रिय (NPCI Linked)' : 'नाम सुधार आवश्यक (Mismatch)'}</small>
+              </div>
+            </div>
+
+            <div class="check-item ${isLandOk ? 'ok' : 'warn'}">
+              <span class="check-icon">${isLandOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>भूलेख अंकन (Land Seeding)</strong>
+                <small>${isLandOk ? 'सत्यापित (Verified)' : 'लेखपाल सत्यापन बाकी (Pending)'}</small>
+              </div>
+            </div>
+          </div>
+        </article>
 
         <!-- WhatsApp Guidance Banner (Zero-Install Rural Access) -->
         <div class="whatsapp-prompt-banner">
@@ -147,63 +219,6 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
             <i>${tablerIcon('chevronRight', 16)}</i>
           </button>
         </div>
-
-        <!-- Action Grid with OCR & Scam Radar -->
-        <div class="action-grid">
-          <button class="action-card" data-route="diagnosis">
-            <i>${tablerIcon('search', 20)}</i>
-            <span>${t('whyPaymentFailed', lang)}</span>
-          </button>
-          <button class="action-card" data-route="chat">
-            <i>${tablerIcon('robot', 20)}</i>
-            <span>${t('talkToSahayak', lang)}</span>
-          </button>
-          <button class="action-card" id="btn-open-ocr-scanner">
-            <i>${tablerIcon('camera', 20)}</i>
-            <span>${lang === 'hi' ? 'दस्तावेज OCR' : 'Document OCR'}</span>
-          </button>
-          <button class="action-card" data-route="scam-radar">
-            <i>${tablerIcon('shieldCheck', 20)}</i>
-            <span>${lang === 'hi' ? 'सुरक्षा व फ्रॉड रडार' : 'Scam Radar'}</span>
-          </button>
-        </div>
-
-        <!-- 24th Installment Eligibility & Release Tracker -->
-        <article class="eligibility-card ${isAllEligible ? 'eligible' : 'action-needed'}">
-          <div class="eligibility-header">
-            <div>
-              <span class="eligibility-tag">${isAllEligible ? `${tablerIcon('circleCheck', 14)} 100% Eligible` : `${tablerIcon('alertTriangle', 14)} Action Required`}</span>
-              <h3>24वीं किस्त पात्रता जांच (24th Installment Tracker)</h3>
-            </div>
-            <span class="expected-date">Expected: Oct–Nov 2026</span>
-          </div>
-
-          <div class="eligibility-checklist">
-            <div class="check-item ${isEkycOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isEkycOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
-                <strong>e-KYC सत्यापन</strong>
-                <small>${isEkycOk ? 'सक्रिय (Active)' : 'नवीनीकरण लंबित (Expired)'}</small>
-              </div>
-            </div>
-
-            <div class="check-item ${isDbtOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isDbtOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
-                <strong>आधार-बैंक DBT सीडिंग</strong>
-                <small>${isDbtOk ? 'सक्रिय (NPCI Linked)' : 'नाम सुधार आवश्यक (Mismatch)'}</small>
-              </div>
-            </div>
-
-            <div class="check-item ${isLandOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isLandOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
-                <strong>भूलेख अंकन (Land Seeding)</strong>
-                <small>${isLandOk ? 'सत्यापित (Verified)' : 'लेखपाल सत्यापन बाकी (Pending)'}</small>
-              </div>
-            </div>
-          </div>
-        </article>
 
         <div class="section-heading">
           <h2>${t('paymentHistory', lang)}</h2>

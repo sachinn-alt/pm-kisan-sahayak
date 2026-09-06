@@ -264,6 +264,35 @@ function render() {
     `;
   }
 
+  // Persistent Mobile-First Bottom Navigation Dock
+  if (['dashboard', 'diagnosis', 'chat', 'farmer-corner', 'scam-radar', 'csc-locator', 'map', 'impact', 'helpline'].includes(current)) {
+    const lang = state.language;
+    html += `
+      <nav class="bottom-nav-bar" aria-label="Main Navigation">
+        <button class="nav-item ${current === 'dashboard' ? 'active' : ''}" data-route="dashboard">
+          <span class="nav-icon">${tablerIcon('sprout', 20)}</span>
+          <span class="nav-text">${lang === 'hi' ? 'डैशबोर्ड' : 'Home'}</span>
+        </button>
+        <button class="nav-item ${current === 'diagnosis' ? 'active' : ''}" data-route="diagnosis">
+          <span class="nav-icon">${tablerIcon('search', 20)}</span>
+          <span class="nav-text">${lang === 'hi' ? 'समाधान' : 'Diagnosis'}</span>
+        </button>
+        <button class="nav-item ${current === 'chat' ? 'active' : ''}" data-route="chat">
+          <span class="nav-icon">${tablerIcon('robot', 20)}</span>
+          <span class="nav-text">${lang === 'hi' ? 'AI सहायक' : 'AI Chat'}</span>
+        </button>
+        <button class="nav-item ${current === 'farmer-corner' ? 'active' : ''}" data-route="farmer-corner">
+          <span class="nav-icon">${tablerIcon('tractor', 20)}</span>
+          <span class="nav-text">${lang === 'hi' ? 'सेवाएं' : 'Services'}</span>
+        </button>
+        <button class="nav-item ${current === 'scam-radar' ? 'active' : ''}" data-route="scam-radar">
+          <span class="nav-icon">${tablerIcon('shieldCheck', 20)}</span>
+          <span class="nav-text">${lang === 'hi' ? 'सुरक्षा' : 'Security'}</span>
+        </button>
+      </nav>
+    `;
+  }
+
   app.innerHTML = html;
   bind(current);
   animateCounters();

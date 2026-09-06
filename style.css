@@ -684,40 +684,88 @@ h1, h2, h3, p { margin-top: 0; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  margin-bottom: 20px;
 }
 
 .action-card {
-  min-height: 95px;
+  min-height: 84px;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   background: #fff;
-  padding: 12px;
-  border-radius: 15px;
-  box-shadow: 0 5px 12px #164b1c1c;
+  padding: 12px 14px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(16, 32, 21, 0.08);
+  border: 1px solid #e5eee6;
   color: var(--ink);
-  font-weight: 800;
-  font-size: 14px;
-  line-height: 1.25;
-  transition: .25s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 }
 
 .action-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 20px rgba(16, 32, 21, 0.12);
+  border-color: #86efac;
 }
 
+.action-card:active {
+  transform: scale(0.98);
+}
+
+.action-card.highlight-alert {
+  border: 1.5px solid #fca5a5;
+  background: #fffafa;
+}
+
+.action-card-icon,
 .action-card i {
-  font-style: normal;
-  width: 37px;
-  height: 37px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: #edf8ed;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #e8f5e9;
+  color: #1b5e20;
   font-size: 20px;
   flex-shrink: 0;
+}
+
+.action-card-icon.chat-icon {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.action-card-icon.ocr-icon {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.action-card-icon.scam-icon {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.action-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.action-card-info strong {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.action-card-info small {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.2;
 }
 
 .section-heading {
@@ -4907,6 +4955,98 @@ button:active, .action-card:active, .service-card:active, .hub-btn:active {
   line-height: 1.35;
   display: block;
 }
+
+/* =========================================================
+   MOBILE-FIRST BOTTOM NAVIGATION DOCK
+   ========================================================= */
+.bottom-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid #e0ede2;
+  box-shadow: 0 -4px 20px rgba(16, 32, 21, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 6px 8px max(env(safe-area-inset-bottom), 6px);
+  z-index: 950;
+}
+
+.bottom-nav-bar .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  padding: 5px 6px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  min-width: 58px;
+}
+
+.bottom-nav-bar .nav-item:active {
+  transform: scale(0.93);
+}
+
+.bottom-nav-bar .nav-item .nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bottom-nav-bar .nav-item .nav-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.bottom-nav-bar .nav-item.active {
+  color: #1b5e20;
+}
+
+.bottom-nav-bar .nav-item.active .nav-icon {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.bottom-nav-bar .nav-item.active .nav-text {
+  font-weight: 800;
+  color: #1b5e20;
+}
+
+/* Adjust floating voice bar to stay comfortably above bottom nav */
+.floating-voice-bar {
+  position: fixed;
+  bottom: 72px;
+  right: 18px;
+  z-index: 960;
+}
+
+.screen {
+  padding-bottom: 76px;
+}
+
+.splash-screen,
+.login-screen,
+.otp-screen {
+  padding-bottom: 0;
+}
+
 
 
 

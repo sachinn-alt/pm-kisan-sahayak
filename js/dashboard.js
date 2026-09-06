@@ -261,13 +261,22 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
           </button>
         </div>
 
-        <div class="section-heading">
-          <h2>${t('paymentHistory', lang)}</h2>
-          <button class="text-btn" data-action="history">${all ? t('showLess', lang) : t('viewAll', lang)}</button>
-        </div>
+        <div class="payment-history-section">
+          <div class="section-heading">
+            <div class="heading-with-badge">
+              <h2>${t('paymentHistory', lang)}</h2>
+              <span class="installment-count-tag">${farmer.installments.length} Total</span>
+            </div>
+            <span class="scroll-hint-label">
+              ${tablerIcon('arrowsSort', 12)} ${lang === 'hi' ? 'टाइमलाइन स्क्रॉल करें' : 'Scroll Timeline'}
+            </span>
+          </div>
 
-        <div class="payment-list">
-          ${shown.map(paymentCard).join('')}
+          <div class="payment-list-wrapper">
+            <div class="payment-list" id="payment-history-scroll" tabindex="0" role="region" aria-label="Payment History Timeline">
+              ${farmer.installments.map(paymentCard).join('')}
+            </div>
+          </div>
         </div>
 
         <article class="about-card">
@@ -293,14 +302,23 @@ function paymentCard(item) {
   const isFailed = item.status === 'failed';
   const icon = isReceived ? tablerIcon('circleCheck', 14) : (isFailed ? tablerIcon('circleX', 14) : tablerIcon('clock', 14));
   const label = isReceived ? 'Received' : (isFailed ? 'Failed' : 'Pending');
+  const statusClass = item.status;
 
   return `
-    <article class="payment-card">
-      <div>
-        <h3>${item.number}${suffix(item.number)} Installment</h3>
-        <p>${item.date} • ${rupees(item.amount)}</p>
+    <article class="payment-card ${statusClass}">
+      <div class="payment-card-left">
+        <div class="installment-number-badge ${statusClass}">
+          <span>#${item.number}</span>
+        </div>
+        <div class="installment-info">
+          <h3>${item.number}${suffix(item.number)} Installment</h3>
+          <p>${item.date} • <strong class="payment-amount">${rupees(item.amount)}</strong></p>
+        </div>
       </div>
-      <span class="payment-status ${item.status}">${icon} <span>${label}</span></span>
+      <span class="payment-status ${statusClass}">
+        ${icon}
+        <span>${label}</span>
+      </span>
     </article>
   `;
 }

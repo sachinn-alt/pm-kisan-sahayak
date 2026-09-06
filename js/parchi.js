@@ -1,7 +1,5 @@
 import { t } from './i18n.js';
 import { tablerIcon, emblemOfIndia } from './icons.js';
-import { jsPDF } from 'jspdf';
-import confetti from 'canvas-confetti';
 
 // Generate QR Code SVG for quick verification
 function generateQrSvg(regNumber) {
@@ -37,8 +35,9 @@ function generateQrSvg(regNumber) {
   </svg>`;
 }
 
-export function downloadParchiPdf(farmer) {
+export async function downloadParchiPdf(farmer) {
   try {
+    const { jsPDF } = await import('jspdf');
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -203,12 +202,15 @@ export function downloadParchiPdf(farmer) {
     const filename = `PM-KISAN_Seva_Parchi_${farmer.regNumber}.pdf`;
     doc.save(filename);
 
-    // Confetti celebration
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
+    // Confetti celebration (on demand)
+    try {
+      const confetti = (await import('canvas-confetti')).default;
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    } catch (_) {}
 
     return true;
   } catch (err) {

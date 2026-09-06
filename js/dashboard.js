@@ -273,8 +273,8 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
           </div>
 
           <div class="payment-list-wrapper">
-            <div class="payment-list" id="payment-history-scroll" tabindex="0" role="region" aria-label="Payment History Timeline">
-              ${farmer.installments.map(paymentCard).join('')}
+            <div class="payment-list skiper16-card-stack" id="payment-history-scroll" tabindex="0" role="region" aria-label="Payment History Timeline">
+              ${farmer.installments.map((item, index) => paymentCard(item, index, farmer.installments.length)).join('')}
             </div>
           </div>
         </div>
@@ -297,7 +297,7 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
     </section>`;
 }
 
-function paymentCard(item) {
+function paymentCard(item, index = 0, total = 23) {
   const isReceived = item.status === 'received';
   const isFailed = item.status === 'failed';
   const icon = isReceived ? tablerIcon('circleCheck', 14) : (isFailed ? tablerIcon('circleX', 14) : tablerIcon('clock', 14));
@@ -305,7 +305,7 @@ function paymentCard(item) {
   const statusClass = item.status;
 
   return `
-    <article class="payment-card ${statusClass}">
+    <article class="payment-card skiper16-card ${statusClass}" data-card-index="${index}" style="--card-index: ${index}; --total-cards: ${total};">
       <div class="payment-card-left">
         <div class="installment-number-badge ${statusClass}">
           <span>#${item.number}</span>

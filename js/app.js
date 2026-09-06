@@ -791,12 +791,34 @@ function bind(current) {
   }
 
   if (current === 'dashboard') {
-    const histBtn = document.querySelector('[data-action="history"]');
-    if (histBtn) {
-      histBtn.addEventListener('click', () => {
-        state.historyAll = !state.historyAll;
-        render();
-      });
+    const scrollContainer = document.querySelector('#payment-history-scroll');
+    if (scrollContainer) {
+      const cards = scrollContainer.querySelectorAll('.skiper16-card');
+      const updateCardStack = () => {
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const containerTop = containerRect.top;
+
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          const distanceFromTop = rect.top - containerTop;
+
+          // When card is docked/stacked at the top
+          if (distanceFromTop <= 16) {
+            const overlap = Math.max(0, 16 - distanceFromTop);
+            const scale = Math.max(0.92, 1 - (overlap * 0.0025));
+            const translateY = Math.min(index * 2, 6);
+            card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            card.style.boxShadow = '0 8px 24px rgba(16, 32, 21, 0.12)';
+          } else {
+            card.style.transform = '';
+            card.style.boxShadow = '';
+          }
+        });
+      };
+
+      scrollContainer.addEventListener('scroll', () => {
+        requestAnimationFrame(updateCardStack);
+      }, { passive: true });
     }
   }
 

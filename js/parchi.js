@@ -180,25 +180,66 @@ export async function downloadParchiPdf(farmer) {
     // Anti-Corruption Zero Fee Statutory Warning Box
     doc.setDrawColor(255, 160, 0);
     doc.setFillColor(255, 250, 235);
-    doc.roundedRect(15, 225, 180, 26, 3, 3, 'FD');
+    doc.roundedRect(15, 225, 180, 24, 3, 3, 'FD');
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(180, 90, 0);
-    doc.text('OFFICIAL STATUTORY NOTICE (शुल्क संबंधी सरकारी निर्देश):', 20, 233);
+    doc.text('OFFICIAL STATUTORY NOTICE (शुल्क संबंधी सरकारी निर्देश):', 20, 232);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
     doc.setTextColor(60, 50, 20);
-    doc.text('Biometric e-KYC and Aadhaar DBT seeding on PM-KISAN are 100% FREE (₹0). Do NOT pay any unofficial', 20, 240);
-    doc.text('charges to middlemen or touts. Report illegal demands to Toll-Free Helpline: 155261 / 1800-115-526.', 20, 245);
+    doc.text('Biometric e-KYC and Aadhaar DBT seeding on PM-KISAN are 100% FREE (₹0). Do NOT pay any unofficial', 20, 238);
+    doc.text('charges to middlemen or touts. Report illegal demands to Toll-Free Helpline: 155261 / 1800-115-526.', 20, 243);
+
+    // Official DBT Verification Seal (Stamp)
+    doc.setDrawColor(27, 94, 32);
+    doc.setLineWidth(0.8);
+    doc.circle(170, 260, 11, 'D');
+    doc.setLineWidth(0.3);
+    doc.circle(170, 260, 9.8, 'D');
+    doc.setFontSize(5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(27, 94, 32);
+    doc.text('PM-KISAN DBT', 170, 257.5, { align: 'center' });
+    doc.text('GOVT OF INDIA', 170, 260.5, { align: 'center' });
+    doc.text('★ VERIFIED ★', 170, 263.5, { align: 'center' });
+
+    // Vector QR Code on Top Right (x: 162, y: 16)
+    doc.setFillColor(27, 94, 32);
+    // Corner 1
+    doc.rect(162, 16, 8, 8, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(164, 18, 4, 4, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(165, 19, 2, 2, 'F');
+    // Corner 2
+    doc.rect(178, 16, 8, 8, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(180, 18, 4, 4, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(181, 19, 2, 2, 'F');
+    // Corner 3
+    doc.rect(162, 30, 8, 8, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(164, 32, 4, 4, 'F');
+    doc.setFillColor(27, 94, 32);
+    doc.rect(165, 33, 2, 2, 'F');
+    // Pattern dots
+    doc.rect(172, 18, 3, 3, 'F');
+    doc.rect(172, 24, 6, 2, 'F');
+    doc.rect(173, 28, 2, 5, 'F');
+    doc.rect(178, 30, 8, 3, 'F');
+    doc.rect(182, 34, 4, 4, 'F');
 
     // Footer
     doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
     doc.setTextColor(140, 140, 140);
-    doc.text('PM-KISAN Sahayak Citizen Companion | Built for Build What Moves India | Authentic Digital Receipt', 105, 275, { align: 'center' });
+    doc.text('PM-KISAN Sahayak Citizen Companion | Built for Build What Moves India | Authentic Digital Receipt', 100, 275, { align: 'center' });
 
-    // Save File
+    // Save File with authentic naming
     const filename = `PM-KISAN_Seva_Parchi_${farmer.regNumber}.pdf`;
     doc.save(filename);
 

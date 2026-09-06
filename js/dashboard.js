@@ -1,6 +1,6 @@
 import { rupees, statusMeta } from './utils.js';
 import { LANGUAGES, t } from './i18n.js';
-import { tablerIcon } from './icons.js';
+import { tablerIcon, emblemOfIndia } from './icons.js';
 
 export function dashboardView(farmer, all = false, lang = 'hi') {
   const received = farmer.installments.filter(x => x.status === 'received');
@@ -16,10 +16,10 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
   return `
     <section class="screen dashboard-screen">
       <header class="dashboard-hero">
-        <!-- Official Government Masthead Row -->
+        <!-- Official Government Masthead Row with State Emblem -->
         <div class="gov-topbar">
           <div class="gov-brand">
-            <span class="gov-tricolor"></span>
+            ${emblemOfIndia(32, 'gov-masthead-emblem')}
             <div class="gov-title-group">
               <span class="gov-dept-name">PM-KISAN · भारत सरकार</span>
               <span class="gov-status-pill">
@@ -90,7 +90,7 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
           <div class="wa-banner-content">
             <span class="wa-badge">ZERO-INSTALL COMPANION</span>
             <h3>${lang === 'hi' ? 'व्हाट्सएप सहायक बॉट (WhatsApp Bot)' : 'WhatsApp Sahayak Bot'}</h3>
-            <p>${lang === 'hi' ? 'बिना ऐप डाउनलोड किए सीधे व्हाट्सएप पर स्थिति व समाधान देखें' : 'Instant guidance & Seva Parchi on WhatsApp without downloading any app'}</p>
+            <p>${lang === 'hi' ? 'बिना ऐप डाउनलोड किए सीधे व्हाट्सएप पर स्थिति व पर्ची प्राप्त करें' : 'Instant guidance & Seva Parchi on WhatsApp without downloading any app'}</p>
           </div>
           <button class="wa-launch-btn" data-route="whatsapp">
             <span>${lang === 'hi' ? 'शुरू करें' : 'Open'}</span> ${tablerIcon('arrowRight', 14)}
@@ -122,15 +122,15 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
             <span class="hub-icon">${tablerIcon('mapPin', 22)}</span>
             <div>
               <strong>नजदीकी CSC केंद्र</strong>
-              <small>Locate Jan Seva Kendra</small>
+              <small>GPS Location</small>
             </div>
             <i>${tablerIcon('chevronRight', 16)}</i>
           </button>
           <button class="hub-btn impact-hub" data-route="impact">
             <span class="hub-icon">${tablerIcon('award', 22)}</span>
             <div>
-              <strong>प्रभाव व प्रतिस्पर्धा</strong>
-              <small>Impact & Benchmark</small>
+              <strong>प्रभाव व ROI</strong>
+              <small>₹1,420/yr Saved</small>
             </div>
             <i>${tablerIcon('chevronRight', 16)}</i>
           </button>
@@ -145,9 +145,9 @@ export function dashboardView(farmer, all = false, lang = 'hi') {
             <i>${tablerIcon('robot', 20)}</i>
             <span>${t('talkToSahayak', lang)}</span>
           </button>
-          <button class="action-card" data-route="csc-locator">
-            <i>${tablerIcon('buildingStore', 20)}</i>
-            <span>${lang === 'hi' ? 'CSC केंद्र खोजें' : 'Locate CSC'}</span>
+          <button class="action-card" id="btn-open-ocr-scanner">
+            <i>${tablerIcon('camera', 20)}</i>
+            <span>${lang === 'hi' ? 'दस्तावेज OCR स्कैनर' : 'Document OCR'}</span>
           </button>
           <button class="action-card" data-route="helpline">
             <i>${tablerIcon('phone', 20)}</i>

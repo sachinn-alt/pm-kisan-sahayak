@@ -3682,3 +3682,446 @@ button:active, .action-card:active, .service-card:active, .hub-btn:active {
   display: flex;
   align-items: center;
 }
+
+/* =========================================================
+   GOVERNMENT OF INDIA EMBLEM & BRANDING STYLES
+   ========================================================= */
+.govt-emblem-svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+.gov-masthead-emblem {
+  height: 32px;
+  width: auto;
+}
+
+.splash-emblem-wrap,
+.login-emblem-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.splash-emblem,
+.login-emblem {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.header-title-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-emblem {
+  height: 38px;
+  width: auto;
+}
+
+/* Seva Parchi National Header Layout */
+.slip-national-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #e1eee2;
+  margin-bottom: 14px;
+}
+
+.slip-emblem-wrap {
+  flex-shrink: 0;
+}
+
+.slip-national-text {
+  flex: 1;
+  text-align: center;
+}
+
+.slip-national-text h3 {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1b5e20;
+  margin: 0 0 2px;
+  letter-spacing: 0.5px;
+}
+
+.slip-national-text .sub {
+  font-size: 10px;
+  color: #555;
+  margin: 0 0 4px;
+}
+
+.slip-national-text h4 {
+  font-size: 12px;
+  font-weight: 800;
+  color: #222;
+  margin: 0 0 4px;
+}
+
+.slip-national-text .ref-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: #e8f5e9;
+  color: #1b5e20;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #c8e6c9;
+}
+
+.slip-qr-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.parchi-qr-svg {
+  border: 1px solid #c8e6c9;
+  border-radius: 6px;
+  padding: 2px;
+  background: #fff;
+}
+
+.qr-caption {
+  font-size: 9px;
+  font-weight: 700;
+  color: #1b5e20;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* PDF Download Button */
+.pdf-btn {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: #fff;
+  font-weight: 700;
+}
+
+.pdf-btn:hover {
+  background: linear-gradient(135deg, #144818, #256629);
+}
+
+/* GPS Active Button State */
+.gps-btn.gps-active {
+  background: #1b5e20 !important;
+  color: #fff !important;
+  border-color: #1b5e20 !important;
+  box-shadow: 0 0 10px rgba(27, 94, 32, 0.4);
+}
+
+/* =========================================================
+   OCR SCANNER & DOCUMENT MATCHER MODAL
+   ========================================================= */
+.ocr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 30, 15, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.ocr-modal-card {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.25s ease;
+}
+
+.ocr-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: #fff;
+}
+
+.ocr-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ocr-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ocr-title-wrap h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ocr-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.ocr-modal-header .icon-btn {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ocr-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ocr-dropzone {
+  border: 2px dashed #9bc8a0;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  background: #f6fbf6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ocr-dropzone:hover {
+  background: #eef7ee;
+  border-color: #287b36;
+}
+
+.camera-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f5e9;
+  color: #1b5e20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.dropzone-content h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1b5e20;
+}
+
+.dropzone-content p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: #666;
+}
+
+.ocr-preview-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ocr-doc-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge-tag {
+  font-size: 11px;
+  font-weight: 800;
+  color: #555;
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.badge-status.warning {
+  font-size: 11px;
+  font-weight: 700;
+  color: #b71c1c;
+  background: #ffebee;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-status.success {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1b5e20;
+  background: #e8f5e9;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comparison-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.compare-card label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #666;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.compare-card.mismatch-alert {
+  background: #fff5f5;
+  border-color: #ffcdd2;
+}
+
+.diff-string {
+  font-family: monospace;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.diff-char.match {
+  color: #1b5e20;
+  background: #e8f5e9;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.diff-char.mismatch {
+  color: #c62828;
+  background: #ffcdd2;
+  padding: 2px 4px;
+  border-radius: 3px;
+  text-decoration: underline wavy #c62828;
+}
+
+.compare-card .sub-label {
+  font-size: 11px;
+  color: #555;
+}
+
+.remediation-banner {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.remediation-banner.danger {
+  background: #fff0f0;
+  border: 1px solid #ffcdd2;
+  color: #b71c1c;
+}
+
+.remediation-banner.success {
+  background: #f0faf0;
+  border: 1px solid #c8e6c9;
+  color: #1b5e20;
+}
+
+.remediation-banner .banner-icon {
+  flex-shrink: 0;
+}
+
+.remediation-banner .banner-text b {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.remediation-banner .banner-text p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ocr-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #f8faf8;
+  border-top: 1px solid #e6efe6;
+}
+
+/* =========================================================
+   PRINT STYLES FOR SEVA PARCHI ACTION SLIP
+   ========================================================= */
+@media print {
+  body {
+    background: #fff !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  #app,
+  .dashboard-screen,
+  .standard-screen,
+  .floating-voice-bar,
+  .parchi-modal-header,
+  .parchi-actions,
+  .top-nav-bar,
+  .action-grid {
+    display: none !important;
+  }
+
+  .modal-overlay,
+  #parchi-modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .parchi-modal-card {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    border: none !important;
+    display: block !important;
+  }
+
+  .parchi-slip-content {
+    display: block !important;
+    border: 2px solid #000 !important;
+    padding: 20px !important;
+    page-break-inside: avoid;
+  }
+}
+

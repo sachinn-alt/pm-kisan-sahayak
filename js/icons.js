@@ -62,9 +62,57 @@ export function tablerIcon(name, size = 20, className = '', extraAttrs = '') {
     award: '<path d="M12 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M10 7h4" /><path d="M10 18l-4 4v-7l3 -3" /><path d="M14 18l4 4v-7l-3 -3" />',
     help: '<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 17l.01 0" /><path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />',
     signal: '<path d="M6 18v.01" /><path d="M10 18v-4" /><path d="M14 18v-8" /><path d="M18 18v-12" />',
-    battery: '<path d="M6 7h11a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2l0 0" /><path d="M21 11v2" /><path d="M8 10v4" /><path d="M11 10v4" /><path d="M14 10v4" />'
+    battery: '<path d="M6 7h11a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2l0 0" /><path d="M21 11v2" /><path d="M8 10v4" /><path d="M11 10v4" /><path d="M14 10v4" />',
+    // Camera & Upload
+    camera: '<path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" /><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />',
+    qrcode: '<path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 17l0 .01" /><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M17 17l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 17l0 3" /><path d="M14 20l3 0" /><path d="M17 20l3 0" /><path d="M20 17l0 3" />',
+    download: '<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" />',
+    fileText: '<path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M9 9h1" /><path d="M9 13h6" /><path d="M9 17h6" />',
+    scan: '<path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 12l14 0" />',
+    compass: '<path d="M8 16l2 -6l6 -2l-2 6l-6 2" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />'
   };
 
   const path = iconPaths[name] || iconPaths['alertCircle'];
   return `<svg xmlns="http://www.w3.org/2000/svg" class="tabler-icon tabler-icon-${name} ${className}" width="${size}" height="${size}" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extraAttrs}>${path}</svg>`;
+}
+
+// Official Government of India Lion Capital Emblem (Ashoka Sarnath Capital)
+export function emblemOfIndia(height = 36, className = '') {
+  return `<svg class="govt-emblem-svg ${className}" height="${height}" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="State Emblem of India" role="img">
+    <defs>
+      <linearGradient id="emblemGold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#8a6714"/>
+        <stop offset="50%" stop-color="#b8860b"/>
+        <stop offset="100%" stop-color="#6e500b"/>
+      </linearGradient>
+    </defs>
+    <!-- Central Main Lion Head -->
+    <path d="M60 14 C52 14 46 20 46 28 C46 36 50 42 54 45 C50 48 48 54 50 62 C52 69 57 73 60 74 C63 73 68 69 70 62 C72 54 70 48 66 45 C70 42 74 36 74 28 C74 20 68 14 60 14 Z" fill="url(#emblemGold)"/>
+    <!-- Left Lion Head -->
+    <path d="M38 24 C32 24 26 28 26 35 C26 42 30 46 34 49 C30 52 28 57 30 64 C32 70 38 73 44 74 C42 66 42 58 44 50 C40 46 38 41 38 35 C38 30 40 26 42 24 Z" fill="url(#emblemGold)"/>
+    <!-- Right Lion Head -->
+    <path d="M82 24 C88 24 94 28 94 35 C94 42 90 46 86 49 C90 52 92 57 90 64 C88 70 82 73 76 74 C78 66 78 58 76 50 C80 46 82 41 82 35 C82 30 80 26 78 24 Z" fill="url(#emblemGold)"/>
+    <!-- Mane details & facial features -->
+    <circle cx="56" cy="30" r="2" fill="#fff"/>
+    <circle cx="64" cy="30" r="2" fill="#fff"/>
+    <path d="M57 36 L63 36 L60 40 Z" fill="#fff"/>
+    <path d="M55 42 Q60 45 65 42" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Lion Paws & Torso Support -->
+    <path d="M42 74 L78 74 L80 90 L40 90 Z" fill="url(#emblemGold)"/>
+    <!-- Abacus Platform Base -->
+    <rect x="20" y="92" width="80" height="8" rx="2" fill="url(#emblemGold)"/>
+    <!-- Ashoka Chakra (Wheel of Dharma) with 24 spokes -->
+    <circle cx="60" cy="112" r="14" stroke="url(#emblemGold)" stroke-width="2.5" fill="#fdfbf7"/>
+    <circle cx="60" cy="112" r="3" fill="url(#emblemGold)"/>
+    <!-- Chakra Spokes -->
+    <path d="M60 98 L60 126 M46 112 L74 112 M50 102 L70 122 M50 122 L70 102 M54 99 L66 125 M54 125 L66 99 M47 106 L73 118 M47 118 L73 106" stroke="url(#emblemGold)" stroke-width="1.2"/>
+    <!-- Flanking Figures: Bull on right, Horse on left -->
+    <path d="M28 106 C25 106 23 110 25 115 C27 119 32 119 35 116 C37 113 36 109 33 107 Z" fill="url(#emblemGold)"/>
+    <path d="M87 106 C84 106 83 110 85 115 C87 119 92 119 95 116 C97 113 96 109 93 107 Z" fill="url(#emblemGold)"/>
+    <!-- Lower Base Foundation -->
+    <rect x="15" y="128" width="90" height="6" rx="2" fill="url(#emblemGold)"/>
+    <rect x="22" y="136" width="76" height="4" rx="1" fill="url(#emblemGold)"/>
+    <!-- Motto: Satyameva Jayate (सत्यमेव जयते) in Devanagari -->
+    <text x="60" y="152" text-anchor="middle" font-family="'Noto Sans Devanagari', serif" font-weight="700" font-size="9" fill="#1b5e20" letter-spacing="1">सत्यमेव जयते</text>
+  </svg>`;
 }

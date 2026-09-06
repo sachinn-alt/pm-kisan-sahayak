@@ -12,6 +12,8 @@
     "vite": "^7.0.0"
   },
   "dependencies": {
-    "@tabler/icons": "^3.46.0"
+    "@tabler/icons": "^3.46.0",
+    "canvas-confetti": "^1.9.4",
+    "jspdf": "^4.2.1"
   }
 }

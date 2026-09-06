@@ -131,41 +131,82 @@ export function dashboardView(farmer, all = false, lang = 'hi', weatherData = nu
           </button>
         </div>
 
-        <!-- 24th Installment Eligibility & Release Tracker -->
-        <article class="eligibility-card ${isAllEligible ? 'eligible' : 'action-needed'}">
-          <div class="eligibility-header">
-            <div>
-              <span class="eligibility-tag">${isAllEligible ? `${tablerIcon('circleCheck', 14)} 100% Eligible` : `${tablerIcon('alertTriangle', 14)} Action Required`}</span>
+        <!-- 24th Installment Eligibility & Release Tracker (Framer-grade Card) -->
+        <article class="tracker-card ${isAllEligible ? 'all-verified' : 'needs-action'}">
+          <div class="tracker-card-glow"></div>
+          
+          <div class="tracker-header">
+            <div class="tracker-title-group">
+              <div class="tracker-status-chip ${isAllEligible ? 'chip-success' : 'chip-alert'}">
+                <span class="chip-pulse-dot"></span>
+                <span>${isAllEligible ? '100% READY · पूर्ण पात्र' : `${3 - ((isEkycOk?1:0)+(isDbtOk?1:0)+(isLandOk?1:0))} ACTION NEEDED · समाधान आवश्यक`}</span>
+              </div>
               <h3>24वीं किस्त पात्रता जांच (24th Installment Tracker)</h3>
             </div>
-            <span class="expected-date">Expected: Oct–Nov 2026</span>
+            <div class="tracker-date-badge">
+              ${tablerIcon('clock', 13)}
+              <span>Expected: Oct–Nov 2026</span>
+            </div>
           </div>
 
-          <div class="eligibility-checklist">
-            <div class="check-item ${isEkycOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isEkycOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
+          <!-- Progress Bar -->
+          <div class="tracker-progress-wrap">
+            <div class="progress-info-row">
+              <span>पात्रता प्रगति (Readiness)</span>
+              <strong>${(isEkycOk?1:0)+(isDbtOk?1:0)+(isLandOk?1:0)}/3 Pillars Verified (${Math.round((((isEkycOk?1:0)+(isDbtOk?1:0)+(isLandOk?1:0))/3)*100)}%)</strong>
+            </div>
+            <div class="tracker-progress-bar">
+              <div class="tracker-progress-fill ${isAllEligible ? 'fill-green' : 'fill-amber'}" style="width: ${Math.round((((isEkycOk?1:0)+(isDbtOk?1:0)+(isLandOk?1:0))/3)*100)}%"></div>
+            </div>
+          </div>
+
+          <div class="tracker-pillars-grid">
+            <div class="pillar-item ${isEkycOk ? 'pillar-ok' : 'pillar-warn'}" ${!isEkycOk ? 'data-route="diagnosis"' : ''}>
+              <div class="pillar-icon-box">
+                ${isEkycOk ? tablerIcon('circleCheck', 18) : tablerIcon('alertTriangle', 18)}
+              </div>
+              <div class="pillar-details">
                 <strong>e-KYC सत्यापन</strong>
-                <small>${isEkycOk ? 'सक्रिय (Active)' : 'नवीनीकरण लंबित (Expired)'}</small>
+                <small>${isEkycOk ? 'सक्रिय (Active Identity)' : 'नवीनीकरण लंबित (Renewal Expired)'}</small>
+              </div>
+              <div class="pillar-status-pill ${isEkycOk ? 'pill-ok' : 'pill-warn'}">
+                ${isEkycOk ? 'सत्यापित' : 'नवीनीकरण ➔'}
               </div>
             </div>
 
-            <div class="check-item ${isDbtOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isDbtOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
+            <div class="pillar-item ${isDbtOk ? 'pillar-ok' : 'pillar-warn'}" ${!isDbtOk ? 'data-route="diagnosis"' : ''}>
+              <div class="pillar-icon-box">
+                ${isDbtOk ? tablerIcon('circleCheck', 18) : tablerIcon('alertTriangle', 18)}
+              </div>
+              <div class="pillar-details">
                 <strong>आधार-बैंक DBT सीडिंग</strong>
                 <small>${isDbtOk ? 'सक्रिय (NPCI Linked)' : 'नाम सुधार आवश्यक (Mismatch)'}</small>
               </div>
+              <div class="pillar-status-pill ${isDbtOk ? 'pill-ok' : 'pill-warn'}">
+                ${isDbtOk ? 'लिंक्ड' : 'सुधारें ➔'}
+              </div>
             </div>
 
-            <div class="check-item ${isLandOk ? 'ok' : 'warn'}">
-              <span class="check-icon">${isLandOk ? tablerIcon('circleCheck', 16) : tablerIcon('alertTriangle', 16)}</span>
-              <div>
+            <div class="pillar-item ${isLandOk ? 'pillar-ok' : 'pillar-warn'}" ${!isLandOk ? 'data-route="diagnosis"' : ''}>
+              <div class="pillar-icon-box">
+                ${isLandOk ? tablerIcon('circleCheck', 18) : tablerIcon('alertTriangle', 18)}
+              </div>
+              <div class="pillar-details">
                 <strong>भूलेख अंकन (Land Seeding)</strong>
-                <small>${isLandOk ? 'सत्यापित (Verified)' : 'लेखपाल सत्यापन बाकी (Pending)'}</small>
+                <small>${isLandOk ? 'सत्यापित (Verified Khatauni)' : 'लेखपाल सत्यापन बाकी (Pending)'}</small>
+              </div>
+              <div class="pillar-status-pill ${isLandOk ? 'pill-ok' : 'pill-warn'}">
+                ${isLandOk ? 'सत्यापित' : 'जांचें ➔'}
               </div>
             </div>
           </div>
+
+          ${!isAllEligible ? `
+            <button class="tracker-fix-cta" data-route="diagnosis">
+              <span>${tablerIcon('sparkles', 16)} 23वीं किस्त का तुरंत AI समाधान देखें (Fix Issue)</span>
+              ${tablerIcon('arrowRight', 14)}
+            </button>
+          ` : ''}
         </article>
 
         <!-- WhatsApp Guidance Banner (Zero-Install Rural Access) -->

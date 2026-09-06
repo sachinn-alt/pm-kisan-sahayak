@@ -17,6 +17,7 @@ import { playDtmfTone, startRingTone, stopRingTone, playDisconnectTone } from '.
 import { renderOcrScannerModal } from './ocr-scanner.js';
 import { fetchDistrictWeather } from './weather.js';
 import { scamRadarView } from './scam-radar-view.js';
+import { renderMandiCalculatorModal } from './mandi-data.js';
 
 const app = document.querySelector('#app');
 const state = {
@@ -30,6 +31,9 @@ const state = {
   showOcrModal: false,
   ocrScanType: 'aadhaar',
   ocrSampleName: '',
+  showMandiModal: false,
+  mandiSelectedCropIndex: 0,
+  mandiQuantity: 50,
   userLocation: null,
   weatherData: null,
   scamQuizIndex: 0,
@@ -249,6 +253,10 @@ function render() {
     html += renderOcrScannerModal(state.farmer, state.ocrScanType, state.ocrSampleName);
   }
 
+  if (state.showMandiModal && state.farmer) {
+    html += renderMandiCalculatorModal(state.farmer, state.language, state.mandiSelectedCropIndex, state.mandiQuantity);
+  }
+
   // Floating Farmer Voice Assistant button (shown on core screens)
   if (['dashboard', 'diagnosis', 'csc-locator', 'farmer-corner', 'map', 'impact', 'helpline', 'scam-radar'].includes(current)) {
     const speaking = isAudioSpeaking();
@@ -455,6 +463,53 @@ function bind(current) {
           toast('OCR Completed: Scanned document matches registration', 'success');
           render();
         }, 1200);
+      }
+    });
+  }
+
+  // Mandi & MSP Profit Maximizer Modal Handlers
+  document.querySelectorAll('.mandi-ticker-bar, .mandi-ticker-wrap, #btn-open-mandi-calc').forEach(el => {
+    el.addEventListener('click', () => {
+      state.showMandiModal = true;
+      render();
+    });
+  });
+
+  const closeMandiBtn = document.querySelector('#close-mandi-modal-btn');
+  if (closeMandiBtn) closeMandiBtn.addEventListener('click', () => { state.showMandiModal = false; render(); });
+  const doneMandiBtn = document.querySelector('#btn-close-mandi-done');
+  if (doneMandiBtn) doneMandiBtn.addEventListener('click', () => { state.showMandiModal = false; render(); });
+
+  document.querySelectorAll('.crop-select-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      state.mandiSelectedCropIndex = parseInt(chip.dataset.cropIndex, 10);
+      render();
+    });
+  });
+
+  const qtyMinusBtn = document.querySelector('#btn-qty-minus');
+  if (qtyMinusBtn) {
+    qtyMinusBtn.addEventListener('click', () => {
+      state.mandiQuantity = Math.max(1, state.mandiQuantity - 5);
+      render();
+    });
+  }
+
+  const qtyPlusBtn = document.querySelector('#btn-qty-plus');
+  if (qtyPlusBtn) {
+    qtyPlusBtn.addEventListener('click', () => {
+      state.mandiQuantity = Math.min(1000, state.mandiQuantity + 5);
+      render();
+    });
+  }
+
+  const qtyInput = document.querySelector('#mandi-qty-input');
+  if (qtyInput) {
+    qtyInput.addEventListener('change', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (!isNaN(val) && val > 0) {
+        state.mandiQuantity = val;
+        render();
       }
     });
   }

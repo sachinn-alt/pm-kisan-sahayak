@@ -126,3 +126,114 @@ export function renderMandiTicker(stateOrFarmer = 'Uttar Pradesh', lang = 'hi') 
   const farmer = typeof stateOrFarmer === 'object' ? stateOrFarmer : { state: stateOrFarmer, district: stateOrFarmer };
   return renderMandiTickerHtml(farmer, lang);
 }
+
+// Interactive Agmarknet / data.gov.in Mandi & MSP Profit Maximizer Modal
+export function renderMandiCalculatorModal(farmer, lang = 'hi', selectedCropIndex = 0, quantity = 50) {
+  const stateName = farmer?.state || 'Uttar Pradesh';
+  const data = getMandiData(stateName);
+  const crops = data.crops || [];
+  const activeCrop = crops[selectedCropIndex % crops.length] || crops[0];
+
+  const mandiTotal = activeCrop.price * quantity;
+  const mspRate = activeCrop.msp || activeCrop.price;
+  const mspTotal = mspRate * quantity;
+  const profitDiff = mandiTotal - mspTotal;
+  const isAboveMsp = profitDiff >= 0;
+
+  return `
+    <div id="mandi-modal-overlay" class="modal-overlay">
+      <div class="mandi-modal-card">
+        <div class="mandi-modal-header">
+          <div class="header-title-flex">
+            <span class="mandi-header-icon">${tablerIcon('buildingWarehouse', 22)}</span>
+            <div>
+              <span class="govt-badge dark">AGMARKNET · DATA.GOV.IN LIVE</span>
+              <h2>${lang === 'hi' ? 'कृषि मंडी भाव व MSP लाभ कैलकुलेटर' : 'Live Mandi & MSP Profit Maximizer'}</h2>
+            </div>
+          </div>
+          <button class="icon-btn" id="close-mandi-modal-btn" aria-label="Close">
+            ${tablerIcon('close', 20)}
+          </button>
+        </div>
+
+        <div class="mandi-modal-body">
+          <div class="mandi-yard-banner">
+            <div class="yard-info">
+              <strong>${data.mandiName}</strong>
+              <small>${tablerIcon('mapPin', 12)} ${data.distance} दूर • ${data.updatedAt}</small>
+            </div>
+            <span class="live-pill"><span class="radar-ping"></span> Live APMC</span>
+          </div>
+
+          <!-- Crop Selection Grid -->
+          <label class="mandi-field-label">${lang === 'hi' ? 'फसल चुनें (Select Crop):' : 'Select Crop:'}</label>
+          <div class="mandi-crops-chips">
+            ${crops.map((c, i) => `
+              <button class="crop-select-chip ${i === selectedCropIndex ? 'active' : ''}" data-crop-index="${i}">
+                <span>${lang === 'hi' ? c.nameHi.split(' ')[0] : c.nameEn}</span>
+                <small>₹${c.price}/q</small>
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- Quantity Input -->
+          <div class="mandi-qty-row">
+            <div>
+              <label class="mandi-field-label">${lang === 'hi' ? 'उपज मात्रा (Harvest Quantity in Quintals):' : 'Harvest Quantity (Quintals):'}</label>
+              <div class="qty-stepper-box">
+                <button class="qty-btn" id="btn-qty-minus">-5</button>
+                <input type="number" id="mandi-qty-input" value="${quantity}" min="1" max="1000" />
+                <span class="unit-tag">क्विंटल (Qtl)</span>
+                <button class="qty-btn" id="btn-qty-plus">+5</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comparison Result Card -->
+          <div class="mandi-calc-card">
+            <div class="calc-row">
+              <span class="calc-label">वर्तमान मंडी भाव (Local APMC Rate):</span>
+              <strong class="calc-val apmc">₹${activeCrop.price.toLocaleString('en-IN')} / क्विंटल</strong>
+            </div>
+
+            <div class="calc-row">
+              <span class="calc-label">सरकारी न्यूनतम समर्थन मूल्य (Govt MSP):</span>
+              <strong class="calc-val msp">${activeCrop.msp ? `₹${activeCrop.msp.toLocaleString('en-IN')} / क्विंटल` : 'बाजार मूल्य'}</strong>
+            </div>
+
+            <div class="calc-divider"></div>
+
+            <div class="calc-total-box">
+              <div class="total-col">
+                <small>${quantity} क्विंटल कुल अनुमानित मूल्य</small>
+                <h3>₹${mandiTotal.toLocaleString('en-IN')}</h3>
+              </div>
+              <div class="profit-col ${isAboveMsp ? 'positive' : 'negative'}">
+                <span class="profit-badge">
+                  ${isAboveMsp ? tablerIcon('trendingUp', 14) : tablerIcon('alertTriangle', 14)}
+                  ${isAboveMsp ? `MSP से +₹${Math.abs(profitDiff).toLocaleString('en-IN')} अधिक` : `MSP से -₹${Math.abs(profitDiff).toLocaleString('en-IN')} कम`}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Official Government Recommendation Notice -->
+          <div class="mandi-advisory-box">
+            <span class="advisory-icon">${tablerIcon('shieldCheck', 18)}</span>
+            <p>
+              ${isAboveMsp
+                ? `<strong>सरकारी सलाह:</strong> वर्तमान में <strong>${data.mandiName}</strong> में भाव सरकारी MSP (₹${activeCrop.msp || activeCrop.price}) से अधिक मिल रहा है। आप निकटतम APMC में सीधे बिक्री कर सकते हैं।`
+                : `<strong>सरकारी सलाह:</strong> इस समय स्थानीय मंडी भाव MSP से कम है। कृपया कृषि विभाग के <strong>सरकारी क्रय केंद्र (Govt Procurement Centre)</strong> पर ₹${activeCrop.msp}/क्विंटल पर ही बेचें।`}
+            </p>
+          </div>
+        </div>
+
+        <div class="mandi-modal-footer">
+          <button class="primary-btn" id="btn-close-mandi-done">
+            ${tablerIcon('check', 16)} <span>${lang === 'hi' ? 'पूर्ण (Done)' : 'Done'}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}

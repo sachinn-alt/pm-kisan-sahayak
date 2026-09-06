@@ -141,20 +141,37 @@ export function scamRadarView(lang = 'hi', currentQuizIndex = 0, quizAnswered = 
       <div class="scam-alerts-list">
         ${SCAM_ALERTS.map((alert, index) => `
           <article class="scam-card ${alert.badgeColor} stagger-card" style="animation-delay: ${0.05 * (index + 1)}s">
+            <div class="scam-card-glow"></div>
+            
             <div class="scam-card-header">
-              <span class="scam-type-icon">${tablerIcon(alert.icon, 20)}</span>
+              <div class="scam-type-icon-box">
+                ${tablerIcon(alert.icon, 22)}
+              </div>
               <div class="scam-card-title-group">
+                <div class="threat-badge-pill ${alert.badgeColor}">
+                  <span class="threat-dot"></span>
+                  <span>${alert.threatLevel} THREAT ALERT</span>
+                </div>
                 <h3>${lang === 'hi' ? alert.titleHi : alert.titleEn}</h3>
-                <span class="threat-tag ${alert.badgeColor}">${alert.threatLevel} THREAT</span>
               </div>
             </div>
+
             <p class="scam-desc">${lang === 'hi' ? alert.descHi : alert.descEn}</p>
+            
             <div class="scam-danger-box">
-              ${lang === 'hi' ? alert.dangerTextHi : alert.dangerTextEn}
+              <span class="danger-icon">${tablerIcon('alertTriangle', 16)}</span>
+              <div>
+                <strong>खतरा (Danger):</strong>
+                <span>${lang === 'hi' ? alert.dangerTextHi.replace('⚠️ ', '') : alert.dangerTextEn.replace('⚠️ ', '')}</span>
+              </div>
             </div>
+
             <div class="scam-safe-action">
-              <strong>${tablerIcon('shieldCheck', 14)} ${lang === 'hi' ? 'सुरक्षा नियम:' : 'Safety Rule:'}</strong>
-              <span>${lang === 'hi' ? alert.safeActionHi : alert.safeActionEn}</span>
+              <span class="safe-icon">${tablerIcon('shieldCheck', 16)}</span>
+              <div>
+                <strong>${lang === 'hi' ? 'सुरक्षा नियम:' : 'Safety Rule:'}</strong>
+                <span>${lang === 'hi' ? alert.safeActionHi : alert.safeActionEn}</span>
+              </div>
             </div>
           </article>
         `).join('')}
